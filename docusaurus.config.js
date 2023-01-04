@@ -43,7 +43,6 @@ const config = {
           editUrl:
             'https://github.com/nutanix-japan/ocp-gitp/edit/main/',
         },
-
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
@@ -61,8 +60,6 @@ const config = {
         },
       },
       colorMode: {
-        // defaultMode: 'dark',
-        disableSwitch: false,
         respectPrefersColorScheme: true,
       },
       navbar: {

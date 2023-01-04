@@ -54,7 +54,6 @@ The lab is designed to take your through installing OCP cluster on Nutanix HCI, 
        -   OCP: Deploying OCP Cluster
        -   OCP: Scale out and Scale in OCP Cluster Worker Nodes
        -   OCP: Deploying Nutanix CSI Drivers for OCP Cluster
-       -   OCP: Deploy using Red Hat Assited Installer
    -   OCP Assisted Installation
 
 2. Setting up Nutanix Storage CSI
