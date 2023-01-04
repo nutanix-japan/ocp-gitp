@@ -35,7 +35,7 @@ const config = {
       ({
         docs: {
           routeBasePath: '/',
-          // showLastUpdateAuthor: true,
+          showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
@@ -90,6 +90,21 @@ const config = {
         additionalLanguages: ['powershell'],
       },
     }),
+};
+
+// docusaurus.config.js
+module.exports = {
+  // ...
+  plugins: [
+    [
+      'docusaurus-plugin-last-update-from-git',
+      {
+        format: 'MMMM Do YYYY, h:mm:ss a',
+        // Other options...
+      },
+    ],
+  ],
+  // ...
 };
 
 module.exports = config;

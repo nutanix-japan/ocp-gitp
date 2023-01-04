@@ -1,6 +1,7 @@
 ---
 slug: /
-sidebar_position: 1
+lastupdate: git
+lastupdateauthor: git
 ---
 
 # Getting Started
