@@ -6,8 +6,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
+  title: 'OCP on Nutanix',
+  tagline: '',
   url: 'https://github.com',
   baseUrl: '/ocp-gitp/',
   onBrokenLinks: 'throw',
@@ -35,7 +35,7 @@ const config = {
       ({
         docs: {
           routeBasePath: '/',
-          showLastUpdateAuthor: true,
+          // showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.

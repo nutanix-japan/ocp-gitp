@@ -3,7 +3,7 @@ slug: /
 sidebar_position: 1
 ---
 
-# Getting Started {#getting_started}
+# Getting Started
 
 Welcome to the Openshift Container Platform (OCP) on Nutanix HCI workshop.
 
@@ -33,9 +33,10 @@ scalability, and rapid innovation through One-Click management.
 -   **Optional Labs** - 30 minutes
 
 All lab durations are estimates. Actual duration will depend on your familiarity with OCP, Linux and kubernetes concepts in general.
+
 :::
 
-## What's New
+## What is new?
 
 -   This workshop uses for the following software versions:
     -   AOS 6.1.1.5
@@ -44,24 +45,34 @@ All lab durations are estimates. Actual duration will depend on your familiarity
 
 ## Agenda
 
--   OCP IPI installation
--   Nutanix Storage CSI  
--   OCP and Nutanix NDB
--   OCP on Nutanix NCM
-    -   OCP: Deploying OCP Cluster
-    -   OCP: Scale out and Scale in OCP Cluster Worker Nodes
-    -   OCP: Deploying Nutanix CSI Drivers for OCP Cluster
-    -   OCP: Deploy using Red Hat Assited Installer
--   OCP and IPI installaation
--   Workloads on OCP
+The lab is designed to take your through installing OCP cluster on Nutanix HCI, deploying workloads, and doing optional labs.  
+
+1. Choose one installation of the OCP cluster methods:
+   -   OCP IPI Installation
+   -   OCP on Nutanix NCM Installation
+       -   OCP: Deploying OCP Cluster
+       -   OCP: Scale out and Scale in OCP Cluster Worker Nodes
+       -   OCP: Deploying Nutanix CSI Drivers for OCP Cluster
+       -   OCP: Deploy using Red Hat Assited Installer
+   -   OCP Assisted Installation
+
+2. Setting up Nutanix Storage CSI
+   
+   -   Nutanix Storage CSI  
+
+3. OCP and Nutanix NDB
+
+   - Using NDB deployed database as a datastore for a microservice application
+
+4. Workloads on OCP
     -   Deploying Wordpress application on OCP
     -   Setting up Nutanix Objects as for backup target
     -   Deploying Kasten K10 backup applicaiton on OCP
     -   Backup and Restore Wordpress
--   Optional Labs
-    -   OCP: Deploy second OCP cluster using Calm
-    -   OCP: Provisioning storage to OCP Image Registry
 
+5. Optional Labs
+    -   Deploy second OCP cluster using NCM
+    -   Deploying IDP for OCP
 
 ## Initial Setup
 

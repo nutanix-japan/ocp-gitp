@@ -239,7 +239,7 @@ Nutanix CSI can be installed using ``helm`` charts as well as you would do in an
     nutanix-volumes(default)   csi.nutanix.com   Delete          Immediate           true                   4m
     ```
 
-10. Create a machine config to make sure iSCSI service starts in worker and master nodes. 
+10. (If you haven't done this already) Create a machine config to make sure iSCSI service starts in worker and master nodes. 
 
     ```bash title="Start iSCSI service for worker nodes"
     cat << EOF | oc apply -f -

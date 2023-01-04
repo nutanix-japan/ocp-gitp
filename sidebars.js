@@ -1,7 +1,11 @@
 module.exports = {
   tutorialSidebar:[
     "intro",
-    "ocp_ipi_install/ocp_ipi_install",
+    {
+      type: 'category',
+      label: 'Nutanix IPI Installation',
+      items: ['ocp_ipi_install/ocp_ipi_intro','ocp_ipi_install/ocp_ipi_pre_reqs','ocp_ipi_install/ocp_ipi_config_file','ocp_ipi_install/ocp_ipi_install_cleanup'],
+    },
     {
       type: 'category',
       label: 'Nutanix Storage CSI',
