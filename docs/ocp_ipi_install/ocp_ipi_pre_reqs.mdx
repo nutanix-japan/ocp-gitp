@@ -297,7 +297,7 @@ All this will be done on the UserXX-LinuxToolsVM.
    openssl req -noout -text -in pc.csr | grep DNS
    ```
    ```bash title="Output"
-   DNS:pc.ntnxlab.local, DNS:prism.ntnxlab.local
+   DNS:pc.ntnxlab.local
    ```
 
 5. Create a file called pctext to store the DNS/SAN names
@@ -428,7 +428,7 @@ Refer to [Cloud Credential Operator CCO](https://docs.openshift.com/container-pl
    ```
 3. Create a Prism Central credentials file in ``creds`` directory
 
-   ```bash {7}
+   ```bash {8,9}
    mkdir creds
    ##
    cat << EOF > creds/pc_credentials.yaml
