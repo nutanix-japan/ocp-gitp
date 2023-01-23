@@ -28,6 +28,11 @@ module.exports = {
       label: 'OCP Optional Labs',
       items: ['optional_labs/ocp_vms_2','optional_labs/ocp_idp'],
     },
+    // {
+    //   type: 'category',
+    //   label: 'Multi-region Workloads',
+    //   items: ['ocp_topology/ocp_topology','ocp_topology/ocp_setup','ocp_topology/multiaz_app1'],
+    // },
     {
       type: 'category',
       label: 'Tools VMs',

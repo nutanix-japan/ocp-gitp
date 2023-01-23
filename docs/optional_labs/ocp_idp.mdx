@@ -2,6 +2,9 @@
 title: "Deploying IDP for OCP"
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Deploying IDP for OCP
 
 In this lab we will deploy a IDP connection to your OCP cluster to provide Authentication and Authorization.
@@ -12,23 +15,46 @@ We will use the AutoAD Active Directory VM as the IDP as it is already installed
 
 This setup can also be done using the OCP Cluster Manger GUI. But in this section we will use commands.
 
-1.  In Calm go to your **Applications** \> **Openshift xyz1** application
 
-2.  Go to the **Services**
+1.  Depending on you access to ``kubeconfig`` file or kubeadmin password, logon to the OCP cluster
+   
+    <Tabs groupId="Login Method">
+    <TabItem value="kubeconfig file" label="kubeconfig">
 
-3.  Select your **LB_DNS** service
+    ```text title="Export your kubeconfig file to env"
+    export KUBECONFIG=/root/xyz/auth/kubeconfig
+    ```
 
-4.  Click on **Open Terminal**
+    </TabItem>
+    <TabItem value="kubeadmin credentials" label="kubeadmin">
 
-    ![](ocp_idp_images/ocp_lbdns_terminal.png)
+    ```text title="Make sure to use your password"
+    oc login -u kubeadmin -p xxxxx-xxxxx-xxxxx-xxxxx
+    ```
 
-    The terminal will open in a new browser tab
+    </TabItem>
+    <TabItem value="NCM" label="NCM">
+
+    1. In Calm go to your **Applications** > **Openshift xyz1** application
+
+    2.  Go to the **Services**
+    
+    3.  Select your **LB_DNS** service
+    
+    4.  Click on **Open Terminal**
+    
+        ![](ocp_idp_images/ocp_lbdns_terminal.png)
+    
+        The terminal will open in a new browser tab
+    
+        ```bash
+        export KUBECONFIG=~/openshift/auth/kubeconfig
+        ```
+
+    </TabItem>
+    </Tabs>
 
 5.  Execute the following commands in sequence
-
-    ```bash
-    export KUBECONFIG=~/openshift/auth/kubeconfig
-    ```
 
     ```bash
     # Create a kubernetes secret for AutoAD administrator password
