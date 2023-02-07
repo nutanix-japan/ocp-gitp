@@ -46,19 +46,70 @@ Only deploy the VM once with your *Initials* in the VM name, it does not need to
     -   **Guest Customization** - 
         - **Script Type** - Cloud-init (Linux)
         - **Configuration Method** - Custom Script 
-        - Paste the following script in the script window 
-          ```yaml title="Remember to change to your hostname"
-          #cloud-config
-          fqdn: initials-linuxtoolsvm  # << Change this
-          package_upgrade: true
-          packages:
-            - git
-            - bind-utils
-            - nmap
-            - curl
-            - wget 
-            - vim
+         
+          You will need to create ssh key-pair to use in the cloud-init yaml content (script)
+
+          <details>
+
+          <summary>Do you need to create a SSH key pair?</summary>
+           
+           You can use any online ssh key generator if you are using Windows. Execute the following commands in you are in a Linux / Mac environment to generate a private key.
+    
+           ```bash
+           ssh-keygen -t rsa -b 2048 -C "Created for Linux Tools VM"
+           
+           # follow prompts 
+           # do not specify passphrase
+           # once completed run the following command
+           
+           cat id_rsa.pub
+           
+           # copy the contents of the id_rsa.pub file to your cloudinit yaml file
            ```
+          </details>
+
+        - Paste the following script in the script window once you have access to your ssh key-pair.
+        
+           ```yaml title="Remember to change to your hostname"
+           #cloud-config
+ 
+           # Set the hostname
+           hostname: myhost
+ 
+           # Create a new user
+           users:
+             - default
+             - name: nutanix
+               groups: users
+               ssh_authorized_keys:
+                 # Paste the generated public key or your own public key
+                 - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGD8G3rihOrlVjdiayQy/6TX3tGiLZrIBAwtsgpeq/BsY3uprTalg7VFuwa/hqDtWxU7ewHPNknVjDntOBcAFXFjfs3bHc7FKJ50Bw1vfK6q3u+LSEVpy0u8gJx7AsMa26TlYUaVH2+KlgPOaSvoJYuHy3Zwshw8dLK3Qx29dDSxhotAJivZE8TT4jL+Be60y1E72zCUzWzJFfldMwlgyxw323r6awgxmGYlqUoz3ljkHI9Xflb9fMkBWCYhDDv2y7dHEc3W1vRokKvd4bFpbWUFJbEiwOj4PFTUqoLKhqmCmjbjJBmkWeA2qDzjoxzI/16T1CigFZDdAdMTIDa/KD
+                 # You can also use the 1N or 6N format (openssl passwd -1 "yourplaintextpassword")
+               passwd: $1$CW55TPkL$gzOS35bI6fdxtwntlE3CN/
+           
+           # Enable password authentication for root
+           ssh_pwauth: True
+           
+           # Run additional commands
+           runcmd:
+             - 'sleep 10' # sleeping for the network to be UP
+             - 'echo "nutanix ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers'
+ 
+           # Run package upgrade
+           package_upgrade: true
+ 
+           # Install the following packages - add extra that you would need
+           packages:
+             - git
+             - bind-utils
+             - nmap
+             - curl
+             - wget 
+             - vim
+            ```
+
+          
+
 9. Click on **Next**
 9.  Click **Create VM** at the bottom
 10. Go back to **Prism Central** > **Menu** > **Compute and Storage** > **VMs**
@@ -71,7 +122,12 @@ Only deploy the VM once with your *Initials* in the VM name, it does not need to
     You can watch the console of the VM from Prism Central to make sure all the clouinit script has finished running.
     :::
 
-13. Login to the VM via SSH or Console session, using the following credentials:
+13. Login to the VM via SSH or Console session, using the following command:
 
-    -   **Username** - root
-    -   **password** - nutanix/4u
+    ```bash
+    ssh -i <your_private_key> -l nutanix <IP of LinuxToolsVM>
+    ```
+    ```bash title="Example command"
+    ssh -i id_rsa -l nutanix 10.54.63.95
+    ```
+

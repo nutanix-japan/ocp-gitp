@@ -31,7 +31,7 @@ module.exports = {
     // {
     //   type: 'category',
     //   label: 'Multi-region Workloads',
-    //   items: ['ocp_topology/ocp_topology','ocp_topology/ocp_setup','ocp_topology/multiaz_app1'],
+    //   items: ['ocp_topology/ocp_topology','ocp_topology/ocp_setup','ocp_topology/multiaz_app1','ocp_topology/multiaz_app2'],
     // },
     {
       type: 'category',
