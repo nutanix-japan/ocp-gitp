@@ -928,7 +928,7 @@
 					"data_type": "BASE",
 					"type": "LOCAL",
 					"name": "openshift_install_linux",
-					"value": "https:\/\/mirror.openshift.com\/pub\/openshift-v4\/clients\/ocp\/latest-4.8\/openshift-install-linux.tar.gz",
+					"value": "https:\/\/mirror.openshift.com\/pub\/openshift-v4\/clients\/ocp\/latest-4.11\/openshift-install-linux.tar.gz",
 					"label": "",
 					"attrs": {
 						"type": ""
@@ -948,7 +948,7 @@
 					"data_type": "BASE",
 					"type": "LOCAL",
 					"name": "openshift_client_linux",
-					"value": "https:\/\/mirror.openshift.com\/pub\/openshift-v4\/clients\/ocp\/latest-4.8\/openshift-client-linux.tar.gz",
+					"value": "https:\/\/mirror.openshift.com\/pub\/openshift-v4\/clients\/ocp\/latest-4.11\/openshift-client-linux.tar.gz",
 					"label": "",
 					"attrs": {
 						"type": ""
@@ -968,7 +968,7 @@
 					"data_type": "BASE",
 					"type": "LOCAL",
 					"name": "rhcos_live",
-					"value": "https:\/\/mirror.openshift.com\/pub\/openshift-v4\/dependencies\/rhcos\/4.8\/latest\/rhcos-live.x86_64.iso",
+					"value": "https:\/\/mirror.openshift.com\/pub\/openshift-v4\/dependencies\/rhcos\/4.11\/latest\/rhcos-live.x86_64.iso",
 					"label": "",
 					"attrs": {
 						"type": ""
