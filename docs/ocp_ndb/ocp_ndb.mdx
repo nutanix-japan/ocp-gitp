@@ -32,7 +32,7 @@ Estimated time to complete this lab is **60 minutes**.
 :::
 
 ```mdx-code-block
-   <BrowserWindow>
+
    <details>
    <summary>Fun fact</summary>
    <div>
@@ -43,7 +43,7 @@ Estimated time to complete this lab is **60 minutes**.
    </body>
    </div>
    </details>
-   </BrowserWindow>
+
 ```
 
 ## Pre-requisites for using NDB Deployed Databases
@@ -325,7 +325,7 @@ In this section we will create a Postgres database using NDB Operator.
    EOF
    ```
    ```mdx-code-block
-   <BrowserWindow>
+
    <details>
    <summary>No SSH-PUBLIC-KEY?</summary>
    <div>
@@ -347,7 +347,7 @@ In this section we will create a Postgres database using NDB Operator.
    </body>
    </div>
    </details>
-   </BrowserWindow>
+
 
    ```bash title="Edit the manifest with your Postgres DB server credentials"
    vi your-db-secret.yaml
@@ -554,7 +554,6 @@ We have only modified the implementation to suit deployment in a OCP cluster wit
    vi app_variables.yaml
    ```
    ```mdx-code-block
-   <BrowserWindow>
    <details>
    <summary>Make sure that your database service name and port number matches</summary>
    <div>
@@ -593,7 +592,7 @@ We have only modified the implementation to suit deployment in a OCP cluster wit
    </body>
    </div>
    </details>
-   </BrowserWindow>
+
 
 3. After making sure that your database service name and port number matches, apply the configmap manifest
    
