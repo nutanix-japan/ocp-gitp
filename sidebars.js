@@ -16,11 +16,11 @@ module.exports = {
               'optional_labs/ocp_image_registry'],
     },
     "ocp_ndb/ocp_ndb",
-    {
-      type: 'category',
-      label: 'OCP Workload Backup/Restore',
-      items: ['optional_labs/objects_prep','workloads_on_ocp/ocp_k10','workloads_on_ocp/ocp_wordpress_deploy','workloads_on_ocp/ocp_k10_backup_restore'],
-    },
+    // {
+    //   type: 'category',
+    //   label: 'OCP Workload Backup/Restore',
+    //   items: ['optional_labs/objects_prep','workloads_on_ocp/ocp_k10','workloads_on_ocp/ocp_wordpress_deploy','workloads_on_ocp/ocp_k10_backup_restore'],
+    // },
     {
       type: 'category',
       label: 'OCP with Nutanix Cloud Manager (NCM)',
