@@ -16,6 +16,11 @@ module.exports = {
               'optional_labs/ocp_image_registry'],
     },
     "ocp_ndb/ocp_ndb",
+    {
+      type: 'category',
+      label: 'OCP Workload Backup and Restore',
+      items: ['optional_labs/objects_prep'],
+    },
     // {
     //   type: 'category',
     //   label: 'OCP Workload Backup/Restore',
