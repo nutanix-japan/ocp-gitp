@@ -20,6 +20,8 @@ jobs:
           cache-dependency-path: yarn.lock
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        #run: yarn install --frozen-lockfile
+        run: npm ci 
       - name: Test build website
-        run: yarn build
+        #run: yarn build
+        run: npm build
