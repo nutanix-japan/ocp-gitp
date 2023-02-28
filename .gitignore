@@ -20,4 +20,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # Temporary files
-/docs/ocp_topology
+# /docs/ocp_topology
