@@ -33,20 +33,19 @@ You will need the following pre-requisites:
   
   - Data Services IP must be set for all Nutanix clusters
   
-  :::info Contact XLABS team to get your Clusters provisioned
-
-
-
-  Get in touch with XLABS team with a JIRA ticket to get your clusters provisioned. 
-
-  XLABS Team will help find appropriate clusters. Here is a sample JIRA [ticket](https://jira.nutanix.com/browse/XLABS-780) for your reference. 
-
-    - Allow at least two weeks time to secure cluster reservation
-    - Make sure to provision at least two Nutanix clusters
-    - Make sure all the nodes are connected to same ToR network switch
-    - Get a PoC number going in SFDC to justify two weeks of clusters reservation time
-  
-  :::
+    :::info Contact XLABS team to get your Clusters provisioned
+    
+    
+    Get in touch with XLABS team with a JIRA ticket to get your clusters provisioned. 
+    
+    XLABS Team will help find appropriate clusters. Here is a sample JIRA [ticket](https://jira.nutanix.com/browse/XLABS-780) for your reference. 
+    
+      - Allow at least two weeks time to secure cluster reservation
+      - Make sure to provision at least two Nutanix clusters
+      - Make sure all the nodes are connected to same ToR network switch
+      - Get a PoC number going in SFDC to justify two weeks of clusters reservation time
+    
+    :::
 
 - IP Address allocation for all infrastructure components and workloads. See this Google [document](https://docs.google.com/spreadsheets/d/1a6-JBkf679PfmH6HxXdkGeEwABZ-M6R19bOEAXAvUFg/edit?usp=sharing) for more network information and allocation ideas. We have secured the following CIDR from the HPOC hosting team. Routing is enabled between all these subnets.
   <table>
