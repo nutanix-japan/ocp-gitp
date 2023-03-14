@@ -3,11 +3,26 @@ module.exports = {
     "intro",
     {
       type: 'category',
-      label: 'Nutanix IPI Installation',
-      items: ['ocp_ipi_install/ocp_ipi_intro',
-              'ocp_ipi_install/ocp_ipi_pre_reqs',
-              'ocp_ipi_install/ocp_ipi_config_file',
-              'ocp_ipi_install/ocp_ipi_install_cleanup'],
+      label: 'OCP Installation',
+      items: [
+              {
+                type: 'category',
+                label: 'Nutanix IPI Installation',
+                items: ['ocp_ipi_install/ocp_ipi_intro',
+                        'ocp_ipi_install/ocp_ipi_pre_reqs',
+                        'ocp_ipi_install/ocp_ipi_config_file',
+                        'ocp_ipi_install/ocp_ipi_install_cleanup'],
+              },
+              {
+                type: 'category',
+                label: 'Nutanix Cloud Manager (NCM) Installation',
+                items: ['ocp_ntnx_hci/import_bp',
+                        'ocp_ntnx_hci/prov_vm',
+                        'ocp_ntnx_hci/ocp_vms',
+                        'ocp_ntnx_hci/ocp_scale_out_in'],
+              },
+              "ocp_assisted_install/ocp_assisted_install",
+            ]
     },
     {
       type: 'category',
@@ -26,15 +41,6 @@ module.exports = {
     },
     {
       type: 'category',
-      label: 'OCP with Nutanix Cloud Manager (NCM)',
-      items: ['ocp_ntnx_hci/import_bp',
-              'ocp_ntnx_hci/prov_vm',
-              'ocp_ntnx_hci/ocp_vms',
-              'ocp_ntnx_hci/ocp_scale_out_in'],
-    },
-    "ocp_assisted_install/ocp_assisted_install",
-    {
-      type: 'category',
       label: 'OCP Optional Labs',
       items: ['optional_labs/ocp_vms_2',
               'optional_labs/ocp_idp'],
@@ -46,11 +52,10 @@ module.exports = {
               'ocp_topology/infra_topology',
               'ocp_topology/ocp_setup',
               'ocp_topology/multiaz_app1'],
-
     },
     {
       type: 'category',
-      label: 'Tools VMs',
+      label: 'Appendix',
       items: ['toolsvms/linux_tools_vm','toolsvms/windows_tools_vm'],
     },
   ],
