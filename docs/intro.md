@@ -34,7 +34,7 @@ scalability, and rapid innovation through One-Click management.
 -   **Nutanix Storage CSI** - 30 minutes
 -   **OCP and Nutanix NDB** - 60 minutes
 -   **OCP Workload Backup/Restore** - 60 minutes 
-
+-   **Multi Region Workloads (optional)** - 240 minutes (requires three individual clusters)
 -   **Optional Labs** - 30 minutes
 
 All lab durations are estimates. Actual duration will depend on your familiarity with OCP, Linux and kubernetes concepts in general.
