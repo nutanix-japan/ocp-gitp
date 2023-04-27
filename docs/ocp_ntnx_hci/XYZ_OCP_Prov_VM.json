@@ -1,7 +1,7 @@
 {
 	"status": {},
 	"contains_secrets": false,
-	"product_version": "3.3.1",
+	"product_version": "3.5.2",
 	"spec": {
 		"description": "",
 		"resources": {
@@ -29,6 +29,7 @@
 							},
 							"retries": "0",
 							"description": "",
+							"inherit_target": false,
 							"child_tasks_local_reference_list": [],
 							"name": "3b8701f6_dag",
 							"attrs": {
@@ -60,6 +61,7 @@
 							},
 							"retries": "0",
 							"description": "",
+							"inherit_target": false,
 							"child_tasks_local_reference_list": [],
 							"name": "3fddfa76_dag",
 							"attrs": {
@@ -91,6 +93,7 @@
 							},
 							"retries": "0",
 							"description": "",
+							"inherit_target": false,
 							"child_tasks_local_reference_list": [],
 							"name": "267fcd78_dag",
 							"attrs": {
@@ -122,6 +125,7 @@
 							},
 							"retries": "0",
 							"description": "",
+							"inherit_target": false,
 							"child_tasks_local_reference_list": [],
 							"name": "5c64d685_dag",
 							"attrs": {
@@ -153,6 +157,7 @@
 							},
 							"retries": "0",
 							"description": "",
+							"inherit_target": false,
 							"child_tasks_local_reference_list": [],
 							"name": "cb5d5768_dag",
 							"attrs": {
@@ -293,6 +298,7 @@
 					"resources": {
 						"nic_list": [{
 							"nic_type": "NORMAL_NIC",
+							"vpc_reference": null,
 							"ip_endpoint_list": [],
 							"network_function_chain_reference": null,
 							"network_function_nic_type": "INGRESS",
@@ -301,7 +307,7 @@
 								"kind": "subnet",
 								"type": "",
 								"name": "Primary",
-								"uuid": "510865ba-8a63-4a48-8057-cf7b13cfdede"
+								"uuid": "e75cbc5b-988f-497c-8efc-3495649c7d8d"
 							},
 							"type": ""
 						}],
@@ -324,7 +330,7 @@
 						},
 						"power_state": "ON",
 						"type": "",
-						"account_uuid": "9acb40ad-068c-42fd-aa8e-ffa52445fcd8",
+						"account_uuid": "1b13e5d6-6a61-401f-b819-7a7dbc812ded",
 						"boot_config": {
 							"boot_device": {
 								"type": "",
@@ -343,7 +349,7 @@
 								"kind": "app_package",
 								"type": "",
 								"name": "Centos84",
-								"uuid": "97920c97-39d2-3b9a-2176-68c3192ed6ed"
+								"uuid": "d3047ed8-d703-4ea9-90bb-63da8330e326"
 							},
 							"type": "",
 							"disk_size_mib": 0,
@@ -362,8 +368,13 @@
 					"availability_zone_reference": null,
 					"backup_policy": null,
 					"type": "",
-					"cluster_reference": null,
-					"categories": ""
+					"cluster_reference": {
+						"kind": "cluster",
+						"type": "",
+						"name": "PHX-SPOC002-3",
+						"uuid": "0005f991-7f67-4116-699a-ac1f6b6e5556"
+					},
+					"categories": {}
 				},
 				"variable_list": []
 			}],
@@ -399,6 +410,7 @@
 							},
 							"retries": "0",
 							"description": "",
+							"inherit_target": false,
 							"child_tasks_local_reference_list": [{
 								"kind": "app_task",
 								"name": "Setup"
@@ -418,6 +430,7 @@
 							},
 							"retries": "0",
 							"description": "",
+							"inherit_target": false,
 							"child_tasks_local_reference_list": [],
 							"name": "Setup",
 							"attrs": {
@@ -452,6 +465,7 @@
 							},
 							"retries": "0",
 							"description": "",
+							"inherit_target": false,
 							"child_tasks_local_reference_list": [],
 							"name": "a643dfca_dag",
 							"attrs": {
@@ -469,7 +483,8 @@
 							"name": "a643dfca_dag"
 						},
 						"variable_list": []
-					}
+					},
+					"upgrade_runbook": {}
 				},
 				"variable_list": []
 			}, {
@@ -484,8 +499,12 @@
 					"name": "Centos84",
 					"resources": {
 						"image_type": "DISK_IMAGE",
-						"checksum": {},
-						"source_uri": "https:\/\/cloud.centos.org\/centos\/8-stream\/x86_64\/images\/CentOS-Stream-GenericCloud-8-20210603.0.x86_64.qcow2",
+						"checksum": {
+							"checksum_algorithm": "",
+							"type": "",
+							"checksum_value": ""
+						},
+						"source_uri": "https:\/\/images.rdoproject.org\/CentOS-Stream-GenericCloud-8-20210603.0.x86_64.qcow2",
 						"version": {
 							"product_version": "1.0.0",
 							"type": "",
@@ -520,7 +539,7 @@
 					"description": ""
 				}],
 				"environment_reference_list": [],
-				"patch_list": [],
+				"application_url": "",
 				"description": "",
 				"action_list": [{
 					"description": "",
@@ -530,6 +549,7 @@
 						"task_definition_list": [{
 							"retries": "0",
 							"description": "",
+							"inherit_target": false,
 							"child_tasks_local_reference_list": [{
 								"kind": "app_task",
 								"name": "Prepare Env"
@@ -605,6 +625,7 @@
 							},
 							"retries": "0",
 							"description": "",
+							"inherit_target": false,
 							"child_tasks_local_reference_list": [],
 							"name": "Prepare Env",
 							"attrs": {
@@ -628,6 +649,7 @@
 							},
 							"retries": "0",
 							"description": "",
+							"inherit_target": false,
 							"child_tasks_local_reference_list": [],
 							"name": "Auth",
 							"attrs": {
@@ -652,6 +674,7 @@
 							},
 							"retries": "0",
 							"description": "",
+							"inherit_target": false,
 							"child_tasks_local_reference_list": [],
 							"name": "Fetch BP UUID",
 							"attrs": {
@@ -672,6 +695,7 @@
 							},
 							"retries": "0",
 							"description": "",
+							"inherit_target": false,
 							"child_tasks_local_reference_list": [],
 							"name": "run Blueprint",
 							"attrs": {
@@ -692,6 +716,7 @@
 							},
 							"retries": "0",
 							"description": "",
+							"inherit_target": false,
 							"child_tasks_local_reference_list": [],
 							"name": "Monitor BP",
 							"attrs": {
@@ -901,6 +926,8 @@
 				}],
 				"name": "Nutanix",
 				"restore_config_list": [],
+				"snapshot_config_list": [],
+				"patch_list": [],
 				"variable_list": [{
 					"val_type": "STRING",
 					"is_mandatory": false,
@@ -990,14 +1017,14 @@
 			},
 			"type": "USER"
 		},
-		"name": "XYZ_OCP_Prov_VM_LB"
+		"name": "0427XYZ_OCP_Prov_VM"
 	},
 	"api_version": "3.0",
 	"metadata": {
-		"last_update_time": "1643866177415982",
+		"last_update_time": "1682563545892677",
 		"kind": "blueprint",
-		"spec_version": 7,
-		"creation_time": "1643862779873391",
-		"name": "XYZ_OCP_Prov_VM_LB"
+		"spec_version": 3,
+		"creation_time": "1682563341536278",
+		"name": "0427XYZ_OCP_Prov_VM"
 	}
 }
