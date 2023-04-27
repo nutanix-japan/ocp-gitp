@@ -1,7 +1,7 @@
 {
 	"status": {},
 	"contains_secrets": false,
-	"product_version": "3.5.2",
+	"product_version": "3.6.0",
 	"spec": {
 		"description": "",
 		"resources": {
@@ -307,7 +307,7 @@
 								"kind": "subnet",
 								"type": "",
 								"name": "Primary",
-								"uuid": "e75cbc5b-988f-497c-8efc-3495649c7d8d"
+								"uuid": "c66b9b8e-e00b-4402-917a-91782b810256"
 							},
 							"type": ""
 						}],
@@ -330,7 +330,7 @@
 						},
 						"power_state": "ON",
 						"type": "",
-						"account_uuid": "1b13e5d6-6a61-401f-b819-7a7dbc812ded",
+						"account_uuid": "b7a19aa0-d49c-4974-801a-cf3153f684bf",
 						"boot_config": {
 							"boot_device": {
 								"type": "",
@@ -349,7 +349,7 @@
 								"kind": "app_package",
 								"type": "",
 								"name": "Centos84",
-								"uuid": "d3047ed8-d703-4ea9-90bb-63da8330e326"
+								"uuid": "1d5ac784-e8c9-4eb4-88c0-f63482aab2fa"
 							},
 							"type": "",
 							"disk_size_mib": 0,
@@ -371,8 +371,8 @@
 					"cluster_reference": {
 						"kind": "cluster",
 						"type": "",
-						"name": "PHX-SPOC002-3",
-						"uuid": "0005f991-7f67-4116-699a-ac1f6b6e5556"
+						"name": "PHX-POC190",
+						"uuid": "0005f9de-ff28-0511-0000-00000002acf5"
 					},
 					"categories": {}
 				},
@@ -504,7 +504,7 @@
 							"type": "",
 							"checksum_value": ""
 						},
-						"source_uri": "https:\/\/images.rdoproject.org\/CentOS-Stream-GenericCloud-8-20210603.0.x86_64.qcow2",
+						"source_uri": "https:\/\/cloud.centos.org\/centos\/8-stream\/x86_64\/images\/CentOS-Stream-GenericCloud-8-20230424.0.x86_64.qcow2",
 						"version": {
 							"product_version": "1.0.0",
 							"type": "",
@@ -955,7 +955,7 @@
 					"data_type": "BASE",
 					"type": "LOCAL",
 					"name": "openshift_install_linux",
-					"value": "https:\/\/mirror.openshift.com\/pub\/openshift-v4\/clients\/ocp\/latest-4.11\/openshift-install-linux.tar.gz",
+					"value": "https:\/\/mirror.openshift.com\/pub\/openshift-v4\/clients\/ocp\/latest-4.12\/openshift-install-linux.tar.gz",
 					"label": "",
 					"attrs": {
 						"type": ""
@@ -975,7 +975,7 @@
 					"data_type": "BASE",
 					"type": "LOCAL",
 					"name": "openshift_client_linux",
-					"value": "https:\/\/mirror.openshift.com\/pub\/openshift-v4\/clients\/ocp\/latest-4.11\/openshift-client-linux.tar.gz",
+					"value": "https:\/\/mirror.openshift.com\/pub\/openshift-v4\/clients\/ocp\/latest-4.12\/openshift-client-linux.tar.gz",
 					"label": "",
 					"attrs": {
 						"type": ""
@@ -995,7 +995,7 @@
 					"data_type": "BASE",
 					"type": "LOCAL",
 					"name": "rhcos_live",
-					"value": "https:\/\/mirror.openshift.com\/pub\/openshift-v4\/dependencies\/rhcos\/4.11\/latest\/rhcos-live.x86_64.iso",
+					"value": "https:\/\/mirror.openshift.com\/pub\/openshift-v4\/dependencies\/rhcos\/4.12\/latest\/rhcos-live.x86_64.iso",
 					"label": "",
 					"attrs": {
 						"type": ""
@@ -1017,14 +1017,14 @@
 			},
 			"type": "USER"
 		},
-		"name": "0427XYZ_OCP_Prov_VM"
+		"name": "042713_OCP_Prov_VM"
 	},
 	"api_version": "3.0",
 	"metadata": {
-		"last_update_time": "1682563545892677",
+		"last_update_time": "1682590557908247",
 		"kind": "blueprint",
-		"spec_version": 3,
-		"creation_time": "1682563341536278",
-		"name": "0427XYZ_OCP_Prov_VM"
+		"spec_version": 4,
+		"creation_time": "1682567737746482",
+		"name": "042713_OCP_Prov_VM"
 	}
 }
