@@ -10,7 +10,7 @@ We will test backup and recovery of this application in next section.
 
 ## Deploying Wordpress App
 
-1.  In Calm go to your **Applications** \> **Openshift xyz1**
+1.  In Calm go to your **Applications** > **Openshift xyz1**
     application
 
 2.  Go to the **Services**
@@ -49,11 +49,16 @@ We will test backup and recovery of this application in next section.
     wget https://raw.githubusercontent.com/nutanix-japan/ocp-hci/main/ocp_wordpress_deploy/mysql_deployment.yaml
     wget https://raw.githubusercontent.com/nutanix-japan/ocp-hci/main/ocp_wordpress_deploy/wordpress_deployment.yaml 
     ```
-9.  Testing has indicated that wordpress container expects to run as root in terms of security context. To enable the ``default`` service account in the ``wordpress`` namespace to run as root, we need to grant ``anyuid`` security context to the service account.
+9.  We need to grant ``anyuid`` security context constraint to the service account
     
     ```bash
     oc adm policy add-scc-to-user anyuid -z default
     ```
+    :::caution
+
+    Take care with granting [Security Contenxt Constraints](https://docs.openshift.com/container-platform/3.11/admin_guide/manage_scc.html) in production environments. 
+    
+    :::
     
 9.  Make sure the nutanix-volume is the default storage class
 
