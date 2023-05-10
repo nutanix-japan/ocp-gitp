@@ -291,7 +291,7 @@ All this will be done on the UserXX-LinuxToolsVM.
    Common Name [ntnxlab.local]:ntnxlab.local
    ```
 
-4. Get your Prism Central's  DNS details from the CSR you created
+4. Check your Prism Central's DNS alternative names in the CSR you created
 
    ```bash
    openssl req -noout -text -in pc.csr | grep DNS

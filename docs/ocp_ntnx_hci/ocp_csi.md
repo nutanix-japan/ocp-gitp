@@ -89,9 +89,13 @@ In this lab, we will deploy both Nutanix Volumes and Files Storage Class and use
 
 11. Once installed you will see the operator in **Operator** > **Installed Operators**
 
-12. Once installed, click on the Details tab of the Operator page and click on **Create Instance**
+12. Click on **Nutanix CSI Operator**, and then click on  **NutanixCsiStorages** tab of the operator page and 
+
+13. Click on **Create NutanixCsiStorage**
 
 13. Click on **Create** button
+
+14. Wait for the status to be **Conditions: Initialized, Deployed**
 
 This will create a NutanixCsiStorage resource to deploy your driver.
 
@@ -133,11 +137,23 @@ Nutanix CSI can be installed using ``helm`` charts as well as you would do in an
 
 5.  Export the OCP cluster's KUBECONFIG file to environment so we can perform `oc` commands
 
-    ``` bash title="On NCM deployed OCP Clusters - use LB_DNS VM"
+    ```mdx-code-block
+    <Tabs>
+    <TabItem value="On NCM deployed OCP Clusters - use LB_DNS VM">
+    ```
+    ``` bash
     export KUBECONFIG=~/openshift/auth/kubeconfig
     ```
-    ``` bash title="On IPI deployed OCP Clusters - use UserXX-LinuxToolsVM"
+    ```mdx-code-block
+    </TabItem>
+    <TabItem value="On IPI deployed OCP Clusters - use UserXX-LinuxToolsVM">
+    ``` 
+    ``` bash 
     export KUBECONFIG=/root/xyz/auth/kubeconfig 
+    ```
+    ```mdx-code-block
+    </TabItem>
+    </Tabs>
     ```
 
 6.  Create a kubernetes secret that the StorageClass can use to access the Nutanix HCI storage
@@ -189,6 +205,8 @@ Nutanix CSI can be installed using ``helm`` charts as well as you would do in an
     apiVersion: storage.k8s.io/v1
     metadata:
       name: nutanix-volumes
+      annotations:
+        storageclass.kubernetes.io/is-default-class: "true"     ## We will make this SC default by annotating 
     provisioner: csi.nutanix.com
     parameters:
       csi.storage.k8s.io/provisioner-secret-name: ntnx-secret
@@ -201,7 +219,7 @@ Nutanix CSI can be installed using ``helm`` charts as well as you would do in an
       storageContainer: Default           ## << Change this to match your Storage Container
       storageType: NutanixVolumes
       isLVMVolume: "true"
-      numLVMDisks: "4"
+      numLVMDisks: "4"                    ## << Change this to if you would more or less concurrency
     allowVolumeExpansion: true
     reclaimPolicy: Delete
     EOF
@@ -221,13 +239,6 @@ Nutanix CSI can be installed using ``helm`` charts as well as you would do in an
     storageclass.storage.k8s.io/nutanix-volumes created
     ```
 
-8.  Make this your default StorageClass
-
-    ``` bash
-    oc patch storageclass nutanix-volumes -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
-    #
-    oc get sc
-    ```
 9.  List your StorageClass
 
     ``` bash
@@ -366,7 +377,7 @@ Let's create a new share to provide it as a storage location for our storage cla
    provisioner: csi.nutanix.com
    parameters:
      dynamicProv: ENABLED
-     nfsServerName: BootcampFS    ## << Change this to your Files server name (case-sensitive)
+     nfsServerName: BootcampFS  ## << Change this to your Files server name (case-sensitive and do not use domain name)
      csi.storage.k8s.io/provisioner-secret-name: ntnx-secret
      csi.storage.k8s.io/provisioner-secret-namespace: openshift-cluster-csi-drivers
      csi.storage.k8s.io/node-publish-secret-name: ntnx-secret
@@ -374,8 +385,10 @@ Let's create a new share to provide it as a storage location for our storage cla
      csi.storage.k8s.io/controller-expand-secret-name: ntnx-secret
      csi.storage.k8s.io/controller-expand-secret-namespace: openshift-cluster-csi-drivers
      storageType: NutanixFiles
+     squashType: "root-squash"
      description: "added by OCP dynamic provisioning"
    allowVolumeExpansion: true
+   EOF
    ```
 2. Edit the file to make configure your file share and file server 
 
@@ -403,4 +416,54 @@ Let's create a new share to provide it as a storage location for our storage cla
    nutanix-volumes (default)  csi.nutanix.com   Delete          Immediate           true                   17m   
    ```
 
-Now that you have deployed two storage classes with backend storage of Nutanix Volumes and Files, we will use them in our subesequent labs.
+Now that you have deployed two storage classes with backend storage of Nutanix Volumes and Files, it is also a good idea to test whether you can create persistent volume claims. 
+
+### Testing PVCs
+
+Here are some sample manifests to create ``pvc`` using the ``Volumes`` and ``Files`` offering from Nutanix.
+
+Test creating pvc using Volumes
+
+``` yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+ name: test-volumes-pvc
+ namespace: default
+spec:
+ accessModes:
+   - ReadWriteOnce
+ volumeMode: Filesystem
+ resources:
+   requests:
+     storage: 1Gi
+```
+
+Test creating pvc using Files
+
+``` yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+ name: test-files-pvc
+spec:
+ storageClassName: nutanix-dynfiles
+ accessModes:
+   - ReadWriteMany
+ volumeMode: Filesystem
+ resources:
+   requests:
+     storage: 1Gi
+```
+
+#### Troubleshooting Tips
+
+If any of these ``pvc`` are not bound you may want to check the following:
+
+1. The secret you created earlier and the credentials you used there for Prism Element
+2. For Files pvc - make sure you are using case sensitive file server name and **not using FQDN** of the file server
+3. Always have a look at the logs
+   
+   ```bash
+   oc get events # in the namespace where you are creating the pvc
+   ```
