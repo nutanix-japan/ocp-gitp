@@ -86,8 +86,8 @@ We will use your UserXX-LinuxToolsVM as a provisioning VM to deploy OCP.
    INFO Connecting to Prism Central pc.ntnxlab.local 
    ? Prism Element PHX-SPOC018-4                      # << Choose your Prism Element cluster
    INFO Defaulting to only available network: Primary 
-   ? Virtual IP Address for API 10.38.18.219          # << Type the API IP 
-   ? Virtual IP Address for Ingress 10.38.18.220      # << Type the Ingress IP
+   ? Virtual IP Address for API 10.0.0.1              # << Type this exact IP for now
+   ? Virtual IP Address for Ingress 10.0.0.2          # << Type this exact IP for now
    ? Base Domain ntnxlab.local                        # << Type the name of your base domain 
    ? Cluster Name xyz                                 # << Type the name of your sub domain or OCP cluster's name
    ? Pull Secret [? for help] ************************************************
@@ -109,6 +109,7 @@ We will use your UserXX-LinuxToolsVM as a provisioning VM to deploy OCP.
     ```
  
     ```mdx-code-block
+    <BrowserWindow>
     <details>
     <summary>Toggle me for a file editing tip</summary>
     <div>
@@ -119,7 +120,7 @@ We will use your UserXX-LinuxToolsVM as a provisioning VM to deploy OCP.
     - Use ``crtl`` + ``v`` keyboard combination to enter visual block mode 
     - Select the lines until ``-----END CERTIFICATE-----``
     - Press ``I`` (capital I using Shift key)
-    - Type in two spaces
+    - Type in 4 spaces
     - Press ``esc`` key
     - Type ``wq!``
     :::
@@ -127,12 +128,14 @@ We will use your UserXX-LinuxToolsVM as a provisioning VM to deploy OCP.
     </body>
     </div>
     </details>
+    </BrowserWindow>
     ```
-    ```yml {4-13,19,35} title="Sample install-config.yaml file - Edit the highlighted parts"
+    ```yml {3-14,20,36,42-43} title="Sample install-config.yaml file - Edit the highlighted parts"
     apiVersion: v1
     baseDomain: ntnxlab.local
-    additionalTrustBundle: | 
-        -----BEGIN CERTIFICATE-----                                        ## << contents of rootCA.crt 
+    additionalTrustBundlePolicy: Always                                    ## << Change the value to Always
+    additionalTrustBundle: |                                               ## << Add this key 
+        -----BEGIN CERTIFICATE-----                                        ## << Paste the contents of rootCA.crt 
         MIIEBTCCAu2gAwIBAgIJAPDfr9SQbStmMA0GCSqGSIb3DQEBCwUAMIGYMQswCQYD
         VQQGEwJKUDEOMAwGA1UECAwFQ2hpYmExEDAOBgNVBAcMB0thc2hpd2ExEDAOBgNV
         BAoMB251dGFuaXgxDzANBgNVBAsMBnJvb3RjYTEdMBsGA1UEAwwUcm9vdGNhLm50
@@ -147,7 +150,7 @@ We will use your UserXX-LinuxToolsVM as a provisioning VM to deploy OCP.
       hyperthreading: Enabled
       name: worker
       platform: {}
-      replicas: 3 ## << This can be just 2 nodes
+      replicas: 2                                                         ## << This can be also 3 or more nodes
     controlPlane:
       architecture: amd64
       hyperthreading: Enabled
@@ -163,14 +166,14 @@ We will use your UserXX-LinuxToolsVM as a provisioning VM to deploy OCP.
       - cidr: 10.128.0.0/14
         hostPrefix: 23
       machineNetwork:
-      - cidr: 10.38.18.192/26   ## << This should be your HPOC cluster's subnet
+      - cidr: 10.38.18.192/26                                             ## << This should be your HPOC cluster's subnet
       networkType: OpenShiftSDN
       serviceNetwork:
       - 172.30.0.0/16
     platform:
     nutanix:
-       apiVIP: 10.38.18.219
-       ingressVIP: 10.38.18.220
+       apiVIP: 10.0.0.1                                                   ## << Change this to your api IP you reserved earlier
+       ingressVIP: 10.0.0.2                                               ## << Change this to your Ingress IP you reserved earlier
        prismCentral:
           endpoint:
             address: pc.ntnxlab.local
@@ -250,38 +253,15 @@ We will use your UserXX-LinuxToolsVM as a provisioning VM to deploy OCP.
    EOF
    ```
 
-
 7. Check the contents of ``manifests`` and ``openshift`` directories to make sure all the files are present (including iSCSI daemon MCO config. files)
 
    ```bash
    ls -l openshift manifests
    ```
-8. We have one last requirement; to let IPI installer know that we will be using a self generated CA bundle. 
-   
-   Edit the ``manifests/cluster-proxy-01-config.yaml`` file to do this.
+8. Confirm the contents of the ``manifests/cluster-proxy-01-config.yaml`` file to check whether the ``user-ca-bundle`` and the ``rootCA.crt``certificate that you created earlier in the lab is being used.
 
    ```bash
-   vi manifests/cluster-proxy-01-config.yaml
+   cat manifests/cluster-proxy-01-config.yaml
    ```
-
-9. Let the IPI installer know that we will be using a user generated Certificate Authority (CA) for this installation. 
-
-   ```yml {8} title="Add the user-ca-bundle as trusted CA"
-   apiVersion: config.openshift.io/v1
-   kind: Proxy
-   metadata:
-     creationTimestamp: null
-     name: cluster
-   spec:
-     trustedCA:
-       name: "user-ca-bundle" 
-   status: {}
-   ```
-
-   :::note
-   
-   The ``user-ca-bundle`` configuration in ``manifests/cluster-proxy-01-config.yaml`` is not required when you or your customer is using a public CA.
-
-   :::
-
+  
    We will now move on to the IPI deployment part.
