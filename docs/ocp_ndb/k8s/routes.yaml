@@ -3,7 +3,7 @@ kind: Route
 metadata:
   name: route-path-a
 spec:
-  host: ${ROUTE_HOST}
+  host: ROUTE_HOST
   path: "/"   
   to:
     kind: Service
@@ -18,7 +18,7 @@ kind: Route
 metadata:
   name: route-path-b
 spec:
-  host: ${ROUTE_HOST}
+  host: ROUTE_HOST
   path: "/admin"   
   to:
     kind: Service
@@ -33,7 +33,7 @@ kind: Route
 metadata:
   name: route-path-c
 spec:
-  host: ${ROUTE_HOST}
+  host: ROUTE_HOST
   path: "/api"   
   to:
     kind: Service
@@ -48,7 +48,7 @@ kind: Route
 metadata:
   name: route-path-d
 spec:
-  host: ${ROUTE_HOST}
+  host: ROUTE_HOST
   path: "/static/admin/"   
   to:
     kind: Service
@@ -63,7 +63,7 @@ kind: Route
 metadata:
   name: route-path-e
 spec:
-  host: ${ROUTE_HOST}
+  host: ROUTE_HOST
   path: "/static/rest_framework/"   
   to:
     kind: Service
@@ -78,7 +78,7 @@ kind: Route
 metadata:
   name: route-path-f
 spec:
-  host: ${ROUTE_HOST}
+  host: ROUTE_HOST
   path: "/static/"   
   to:
     kind: Service
@@ -93,7 +93,7 @@ kind: Route
 metadata:
   name: route-path-g
 spec:
-  host: ${ROUTE_HOST}
+  host: ROUTE_HOST
   path: "/media/"   
   to:
     kind: Service
