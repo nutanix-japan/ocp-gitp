@@ -763,7 +763,7 @@ You can access the application through the OCP Routes.
 1. Download the routes file
 
     ```bash 
-    wget https://raw.githubusercontent.com/nutanix-japan/ocp-gitp/main/docs/ocp_ndb/k8s/routes.yaml
+    curl -LO https://raw.githubusercontent.com/nutanix-japan/ocp-gitp/main/docs/ocp_ndb/k8s/routes.yaml
     ```
 
 2. Change the URL in the downloaded file to suit OCP cluster name and your domain.
