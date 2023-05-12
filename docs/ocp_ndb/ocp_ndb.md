@@ -550,12 +550,12 @@ We have only modified the implementation to suit deployment in a OCP cluster wit
 1. Apply the application secrets manifest
    
    ```bash
-   oc apply -f https://raw.githubusercontent.com/nutanix-japan/ocp-saurus/main/docs/ocp_ndb/k8s/app-secrets.yaml
+   oc apply -f https://raw.githubusercontent.com/nutanix-japan/ocp-gitp/main/docs/ocp_ndb/k8s/app-secrets.yaml
    ```
 2. Download and edit the configmap to match your database service name and port number (if you used a different database name in your ``ndb.yaml``  manifest)
 
    ```bash
-   curl -LO https://raw.githubusercontent.com/nutanix-japan/ocp-saurus/main/docs/ocp_ndb/k8s/app-variables.yaml
+   curl -LO https://raw.githubusercontent.com/nutanix-japan/ocp-gitp/main/docs/ocp_ndb/k8s/app-variables.yaml
    ```
 3. Edit you app-variables.yaml file to match your DB_HOST service name and DB_PORT port number
    
@@ -608,7 +608,7 @@ We have only modified the implementation to suit deployment in a OCP cluster wit
 5. Run this job to populate your database with schema and data
    
    ```bash
-   oc apply -f https://raw.githubusercontent.com/nutanix-japan/ocp-saurus/main/docs/ocp_ndb/k8s/django-job.yaml
+   oc apply -f https://raw.githubusercontent.com/nutanix-japan/ocp-gitp/main/docs/ocp_ndb/k8s/django-job.yaml
    ```
 
 6. Monitor the job to make sure it has completed
@@ -708,7 +708,7 @@ We have only modified the implementation to suit deployment in a OCP cluster wit
 
    ```bash
    oc apply -f https://raw.githubusercontent.com/nutanix-japan/ocp-gitp/main/docs/ocp_ndb/k8s/django-deployment.yaml
-   oc apply -f https://raw.githubusercontent.com/nutanix-japan/ocp-saurus/main/docs/ocp_ndb/k8s/react-deployment.yaml
+   oc apply -f https://raw.githubusercontent.com/nutanix-japan/ocp-gitp/main/docs/ocp_ndb/k8s/react-deployment.yaml
    ```
    ```bash title="Output - you will see deployments and services created"
    deployment.apps/django-deployment created
@@ -763,7 +763,7 @@ You can access the application through the OCP Routes.
 1. Download the routes file
 
     ```bash 
-    wget https://raw.githubusercontent.com/nutanix-japan/ocp-saurus/main/docs/ocp_ndb/k8s/routes.yaml
+    wget https://raw.githubusercontent.com/nutanix-japan/ocp-gitp/main/docs/ocp_ndb/k8s/routes.yaml
     ```
 
 2. Change the URL in the downloaded file to suit OCP cluster name and your domain.
