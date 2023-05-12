@@ -30,7 +30,6 @@ module.exports = {
       items: ['ocp_ntnx_hci/ocp_csi',
               'optional_labs/ocp_image_registry'],
     },
-    "ocp_ndb/ocp_ndb",
     {
       type: 'category',
       label: 'OCP Workload Backup and Restore',
@@ -39,6 +38,7 @@ module.exports = {
               'workloads_on_ocp/ocp_wordpress_deploy',
               'workloads_on_ocp/ocp_k10_backup_restore'],
     },
+    "ocp_ndb/ocp_ndb",
     {
       type: 'category',
       label: 'OCP Optional Labs',

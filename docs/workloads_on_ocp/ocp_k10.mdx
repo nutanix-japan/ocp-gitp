@@ -1,6 +1,8 @@
 ---
 title: Deploying Backup Application
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Deploying Backup Application
 
@@ -55,28 +57,66 @@ Before you proceed with this section, verify that Nutanix CSI operator version a
 
 We will start by creating a VolumeSnapshotClass kubernetes object with Nutanix CSI. This helps in facilitating snapshots of the source workload.
 
-1.  In Calm go to your **Applications** \> **Openshift xyz1**
-    application
+1.  Depending on the OCP cluster installation you chose, log on to the **UserXX-LinuxToolsVM** or **LB_DNS** VM to be able to access OCP cluster. 
 
-2.  Go to the **Services**
+    :::caution How did you install OCP?
 
-3.  Select your **LB_DNS** service
+    If you installed OCP using NCM (Calm), you will be performing commands in **LB_DNS** VM's console.
 
-4.  Click on **Open Terminal**
+    We suggest doing the following when modifications to commands are required:
 
-    ![](ocp_k10_images/ocp_lbdns_terminal.png)
+    1.  Edit code from lab instructions using vi/nano/vim
 
-    The terminal will open in a new browser tab
+    2.  Modify the required fields (highlighted)
 
-5.  Execute the following commands in sequence
+    3.  Paste the commands into the terminal of LB_DNS vm through Calm UI
 
+    Use the following key combinations to paste content into Calm invoked terminal. 
+
+    ```mdx-code-block
+    <Tabs groupId="operating-systems">
+        <TabItem value="mac" label="macOS">Use <b>Command + v</b> to paste.</TabItem>
+        <TabItem value="win" label="Windows">Use <b>Shift + Insert</b> to paste.</TabItem>
+    </Tabs>
+    ```
+    :::
+
+2.  Export the OCP cluster's KUBECONFIG file to environment so we can perform `oc` commands
+
+    ```mdx-code-block
+    <Tabs>
+    <TabItem value="On NCM deployed OCP Clusters - use LB_DNS VM">
+    ```
     ``` bash
     export KUBECONFIG=~/openshift/auth/kubeconfig
     ```
+    ```mdx-code-block
+    </TabItem>
+    <TabItem value="On IPI deployed OCP Clusters - use UserXX-LinuxToolsVM">
+    ``` 
+    ``` bash 
+    export KUBECONFIG=/root/xyz/auth/kubeconfig 
+    ```
+    ```bash title="Install Helm"
+    # We also need to install Helm and jq on on Linux Tools VM
+    # This will help us set up to install Kasten K10
+    curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+    chmod 700 get_helm.sh
+    ./get_helm.sh
+    helm version
+    ```
+    ```bash title="Install jq"
+    yum install jq -y
+    ```
+    ```mdx-code-block
+    </TabItem>
+    </Tabs>
+    ```
+3. Create the ``VolumeSnapshotClass``
 
     ``` bash
     cat << EOF | oc create -f -
-    apiVersion: snapshot.storage.k8s.io/v1beta1
+    apiVersion: snapshot.storage.k8s.io/v1
     kind: VolumeSnapshotClass
     metadata:
       name: acs-abs-snapshot-class
@@ -86,13 +126,13 @@ We will start by creating a VolumeSnapshotClass kubernetes object with Nutanix C
     parameters:
       storageType: NutanixVolumes
       csi.storage.k8s.io/snapshotter-secret-name: ntnx-secret
-      csi.storage.k8s.io/snapshotter-secret-namespace: ntnx-system
+      csi.storage.k8s.io/snapshotter-secret-namespace: openshift-cluster-csi-drivers
     deletionPolicy: Delete
     EOF
+
     ```
 
-6.  Run the following script to check if your OCP cluster is Kasten K10
-    ready
+6.  Run the following script to check if your OCP cluster is Kasten K10 ready
 
     ``` bash
     # Add kasten helm repo
@@ -126,6 +166,12 @@ We will start by creating a VolumeSnapshotClass kubernetes object with Nutanix C
     ```
 
 8.  Make sure all pre-checks are OK. If not, go back and check the associated errors and resolve them. Ask your instructor for help.
+
+    :::caution
+
+    If you see warnings about security context constraints, you can ignore them as we will fix them soon.
+
+    :::
 
 ## Installing Kasten K10
 
@@ -171,10 +217,9 @@ However, at the time of writing this lab there were issues with the Operator app
 
     ``` bash
     oc get pods -n kasten-io -w
-
-    # Output here. Wait until  all pods are running
+    ```
+    ``` bash title="Output - Wait until  all pods are running"
     # This may take a few minutes 
-
     NAME                                  READY   STATUS    RESTARTS   AGE
     aggregatedapis-svc-7874bdc658-hcvbh   1/1     Running   0          3m26s
     auth-svc-7f6f89dcc9-tcrcz             1/1     Running   0          3m26s
@@ -200,9 +245,9 @@ However, at the time of writing this lab there were issues with the Operator app
 
     ``` bash
     oc get route -n kasten-io 
+    ```
 
-    #Output here.
-
+    ``` bash title="Output"
     NAME        HOST/PORT                                     PATH    SERVICES   PORT   TERMINATION   WILDCARD
     k10-route   k10-route-kasten-io.apps.ocp1.ntnxlab.local   /k10/   gateway    http                 None
     ```
@@ -215,13 +260,43 @@ However, at the time of writing this lab there were issues with the Operator app
     # Example below
     # Your URL will be almost the same. Verify to make sure
     ```
-
+    ```mdx-code-block
+    <Tabs>
+    <TabItem value="Template URL">
+    ```
     ``` url
-    http://k10-route-kasten-io.apps.ocp1.ntnxlab.local/k10/#
+    http://k10-route-kasten-io.apps.<your-ocp-cluster>.ntnxlab.local/k10/#
+    ```
+    ```mdx-code-block
+    </TabItem>
+    <TabItem value="Sample URL">
+    ```
+    ``` url
+    http://k10-route-kasten-io.apps.xyz.ntnxlab.local/k10/#
+    ```
+    ```mdx-code-block
+    </TabItem>
+    </Tabs>
+    ```
+    If the above URL doesn't work, try this one
 
-    # if the above URL doesn't work, try this one:
-
-    http://k10-route-kasten-io.apps.ocp1.ntnxlab.local/k10/
+    ```mdx-code-block
+    <Tabs>
+    <TabItem value="Template URL">
+    ```
+    ``` url
+    http://k10-route-kasten-io.apps.<your-ocp-cluster>.ntnxlab.local/k10/
+    ```
+    ```mdx-code-block
+    </TabItem>
+    <TabItem value="Sample URL">
+    ```
+    ``` url
+    http://k10-route-kasten-io.apps.xyz.ntnxlab.local/k10/
+    ```
+    ```mdx-code-block
+    </TabItem>
+    </Tabs>
     ```
 
 6.  Copy the URL and paste in a browser in your **WindowsToolsVM**
@@ -237,28 +312,21 @@ However, at the time of writing this lab there were issues with the Operator app
     Run the following commands to get this:
 
     ``` bash
-    k10_login_secret=$(kubectl get serviceaccount k10-k10 -o jsonpath="{.secrets[0].name}" --namespace kasten-io)
-
-    kubectl get secret $k10_login_secret --namespace kasten-io -ojsonpath="{.data.token}{'\n'}" | base64 --decode; echo ""
+    oc --namespace kasten-io create token k10-k10 --duration=48h
     ```
 
     ``` bash
     # Sample output shown here - your token will be different
 
-    eyJhbGciOiJSUzI1NiIsImtpZCI6IlpDdnRDQmFvandWa0VTSWNTb042a2dpVTItVFMtd3huREpKZDM1dl9CX0kifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrYXN0ZW4taW8iLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlY3JldC5uYW1lIjoiazEwLWsxMC10b2tlbi1jdnZreCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJrMTAtazEwIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiZGQ2NDI4MzYtZmE4ZS00NWYyLTg2YTctNjgyMzJlMDE2NjAwIiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omthc3Rlbi1pbzprMTAtazEwIn0.SXo18kP4FKBEu6377n24okNg3yh8oGw2LE4JGhc4lr_V2-fm7HI13hoMnPVWaHIGPqB-NUQXtoTPQxuFO8zEjNKtFZ0g3YSfbRa_Brt-ALzclkqdVGuxPaOpmt1MDnlY6WsCkaHTAIu9pP0knEo1YTip0kxhaAJwP9v15nP3IDIcqzH4lgz28SWdOetoiMRps6bdcWfsaZxs2gLWfC5xHMd2klM8-vsDWoU2YT0WIAxrfT7As5n9b4IAmbMf80hyElypwmaRRI-q7rka-M1t4y81-TNmmd7p29wqiL04jlkuIr4oh554yQ8yfUyw0AukwUj4ARNRbfEiirH4pEs4PQ
-
+    eyJhbGciOiJSUzI1NiIsIm.....
+    
     # Copy the token from your ssh console and paste in the Kasten login UI
     ```
 
-    :::note
+    :::info
 
-    If the secret doesn't work: use the following commands to get the second secret in serviceaccount k10-k10
-
-    ``` bash
-    k10_login_secret=$(kubectl get serviceaccount k10-k10 -o jsonpath="{.secrets[1].name}" --namespace kasten-io)
-
-    kubectl get secret $k10_login_secret --namespace kasten-io -ojsonpath="{.data.token}{'\n'}" | base64 --decode; echo ""
-    ```
+    You can also create a permanent token that doesn't expire. See [Kasten](https://docs.kasten.io/access/authentication.html?highlight=token#obtaining-tokens) documentation for more details.
+    
     :::
 
 8.  Return to the broswer and paste the secret value

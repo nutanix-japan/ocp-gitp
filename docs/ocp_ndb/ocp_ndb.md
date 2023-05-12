@@ -301,14 +301,18 @@ In this section we will create a Postgres database using NDB Operator.
      password: password-for-ndb-server
    EOF
    ```
-   ```bash title="Edit the manifest with your NDB server credentials"
+3. Edit the manifest with your NDB server credentials and save it
+   
+   ```bash 
    vi your-ndb-secret.yaml
    ```
-   ```bash title="Apply the manifest to create NDB server credentials secret"
+4. Apply the manifest to create NDB server credentials secret
+   
+   ```bash 
    oc apply -f your-ndb-secret.yaml
    ```
    
-3. Create a secret with credentials (password and ssh public key) for the new Postgres VM that you will be provisioning.
+5. Create a secret with credentials (password and ssh public key) for the new Postgres VM that you will be provisioning.
 
    SSH key is a requirement. This must be included to authenticate to your NDB deployed VM. ``Database`` resource will fail to deploy if **ssh-public-key** is not included.
   
@@ -462,6 +466,8 @@ In this section we will create a Postgres database using NDB Operator.
 
 It will take about **20 minutes** to provision the ``pgserver`` database server and ``predictiondb`` database.
 
+You can continue with the other labs or get that much needed break.
+
 :::
 
 ### Check Database Connectivity
@@ -479,7 +485,7 @@ It will take about **20 minutes** to provision the ``pgserver`` database server 
 11. NDB Operator also creates a service and an endpoint for you to access the database server 
     
     ```bash
-    oc get service, ep 
+    oc get service,ep 
     ```
     ```text title="Output - note the Cluster IP, endpoint's external IP and port number"
     NAME                        TYPE                CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
@@ -490,7 +496,7 @@ It will take about **20 minutes** to provision the ``pgserver`` database server 
     ```
     The database is now available as an ``ClusterIP`` resource on port ``80``service to other workloads.
 
-    We just need to use the ``ClusterIP`` of the database service to the connect the front end application.
+    We just need to use the ``ClusterIP`` of the database service to connect from the front end application pod.
 
 12. Check if you are able to connect to you database. We will do this by deploying a standalone postgres pod.
 
@@ -504,7 +510,7 @@ It will take about **20 minutes** to provision the ``pgserver`` database server 
     psql -h dbforflower-svc -p 80 -U postgres -d predictiondb
     ```
 
-    ```bash title="Enter postgres_password as the password"
+    ```bash title="Enter the password you used in your-db-secret.yaml file"
     # psql -h dbforflower-svc -p 80 -U postgres -d predictiondb
     Password for user postgres: 
     psql (9.4.5, server 10.4)
@@ -544,22 +550,25 @@ We have only modified the implementation to suit deployment in a OCP cluster wit
 1. Apply the application secrets manifest
    
    ```bash
-   oc apply -f https://raw.githubusercontent.com/nutanix-japan/ocp-saurus/main/docs/ocp_ndb/k8s/app_secrets.yaml
+   oc apply -f https://raw.githubusercontent.com/nutanix-japan/ocp-saurus/main/docs/ocp_ndb/k8s/app-secrets.yaml
    ```
 2. Download and edit the configmap to match your database service name and port number (if you used a different database name in your ``ndb.yaml``  manifest)
 
    ```bash
-   wget https://raw.githubusercontent.com/nutanix-japan/ocp-saurus/main/docs/ocp_ndb/k8s/app_variables.yaml
-   #
-   vi app_variables.yaml
+   curl -LO https://raw.githubusercontent.com/nutanix-japan/ocp-saurus/main/docs/ocp_ndb/k8s/app-variables.yaml
+   ```
+3. Edit you app-variables.yaml file to match your DB_HOST service name and DB_PORT port number
+   
+   ```bash
+   vi app-variables.yaml
    ```
    ```mdx-code-block
    <details>
-   <summary>Make sure that your database service name and port number matches</summary>
+   <summary>Here is an example app-variables.yaml file</summary>
    <div>
    <body>
 
-   ```bash {23,26}
+   ```bash {23,24}
    apiVersion: v1
    kind: ConfigMap
    metadata:
@@ -582,31 +591,27 @@ We have only modified the implementation to suit deployment in a OCP cluster wit
      DB_ENGINE: "django.db.backends.postgresql"  
      DB_DATABASE: predictiondb
      DB_USER: postgres 
-     DB_HOST:        #  << Match your database service    
-     # Example
-     # DB_HOST: dbforflower-svc
-     DB_PORT:        #  << Match your database service's port number
-     # Example
-     # DB_PORT: "80"                  
+     DB_HOST: dbforflower-svc                   #  << Match your database service
+     DB_PORT: "80"                              #  << Match your database service's port number
    ```
    </body>
    </div>
    </details>
 
 
-3. After making sure that your database service name and port number matches, apply the configmap manifest
+4. After making sure that your database service name and port number matches, apply the configmap manifest
    
    ```bash 
-   oc apply -f app_variables.yaml
+   oc apply -f app-variables.yaml
    ```
 
-2. Run this job to populate your database with schema and data
+5. Run this job to populate your database with schema and data
    
    ```bash
-   oc apply -f https://raw.githubusercontent.com/nutanix-japan/ocp-saurus/main/docs/ocp_ndb/k8s/job_django.yaml
+   oc apply -f https://raw.githubusercontent.com/nutanix-japan/ocp-saurus/main/docs/ocp_ndb/k8s/django-job.yaml
    ```
 
-2. Monitor the job to make sure it has completed
+6. Monitor the job to make sure it has completed
    
    ```bash
    oc get job django-job -w
@@ -620,7 +625,7 @@ We have only modified the implementation to suit deployment in a OCP cluster wit
    django-job   1/1           19s        20s   # << Wait for completion
    ```
    
-3. You can analyse the logs to make sure the job has completed without any issues
+7. You can analyse the logs to make sure the job has completed without any issues
 
    ```bash title="Analyse the pod logs - your pod name will be different"
    oc logs django-job-cmcxk
@@ -655,11 +660,12 @@ We have only modified the implementation to suit deployment in a OCP cluster wit
    Delete your job, change any references in **app_variables** config map that may have been wrong, and re-run the job.
 
    ```bash
-   oc delete -f job_django.yaml
-   oc apply -f job_django
+   oc delete -f django-job.yaml
+   oc apply -f django-job
+   oc get job django-job -o json | oc replace --force -f -
    ```
 
-4. Log back into the database to check if there are new tables 
+8. Log back into the database to check if there are new tables 
    
     ```bash title="Login to the pod and connect to database server"
     oc exec -it psql -- /bin/sh
@@ -701,8 +707,8 @@ We have only modified the implementation to suit deployment in a OCP cluster wit
 1. Run the following commands to create the front end and back end applications 
 
    ```bash
-   oc apply -f https://raw.githubusercontent.com/nutanix-japan/ocp-saurus/main/docs/ocp_ndb/k8s/component_django.yaml
-   oc apply -f https://raw.githubusercontent.com/nutanix-japan/ocp-saurus/main/docs/ocp_ndb/k8s/component_react.yaml
+   oc apply -f https://raw.githubusercontent.com/nutanix-japan/ocp-gitp/main/docs/ocp_ndb/k8s/django-deployment.yaml
+   oc apply -f https://raw.githubusercontent.com/nutanix-japan/ocp-saurus/main/docs/ocp_ndb/k8s/react-deployment.yaml
    ```
    ```bash title="Output - you will see deployments and services created"
    deployment.apps/django-deployment created

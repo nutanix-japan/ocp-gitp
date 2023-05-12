@@ -216,10 +216,8 @@ Nutanix CSI can be installed using ``helm`` charts as well as you would do in an
       csi.storage.k8s.io/controller-expand-secret-name: ntnx-secret
       csi.storage.k8s.io/controller-expand-secret-namespace: openshift-cluster-csi-drivers
       csi.storage.k8s.io/fstype: ext4
-      storageContainer: Default           ## << Change this to match your Storage Container
-      storageType: NutanixVolumes
-      isLVMVolume: "true"
-      numLVMDisks: "4"                    ## << Change this to if you would more or less concurrency
+      storageContainer: Default                                ## << Change this to match your Storage Container
+      storageType: NutanixVolumes             
     allowVolumeExpansion: true
     reclaimPolicy: Delete
     EOF
@@ -250,7 +248,9 @@ Nutanix CSI can be installed using ``helm`` charts as well as you would do in an
     nutanix-volumes(default)   csi.nutanix.com   Delete          Immediate           true                   4m
     ```
 
-10. (If you haven't done this already) Create a machine config to make sure iSCSI service starts in worker and master nodes. 
+10. > Skip this step if you have created OCP cluster using ``IPI install`` method from this documentation site.
+
+    Create a machine config to make sure iSCSI service starts in worker and master nodes. 
 
     ```bash title="Start iSCSI service for worker nodes"
     cat << EOF | oc apply -f -
@@ -422,48 +422,66 @@ Now that you have deployed two storage classes with backend storage of Nutanix V
 
 Here are some sample manifests to create ``pvc`` using the ``Volumes`` and ``Files`` offering from Nutanix.
 
-Test creating pvc using Volumes
+1.  Test creating pvc using **Volumes**
 
-``` yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
- name: test-volumes-pvc
- namespace: default
-spec:
- accessModes:
-   - ReadWriteOnce
- volumeMode: Filesystem
- resources:
-   requests:
-     storage: 1Gi
-```
+    ``` bash
+    cat << EOF | oc apply -f -
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+     name: test-volumes-pvc
+    spec:
+     storageClassName: nutanix-volumes   ## << Optional as this SC is already default
+     accessModes:
+       - ReadWriteOnce
+     volumeMode: Filesystem
+     resources:
+       requests:
+         storage: 1Gi
+    EOF
+    ```
 
-Test creating pvc using Files
+2.  Test creating pvc using **Files**
 
-``` yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
- name: test-files-pvc
-spec:
- storageClassName: nutanix-dynfiles
- accessModes:
-   - ReadWriteMany
- volumeMode: Filesystem
- resources:
-   requests:
-     storage: 1Gi
-```
+    ``` bash 
+    cat << EOF | oc apply -f -
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+     name: test-files-pvc
+    spec:
+     storageClassName: nutanix-dynfiles
+     accessModes:
+       - ReadWriteMany                  ## << Note that Files SC can be Read Write Many
+     volumeMode: Filesystem
+     resources:
+       requests:
+         storage: 1Gi
+    EOF
+    ```
 
-#### Troubleshooting Tips
+<details>
+<summary>Are your pvc(s) not bound?</summary>
+<div>
+<body>
 
-If any of these ``pvc`` are not bound you may want to check the following:
+:::info Check the following 
+
+If any of the ``pvc(s)`` are not bound you may want to check the following:
 
 1. The secret you created earlier and the credentials you used there for Prism Element
 2. For Files pvc - make sure you are using case sensitive file server name and **not using FQDN** of the file server
-3. Always have a look at the logs
+3. Always be checking logs
    
    ```bash
-   oc get events # in the namespace where you are creating the pvc
+   oc get events --sort-by='.lastTimestamp' # sort by date for the namespace you are currently working in
+   oc get events --sort-by='.metadata.creationTimestamp' -A  # sort by date for all namespaces
    ```
+:::
+
+</body>
+</div>
+</details>
+
+You have seen how easy it is integrate Nutanix storage capabilites with Red Hat OCP. It took us less than a few minutes. On top of this OCP workloads 
+are able to use plethora of Nutanix capabilites like high availability, compression, erasure coding, etc.

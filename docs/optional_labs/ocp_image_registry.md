@@ -118,8 +118,8 @@ In this section we will add nutanix objects store's DNS records for lookup by OC
 
 3. Open PowerShell as Administrator and create the two A records
 
-   ```PowerShell title="Add the API A record - use your own subdomain"
-   Add-DnsServerResourceRecordA -Name ntnx-objects.ntnxlab.local -IPv4Address 10.38.18.221 -ZoneName ntnxlab.local -ZoneScope ntnxlab.local
+   ```PowerShell title="Add the API A record for Objects IP"
+   Add-DnsServerResourceRecordA -Name ntnx-objects -IPv4Address 10.38.18.221 -ZoneName ntnxlab.local -ZoneScope ntnxlab.local
    ```
 
 3. Test name resolution for added entries
@@ -220,14 +220,14 @@ In this section we will add nutanix objects store's DNS records for lookup by OC
   ```
 14. Update the image registry configuration to use the newly create nutanix objects S3 bucket 
 
-  ```bash
+  ```bash {7}
   oc patch configs.imageregistry.operator.openshift.io/cluster \
     --type='json' \
     --patch='[
   {"op": "remove", "path": "/spec/storage" },
   {"op": "add", "path": "/spec/storage", "value":
   {"s3":
-  {"bucket": "xyz-ocp-registry", 
+  {"bucket": "xyz-ocp-registry",                             ### <<< REMEMBER TO USE YOUR BUCKET NAME
   "regionEndpoint": "https://ntnx-objects.ntnxlab.local",
   "encrypt": false, 
   "region": "us-east-1"}}}]'
@@ -274,7 +274,7 @@ In this section we will add nutanix objects store's DNS records for lookup by OC
   ```
 ## Verify Image Contents in S3 Bucket 
 
-We will install a simple application to verify if the local OCP image registry is able to store container images in the S3 bucket.
+We will install a simple application to verify if the local OCP image registry is able to store container images in the S3 bucket. Verification of our setup as we go helps us setup our workload on OCP cluster without running into issues.
 
 1. Create a new project (namespace) in OCP cluster
 
@@ -298,7 +298,7 @@ We will install a simple application to verify if the local OCP image registry i
 3. Wait for a few seconds to check the logs of the application
 
    ```bash
-   sleep 10s
+   sleep 30s
    oc logs -f file-uploader-1-build
    ```
   ```buttonless {18-19}  title="Output"
@@ -335,14 +335,13 @@ We will install a simple application to verify if the local OCP image registry i
   file-uploader-5d56584787-bzkbs      1/1     Running     0          31m
   ```
     
-
 4. To verify if the images are present in the S3 bucket, Logon to your Prism Central and check the contents using Object's browser.
    
 5. From **Prism Central > Services > Objects** 
 
 6. Click on ``ntnx-object`` object store (this will open in a new tab)
 
-7. Select the ``xyz-ocp-registry`` 
+7. Select your ``xyz-ocp-registry`` 
 
 4. Click on **Launch Objects Browser** (this will open in a new tab)
 
@@ -350,6 +349,9 @@ We will install a simple application to verify if the local OCP image registry i
 
    ![](ocp_image_registry_images/file-uploader-container-image.png)
 
+
+
+<!-- 
 ## Image Registry Storage using Volumes PVC (Optional)
 
 In this section we will create a persistent volume claim (PVC) and present it as storage to the running image registry on this OCP cluster. This
@@ -452,4 +454,4 @@ To check the existence this PV in Prism Element, check the volume detail in Stor
     ![](ocp_image_registry_images/ocp_pv_vg.png)
 
 You have successfully created a storage PVC in Nutanix HCI and presented it to a resource in OCP cluster. We will create other resources and
-present Nutanix HCI storage to them in the subsequent sections of the lab.
+present Nutanix HCI storage to them in the subsequent sections of the lab. -->

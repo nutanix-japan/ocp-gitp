@@ -1,6 +1,8 @@
 ---
 title: Deploying Workload
 ---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Deploying Workload
 
@@ -10,27 +12,9 @@ We will test backup and recovery of this application in next section.
 
 ## Deploying Wordpress App
 
-1.  In Calm go to your **Applications** > **Openshift xyz1**
-    application
+1. In your **LinuxToolsVM** or your **LB_DNS VM** console,
 
-2.  Go to the **Services**
-
-3.  Select your **LB_DNS** service
-
-4.  Click on **Open Terminal**
-
-    ![](ocp_wordpress_deploy_images/ocp_lbdns_terminal.png)
-
-    The terminal will open in a new browser tab
-
-5.  Execute the following commands in sequence
-
-    ``` bash
-    export KUBECONFIG=~/openshift/auth/kubeconfig
-    ```
-
-6.  Create a new directory for your wordpress application and
-    configuration files
+6.  Create a new directory for your wordpress application and configuration files
 
     ``` bash
     mkdir wordpress 
@@ -46,8 +30,8 @@ We will test backup and recovery of this application in next section.
 8.  Download wordpress and mysql config yaml files
 
     ``` bash
-    wget https://raw.githubusercontent.com/nutanix-japan/ocp-hci/main/ocp_wordpress_deploy/mysql_deployment.yaml
-    wget https://raw.githubusercontent.com/nutanix-japan/ocp-hci/main/ocp_wordpress_deploy/wordpress_deployment.yaml 
+    curl -LO https://raw.githubusercontent.com/nutanix-japan/ocp-hci/main/ocp_wordpress_deploy/mysql_deployment.yaml
+    curl -LO https://raw.githubusercontent.com/nutanix-japan/ocp-hci/main/ocp_wordpress_deploy/wordpress_deployment.yaml 
     ```
 9.  We need to grant ``anyuid`` security context constraint to the service account
     
@@ -60,11 +44,15 @@ We will test backup and recovery of this application in next section.
     
     :::
     
-9.  Make sure the nutanix-volume is the default storage class
+9.  Make sure the ``nutanix-volume ``is the default storage class
 
     ``` bash
-    oc patch storageclass nutanix-volumes -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
     oc get sc
+    ```
+    If it is not default, run the following command
+
+    ```bash
+    oc patch storageclass nutanix-volumes -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
     ```
 
 10. Create kustomization file to specify mysql password\]
@@ -114,9 +102,9 @@ We will test backup and recovery of this application in next section.
 
     ``` bash
     oc expose service/wordpress
-
-    # Output here
-    # route.route.openshift.io/wordpress exposed
+    ```
+    ``` bash title="Output"
+    route.route.openshift.io/wordpress exposed
     ```
 
     :::info
@@ -134,9 +122,9 @@ We will test backup and recovery of this application in next section.
 
     ``` bash
     oc get route
+    ```
 
-    # Output here
-
+    ```bash title="Output"
     NAME        HOST/PORT                                   PATH   SERVICES    PORT   TERMINATION   WILDCARD
     wordpress   wordpress-default.apps.xyz9.ntnxlab.local          wordpress   80                   None
     ```
@@ -145,10 +133,24 @@ We will test backup and recovery of this application in next section.
 
     Your route should look as follows:
 
-    ``` url
-    http://wordpress-default.apps.xyz9.ntnxlab.local
+    ```mdx-code-block
+    <Tabs>
+    <TabItem value="Template URL">
     ```
-
+    ``` url
+    http://wordpress-default.apps.<your-ocp-cluster>.ntnxlab.local
+    ```
+    ```mdx-code-block
+    </TabItem>
+    <TabItem value="Sample URL">
+    ```
+    ``` url
+    http://wordpress-default.apps.xyz.ntnxlab.local
+    ```
+    ```mdx-code-block
+    </TabItem>
+    </Tabs>
+    ```
 4. Copy the URL and paste in a browser in your **WindowsToolsVM**
 
 5. You should see a configuration page
