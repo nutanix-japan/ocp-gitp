@@ -209,32 +209,75 @@ In this section we will add nutanix objects store's DNS records for lookup by OC
 
 13. Create a secret with the bucket access and secret key you generated in the previous section 
   
-  ```bash
-  oc create secret generic image-registry-private-configuration-user \
-    --from-literal=REGISTRY_STORAGE_S3_ACCESSKEY=ofYqh4g2ImLNuXm5JjqDrRtiDLKU8YAr \
-    --from-literal=REGISTRY_STORAGE_S3_SECRETKEY=jluOBDuENC7jeci7JiSH4tsB4uCHX0ST \
-    --namespace openshift-image-registry
-  ```
+    ```mdx-code-block
+    <Tabs>
+    <TabItem value="Template command">
+    ```
+    ```bash
+    oc create secret generic image-registry-private-configuration-user \
+      --from-literal=REGISTRY_STORAGE_S3_ACCESSKEY=<your-access-key> \
+      --from-literal=REGISTRY_STORAGE_S3_SECRETKEY=<your-secret-key> \
+      --namespace openshift-image-registry
+    ```
+    ```mdx-code-block
+    </TabItem>
+    <TabItem value="Sample command">
+    ``` 
+    ```bash
+    oc create secret generic image-registry-private-configuration-user \
+      --from-literal=REGISTRY_STORAGE_S3_ACCESSKEY=ofYqh4g2ImLNuXm5JjqDrRtiDLKU8YAr \
+      --from-literal=REGISTRY_STORAGE_S3_SECRETKEY=jluOBDuENC7jeci7JiSH4tsB4uCHX0ST \
+      --namespace openshift-image-registry
+    ```
+    ```mdx-code-block
+    </TabItem>
+    </Tabs>
+
+  
   ```buttonless title="Output"
   secret/image-registry-private-configuration-user created
   ```
 14. Update the image registry configuration to use the newly create nutanix objects S3 bucket 
+    
+    ```mdx-code-block
+    <Tabs>
+    <TabItem value="Template command">
+    ```
+    ```bash {7}
+    oc patch configs.imageregistry.operator.openshift.io/cluster \
+      --type='json' \
+      --patch='[
+    {"op": "remove", "path": "/spec/storage" },
+    {"op": "add", "path": "/spec/storage", "value":
+    {"s3":
+    {"bucket": "ocpXX-bucket-name",                        ### <<< REMEMBER TO USE YOUR BUCKET NAME
+    "regionEndpoint": "https://ntnx-objects.ntnxlab.local",
+    "encrypt": false, 
+    "region": "us-east-1"}}}]'
+    ```
+    ```mdx-code-block
+    </TabItem>
+    <TabItem value="Sample command">
+    ``` 
+    ```bash {7}
+    oc patch configs.imageregistry.operator.openshift.io/cluster \
+      --type='json' \
+      --patch='[
+    {"op": "remove", "path": "/spec/storage" },
+    {"op": "add", "path": "/spec/storage", "value":
+    {"s3":
+    {"bucket": "ocp01-ocp-registry",                       ### <<< REMEMBER TO USE YOUR BUCKET NAME
+    "regionEndpoint": "https://ntnx-objects.ntnxlab.local",
+    "encrypt": false, 
+    "region": "us-east-1"}}}]'
+    ```
+    ```mdx-code-block
+    </TabItem>
+    </Tabs>
 
-  ```bash {7}
-  oc patch configs.imageregistry.operator.openshift.io/cluster \
-    --type='json' \
-    --patch='[
-  {"op": "remove", "path": "/spec/storage" },
-  {"op": "add", "path": "/spec/storage", "value":
-  {"s3":
-  {"bucket": "xyz-ocp-registry",                             ### <<< REMEMBER TO USE YOUR BUCKET NAME
-  "regionEndpoint": "https://ntnx-objects.ntnxlab.local",
-  "encrypt": false, 
-  "region": "us-east-1"}}}]'
-  ```
-  ```buttonless title="Output"
-  config.imageregistry.operator.openshift.io/cluster patched
-  ```
+    ```buttonless title="Output"
+    config.imageregistry.operator.openshift.io/cluster patched
+    ```
 
 15. Enable the image registry (by default image registry is disabled)
    
@@ -248,7 +291,7 @@ In this section we will add nutanix objects store's DNS records for lookup by OC
 16. You can use the config description to check if the image registry sucessfully connected to Nutanix Objects store ``xyz-ocp-registry``
 
   ```bash
-  oc get  config.imageregistry.operator.openshift.io/cluster -oyaml
+  oc get config.imageregistry.operator.openshift.io/cluster -oyaml
   ```
   ```yaml {8,10} title="Output"
   kind: Config
@@ -276,24 +319,27 @@ In this section we will add nutanix objects store's DNS records for lookup by OC
 
 We will install a simple application to verify if the local OCP image registry is able to store container images in the S3 bucket. Verification of our setup as we go helps us setup our workload on OCP cluster without running into issues.
 
+:::info have you got (g)it? 
+Install it using the following command as we will need in the subsequent section.
+
+```bash
+yum install git -y
+```
+:::
+
 1. Create a new project (namespace) in OCP cluster
 
    ```bash
    oc new-project my-shared-storage
    ```
+
+
 2. Create an app called new-app inside this project/namespace
    
    ```bash
    oc new-app openshift/php https://github.com/christianh814/openshift-php-upload-demo --name=file-uploader
    ```
-   :::info have you got (g)it? 
-   If the command complains about ``git`` binary not being present, install it using the following command:
-
-   ```bash
-   yum install git -y
-   ```
-   Retry the operation once again
-   :::
+   
 
 3. Wait for a few seconds to check the logs of the application
 
@@ -301,27 +347,27 @@ We will install a simple application to verify if the local OCP image registry i
    sleep 30s
    oc logs -f file-uploader-1-build
    ```
-  ```buttonless {18-19}  title="Output"
-  ## Output snipped for brevity
-  STEP 9/9: CMD /usr/libexec/s2i/run
-  COMMIT temp.builder.openshift.io/my-shared-storage/file-uploader-1:00fde781
-  Getting image source signatures
-  Copying blob sha256:b38cb92596778e2c18c2bde15f229772fe794af39345dd456c3bf6702cc11eef
-  Copying config sha256:9ef2b09224b2a0b312cc0c5a1b5c96afadb9e7f1c36f990ad1c47c50ac3ea82a
-  Writing manifest to image destination
-  Storing signatures
-  --> 9ef2b09224b
-  Successfully tagged temp.builder.openshift.io/my-shared-storage/file-uploader-1:00fde781
-  9ef2b09224b2a0b312cc0c5a1b5c96afadb9e7f1c36f990ad1c47c50ac3ea82a
-  Pushing image image-registry.openshift-image-registry.svc:5000/my-shared-storage/file-uploader:latest ...
-  Getting image source signatures
-  Copying blob sha256:b9cf13b728c6800670647c11df5701edf60214352ff4c3d721bf0277cf20350d
-  Copying config sha256:9ef2b09224b2a0b312cc0c5a1b5c96afadb9e7f1c36f990ad1c47c50ac3ea82a
-  Writing manifest to image destination
-  Storing signatures
-  Successfully pushed image-registry.openshift-image-registry.svc:5000/my-shared-storage/file-uploader@sha256:6a073686b1538fe6d2cc657f0116060d93721caef05c3bbee267e67b29b9fa79
-  Push successful
-  ```
+   ```buttonless {18-19}  title="Output"
+   ## Output snipped for brevity
+   STEP 9/9: CMD /usr/libexec/s2i/run
+   COMMIT temp.builder.openshift.io/my-shared-storage/file-uploader-1:00fde781
+   Getting image source signatures
+   Copying blob sha256:b38cb92596778e2c18c2bde15f229772fe794af39345dd456c3bf6702cc11eef
+   Copying config sha256:9ef2b09224b2a0b312cc0c5a1b5c96afadb9e7f1c36f990ad1c47c50ac3ea82a
+   Writing manifest to image destination
+   Storing signatures
+   --> 9ef2b09224b
+   Successfully tagged temp.builder.openshift.io/my-shared-storage/file-uploader-1:00fde781
+   9ef2b09224b2a0b312cc0c5a1b5c96afadb9e7f1c36f990ad1c47c50ac3ea82a
+   Pushing image image-registry.openshift-image-registry.svc:5000/my-shared-storage/file-uploader:latest ...
+   Getting image source signatures
+   Copying blob sha256:b9cf13b728c6800670647c11df5701edf60214352ff4c3d721bf0277cf20350d
+   Copying config sha256:9ef2b09224b2a0b312cc0c5a1b5c96afadb9e7f1c36f990ad1c47c50ac3ea82a
+   Writing manifest to image destination
+   Storing signatures
+   Successfully pushed image-registry.openshift-image-registry.svc:5000/my-shared-storage/file-uploader@sha256:6a073686b1538fe6d2cc657f0116060d93721caef05c3bbee267e67b29b9fa79
+   Push successful
+   ```
 
   To verify the pods are running
   

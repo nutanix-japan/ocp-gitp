@@ -324,8 +324,8 @@ In this section we will create a Postgres database using NDB Operator.
      name: your-db-secret
    type: Opaque
    stringData:
-     password: password-for-the-database-instance
-     ssh_public_key: SSH-PUBLIC-KEY # >> this must be present
+     password: postgres_password
+     ssh_public_key: SSH-PUBLIC-KEY                                  # << this must be present
    EOF
    ```
    ```mdx-code-block
@@ -557,46 +557,71 @@ We have only modified the implementation to suit deployment in a OCP cluster wit
    ```bash
    curl -LO https://raw.githubusercontent.com/nutanix-japan/ocp-gitp/main/docs/ocp_ndb/k8s/app-variables.yaml
    ```
-3. Edit you app-variables.yaml file to match your DB_HOST service name and DB_PORT port number
+3. Edit you ``app-variables.yaml`` file to match your DB_HOST service name and DB_PORT port number
    
-   ```bash
-   vi app-variables.yaml
-   ```
    ```mdx-code-block
-   <details>
-   <summary>Here is an example app-variables.yaml file</summary>
-   <div>
-   <body>
-
-   ```bash {23,24}
-   apiVersion: v1
-   kind: ConfigMap
-   metadata:
-     name: app-variables
-   data:
-     #env variables for the postgres component
-     POSTGRES_USER: postgres_user
-     POSTGRES_DB: predictiondb
-   
-     #env variables for the backend component
-     DJANGO_ENV: development
-     DEBUG: "1"
-     SECRET_KEY: secretsecretsecretsecretsecret
-     DJANGO_ALLOWED_HOSTS: "*"
-     DJANGO_ADMIN_USER: admin
-     DJANGO_ADMIN_EMAIL: "admin@example.com"
-     
-     #db server components
-     DATABASE: postgres
-     DB_ENGINE: "django.db.backends.postgresql"  
-     DB_DATABASE: predictiondb
-     DB_USER: postgres 
-     DB_HOST: dbforflower-svc                   #  << Match your database service
-     DB_PORT: "80"                              #  << Match your database service's port number
-   ```
-   </body>
-   </div>
-   </details>
+    <Tabs>
+    <TabItem value="Template file">
+    ```
+    ```bash {23,24}
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+       name: app-variables
+    data:
+       #env variables for the postgres component
+       POSTGRES_USER: postgres_user
+       POSTGRES_DB: predictiondb
+    
+       #env variables for the backend component
+       DJANGO_ENV: development
+       DEBUG: "1"
+       SECRET_KEY: secretsecretsecretsecretsecret
+       DJANGO_ALLOWED_HOSTS: "*"
+       DJANGO_ADMIN_USER: admin
+       DJANGO_ADMIN_EMAIL: "admin@example.com"
+       
+       #db server components
+       DATABASE: postgres
+       DB_ENGINE: "django.db.backends.postgresql"  
+       DB_DATABASE: predictiondb
+       DB_USER: postgres 
+       DB_HOST: <your DB service>                  #  << Match your database service
+       DB_PORT: <your DB port>                     #  << Match your database service's port number
+    ```
+    ```mdx-code-block
+    </TabItem>
+    <TabItem value="Sample file">
+    ``` 
+    ``` bash  {23,24}
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+       name: app-variables
+    data:
+       #env variables for the postgres component
+       POSTGRES_USER: postgres_user
+       POSTGRES_DB: predictiondb
+    
+       #env variables for the backend component
+       DJANGO_ENV: development
+       DEBUG: "1"
+       SECRET_KEY: secretsecretsecretsecretsecret
+       DJANGO_ALLOWED_HOSTS: "*"
+       DJANGO_ADMIN_USER: admin
+       DJANGO_ADMIN_EMAIL: "admin@example.com"
+       
+       #db server components
+       DATABASE: postgres
+       DB_ENGINE: "django.db.backends.postgresql"  
+       DB_DATABASE: predictiondb
+       DB_USER: postgres 
+       DB_HOST: dbforflower-svc
+       DB_PORT: 80
+    ```
+    ```mdx-code-block
+    </TabItem>
+    </Tabs>
 
 
 4. After making sure that your database service name and port number matches, apply the configmap manifest
@@ -741,25 +766,6 @@ We will need to create routes to access the front end and back end applications.
 
 You can access the application through the OCP Routes. 
 
-   ```mdx-code-block
-   <details>
-   <summary>Why use OCP Routes but not kubernetes Ingress resource?</summary>
-   <div>
-   <body>
-
-   :::info 
-
-   OCP works with ``Routes`` kubernetes resource. Since ``Routes`` was developed much earlier than ``Ingress`` resource, we will use ``Routes`` resource in this lab.
-
-   Creating ``Ingress`` will still work, however they will be deployed as ``Routes`` in OCP.
-
-   :::
-
-   
-   </body>
-   </div>
-   </details>
-
 1. Download the routes file
 
     ```bash 
@@ -768,8 +774,30 @@ You can access the application through the OCP Routes.
 
 2. Change the URL in the downloaded file to suit OCP cluster name and your domain.
 
-   - **OCP Cluster Name** - xyz (change to your cluster name)
-   - **Domain**           - ntnxlab.local (change to your domain name)
+    > **OCP Cluster Name** - ocpuserXX (change to your  OCP cluster name)
+
+    > **Domain**           - ntnxlab.local 
+
+4. Using ``sed`` command this can be done in a single command
+  
+    ```mdx-code-block
+    <Tabs>
+    <TabItem value="Template command">
+    ```
+    ``` bash
+    sed -i 's/ROUTE_HOST/flower.apps. <ocpuserXX> .ntnxlab.local/g' routes.yaml
+    ```
+    ```mdx-code-block
+    </TabItem>
+    <TabItem value="Sample command">
+    ``` 
+    ``` bash 
+    sed -i 's/ROUTE_HOST/flower.apps.ocpuser01.ntnxlab.local/g' routes.yaml
+    ```
+    ```mdx-code-block
+    </TabItem>
+    </Tabs>
+    ```
 
 3. Create the routes 
 
@@ -781,13 +809,13 @@ You can access the application through the OCP Routes.
     ```
     ```text title="Output"
     NAME           HOST/PORT                                         PATH
-    route-path-a   flower.apps.hackathon.hackathon8.ntnxlab.local    /
-    route-path-b   flower.apps.hackathon.hackathon8.ntnxlab.local    /admin
-    route-path-c   flower.apps.hackathon.hackathon8.ntnxlab.local    /api
-    route-path-d   flower.apps.hackathon.hackathon8.ntnxlab.local    /static/admin/
-    route-path-e   flower.apps.hackathon.hackathon8.ntnxlab.local    /static/rest_framework/
-    route-path-f   flower.apps.hackathon.hackathon8.ntnxlab.local    /static/
-    route-path-g   flower.apps.hackathon.hackathon8.ntnxlab.local    /media/
+    route-path-a   flower.apps.ocpuserXX.ntnxlab.local    /
+    route-path-b   flower.apps.ocpuserXX.ntnxlab.local    /admin
+    route-path-c   flower.apps.ocpuserXX.ntnxlab.local    /api
+    route-path-d   flower.apps.ocpuserXX.ntnxlab.local    /static/admin/
+    route-path-e   flower.apps.ocpuserXX.ntnxlab.local    /static/rest_framework/
+    route-path-f   flower.apps.ocpuserXX.ntnxlab.local    /static/
+    route-path-g   flower.apps.ocpuserXX.ntnxlab.local    /media/
     ```
 
 ### Testing Front End React Application 
@@ -801,8 +829,26 @@ You can access the application through the OCP Routes.
 3. Open the following URL in Chrome browser to access the Front End React application
    
     ```url 
-    http://flower.apps.xyz.ntnxlab.local/
+    http://flower.apps.ocpuserXX.ntnxlab.local/
     ```
+    ```mdx-code-block
+    <Tabs>
+    <TabItem value="Template URL">
+    ```
+    ```url 
+    http://flower.apps.ocpuserXX.ntnxlab.local/
+    ```
+    ```mdx-code-block
+    </TabItem>
+    <TabItem value="Sample URL">
+    ``` 
+    ```url 
+    http://flower.apps.ocpuser01.ntnxlab.local/
+    ```
+    ```mdx-code-block
+    </TabItem>
+    </Tabs>
+
 4. Enter the following credentials and click on **SIGN IN**
 
     > **Username** - admin
@@ -811,7 +857,7 @@ You can access the application through the OCP Routes.
 
     ![](images/react-splash.png)
    
-5. Move the sliders accross and click on **Predict** to get flower names based on their physical attributes
+5. Move the sliders across and click on **Predict** to get flower names based on their physical attributes
 
     ![](images/react-prediction.png)
 
@@ -821,12 +867,12 @@ Now that we have finished testing the front end React application, let's move on
 
 Django application is used to manage users that will access and manage the front end React application.
 
-We will create a new user in the Django application which we will then use in authenicating to front end React application.
+We will create a new user in the Django application which we will then use in authenticating to front end React application.
 
 1. Open the following URL in Chrome browser to access the Front End React application
    
     ```url 
-    http://flower.apps.xyz.ntnxlab.local/admin 
+    http://flower.apps.ocpuserXX.ntnxlab.local/admin 
     ```
 
 2. Enter the following credentials and click on **SIGN IN**
@@ -857,10 +903,10 @@ We will create a new user in the Django application which we will then use in au
 
 7. Return to front end React application and test the new credentials. 
 
-8. Check if you are able to login with the newly created credentials. Play around with the flower name prediction AI application.
+8. Check if you are able to login with the newly created credentials. Play around with the flower name prediction AI application and have some fun.
 
     ```url 
-    http://flower.apps.xyz.ntnxlab.local/admin 
+    http://flower.apps.ocpuserXX.ntnxlab.local/admin 
     ```
     
     > **Username** - *Your-Initials-user* (e.g. xyz-user)
@@ -905,10 +951,9 @@ In this section we will confirm that the new user we created in from the back en
 
     username |          last_login           
    ----------+-------------------------------
-    babu     | 2022-12-13 08:27:43.411894+00
     admin    | 2022-12-14 01:38:41.480801+00
     xyz-user | 2022-12-14 01:38:53.474404+00  # << This is your new user
-    (3 rows)
+    (2 rows)
     ```
 
 This proves that all data is present in the datastore (Postgres in a VM deployed by NDB) of the application. 

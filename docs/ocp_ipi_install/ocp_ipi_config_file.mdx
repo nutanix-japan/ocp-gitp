@@ -1,5 +1,7 @@
 ---
 title: "Create Configuration Manifests"
+lastupdate: git
+lastupdateauthor: git
 ---
 
 import Tabs from '@theme/Tabs';
@@ -75,6 +77,21 @@ We will use your UserXX-LinuxToolsVM as a provisioning VM to deploy OCP.
    ```bash
    openshift-install create install-config 
    ```
+   :::caution
+
+   There are issues with ``openshift-install`` command and it is a requirement to type the following IPs ``as-is`` while creating the install-config manifest.
+
+   Once created, these IPs can be edited to the real values. 
+
+   Please type the following IPs ``as-is``:
+
+   | Type    | IP |
+   |---------|----|
+   | API     | `10.0.0.1`   |
+   | Ingress |  `10.0.0.2 ` |
+   
+   :::
+
    ```buttonless title="Execution example - use up and down arrow keys to choose options"
    # openshift-install create install-config 
    ? SSH Public Key /root/.ssh/id_rsa.pub
@@ -148,7 +165,7 @@ We will use your UserXX-LinuxToolsVM as a provisioning VM to deploy OCP.
       hyperthreading: Enabled
       name: worker
       platform: {}
-      replicas: 2                                                         ## << This can be also 3 or more nodes
+      replicas: 2                           ## << Make sure this is 2 
     controlPlane:
       architecture: amd64
       hyperthreading: Enabled
@@ -164,14 +181,14 @@ We will use your UserXX-LinuxToolsVM as a provisioning VM to deploy OCP.
       - cidr: 10.128.0.0/14
         hostPrefix: 23
       machineNetwork:
-      - cidr: 10.38.18.192/26                                             ## << This should be your HPOC cluster's subnet
+      - cidr: 10.38.18.192/26               ## << This should be your HPOC cluster's subnet
       networkType: OpenShiftSDN
       serviceNetwork:
       - 172.30.0.0/16
     platform:
     nutanix:
-       apiVIP: 10.0.0.1                                                   ## << Change this to your api IP you reserved earlier
-       ingressVIP: 10.0.0.2                                               ## << Change this to your Ingress IP you reserved earlier
+       apiVIP: 10.38.18.219                 ## << Change this to your api IP you reserved earlier
+       ingressVIP: 10.38.18.220             ## << Change this to your Ingress IP you reserved earlier
        prismCentral:
           endpoint:
             address: pc.ntnxlab.local
@@ -256,7 +273,7 @@ We will use your UserXX-LinuxToolsVM as a provisioning VM to deploy OCP.
    ```bash
    ls -l openshift manifests
    ```
-8. Confirm the contents of the ``manifests/cluster-proxy-01-config.yaml`` file to check whether the ``user-ca-bundle`` and the ``rootCA.crt``certificate that you created earlier in the lab is being used.
+8. Confirm the contents of the ``manifests/cluster-proxy-01-config.yaml`` file
 
    ```bash
    cat manifests/cluster-proxy-01-config.yaml

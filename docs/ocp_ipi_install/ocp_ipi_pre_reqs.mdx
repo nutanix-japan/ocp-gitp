@@ -1,5 +1,7 @@
 ---
 title: "Pre-requisites"
+lastupdate: git
+lastupdateauthor: git
 ---
 
 import Tabs from '@theme/Tabs';
@@ -14,22 +16,18 @@ We will be deploying OCP cluster using IPI method once the following pre-requisi
 
 :::caution Do you have enough compute resources?
 
-If you are working on a HPOC cluster, make sure there are enough resources available to deploy a new OCP cluster.
-
-Remove existing OCP clusters that you don't require anymore.
+We have planned enough resources in Nutanix cluster for you to deploy OCP cluster and workloads as well. 
 
 For latest OCP resource requirements refer to OpenShift portal [here.](https://docs.openshift.com/container-platform/4.9/installing/installing_platform_agnostic/installing-platform-agnostic.html#installation-minimum-resource-requirements_installing-platform-agnostic)
 
 At the time of writing this document the following resources are created by OCP IPI installer.
-
-We will create the following minimum amount of resources:
   
 | OCP Role   |    Operating System    |    vCPU    |  RAM         | Storage   |         
 | -------------|  ---------------------- |  -------- | ----------- |  --------- |  
-| Master       |  RHCOS                 |  8        | 16 GB      |  120 GB   | 
-| Worker       |  RHCOS, RHEL 7.9, or RHEL 8.4  |  4  |  16 GB      |  120 GB | 
+| Master   x 3     |  RHCOS                 |  8        | 16 GB      |  120 GB   | 
+| Worker    x 2   |  RHCOS, RHEL 7.9, or RHEL 8.4  |  4  |  16 GB      |  120 GB | 
 
-> Reserve some additional space for bootstrap vms (deleted after install) and RHCOS image files.
+> Additional space for bootstrap vms (deleted after install) and RHCOS image files are also accounted for.
 
 :::
 
@@ -91,7 +89,7 @@ In this section we will add PC, API and APPS Ingress DNS records for lookup by O
 Your OCP cluster's name becomes a subdomain in your DNS zone ``ntnxlab.local``. All OCP cluster related lookups are located within subdomain.
 
 - Main domain -  ``ntnxlab.local`` (this gets created with your HPOC reservation)
-  - Sub domain - ``xyz.ntnxlab.local`` (xyz is your OCP cluster's name)
+  - Sub domain - ``ocpuserXX.ntnxlab.local`` (e.g. ocpuser01, ocpuser02, etc, is your OCP cluster's name)
 
 1. Logon to the AutoAD windows VM 
 
@@ -101,53 +99,70 @@ Your OCP cluster's name becomes a subdomain in your DNS zone ``ntnxlab.local``. 
 
 2. We will add the following entries to DNS server using the two consecutive IPs you found in the previous section
    
-   :::danger Use your HPOC cluster's IP Addresses
+   :::danger Use your assigned HPOC cluster's IP Addresses
 
-   The IP addresses in the following commands are used as an example. You should use IP address details that belong to your HPOC cluster. For information on locating your cluster IP see Getting Started [Networking](../intro.md#networking) section. 
+   The IP addresses in the following commands are used as an example. You should use IP address details that belong to your HPOC cluster. 
+   
+   For information on locating your cluster IP see [Lookup](https://lookup.howntnx.win) website.
    
    :::
    
    ```buttonless
-   10.38.18.219   api.your_ocp_cluster_subdomain.ntnxlab.local
-   10.38.18.220   *.apps.your_ocp_cluster_subdomain.ntnxlab.local
+   10.38.18.219   api.ocpuserXX.ntnxlab.local
+   10.38.18.220   *.apps.ocpuserXX.ntnxlab.local
    10.38.18.201   pc.ntnxlab.local
    ```
 
 2. Open PowerShell as Administrator and create the two A records
 
-   ```PowerShell title="Add the API A record - use your own subdomain"
-   Add-DnsServerResourceRecordA -Name api.<your_ocp_cluster_subdomain> -IPv4Address <your API IP> -ZoneName ntnxlab.local -ZoneScope ntnxlab.local
-   ```
-   ```PowerShell title="Add the apps Ingress A record - use your own subdomain"
-   Add-DnsServerResourceRecordA -Name *.apps.<your_ocp_cluster_subdomain> -IPv4Address <your Ingress IP> -ZoneName ntnxlab.local -ZoneScope ntnxlab.local 
-   ```
-   ```PowerShell title="Add the Prism Central A record"
-   Add-DnsServerResourceRecordA -Name pc -IPv4Address <your PC IP> -ZoneName ntnxlab.local -ZoneScope ntnxlab.local 
-   ```
-
-   ```buttonless title="Sample commands with 'xyz' as a subdomain and your OCP cluster name"
-   Add-DnsServerResourceRecordA -Name api.xyz -IPv4Address 10.38.18.219 -ZoneName ntnxlab.local -ZoneScope ntnxlab.local
-   Add-DnsServerResourceRecordA -Name *.apps.xyz -IPv4Address 10.38.18.220 -ZoneName ntnxlab.local -ZoneScope ntnxlab.local 
-   Add-DnsServerResourceRecordA -Name pc -IPv4Address 10.38.18.201 -ZoneName ntnxlab.local -ZoneScope ntnxlab.local
-   ```
+    ```mdx-code-block
+    <Tabs>
+    <TabItem value="Template commands">
+    ```
+    ```PowerShell title="Add the API A record - use your own subdomain"
+    Add-DnsServerResourceRecordA -Name api.<ocpuserXX> -IPv4Address <your API IP> -ZoneName ntnxlab.local -ZoneScope ntnxlab.local
+    ```
+    ```PowerShell title="Add the apps Ingress A record - use your own subdomain"
+    Add-DnsServerResourceRecordA -Name *.apps.<ocpuserXX> -IPv4Address <your Ingress IP> -ZoneName ntnxlab.local -ZoneScope ntnxlab.local 
+    ```
+    ```PowerShell title="Add the Prism Central A record"
+    Add-DnsServerResourceRecordA -Name pc -IPv4Address <your PC IP> -ZoneName ntnxlab.local -ZoneScope ntnxlab.local 
+    ```
+    ```mdx-code-block
+    </TabItem>
+    <TabItem value="Sample commands">
+    ``` 
+    ```buttonless title="Sample commands with 'ocpuser01' as a subdomain and your OCP cluster name"
+    Add-DnsServerResourceRecordA -Name api.ocpuser01 -IPv4Address 10.38.18.219 -ZoneName ntnxlab.local -ZoneScope ntnxlab.local
+    Add-DnsServerResourceRecordA -Name *.apps.ocpuser01 -IPv4Address 10.38.18.220 -ZoneName ntnxlab.local -ZoneScope ntnxlab.local 
+    ```
+    ```PowerShell title="Add the Prism Central A record"
+    Add-DnsServerResourceRecordA -Name pc -IPv4Address 10.38.18.201 -ZoneName ntnxlab.local -ZoneScope ntnxlab.local
+    ```
+    ```mdx-code-block
+    </TabItem>
+    </Tabs>
+    ```
 
 3. Test name resolution for added entries
 
-   ```PowerShell {6,13,20}
+   ```PowerShell {6}
    nslookup api.xyz.ntnxlab.local
    Server: dc.ntnxlab.local
    Address: 10.38.18.203
 
    Name: api.xyz.ntnxlab.local
    Address: 10.38.18.219 
-   #
+   ```
+   ```bash {6}
    nslookup myapp.apps.xyz.ntnxlab.local
    Server: dc.ntnxlab.local
    Address: 10.38.18.203
 
    Name: myapp.apps.xyz.ntnxlab.local
    Address: 10.38.18.220
-   #
+   ```
+   ```bash {6}
    nslookup pc.ntnxlab.local
    Server: dc.ntnxlab.local
    Address: 10.38.18.203
@@ -188,7 +203,8 @@ In this section please using the download links provided is also ok.
    ```bash
    tar xvf openshift-install-linux.tar.gz
    tar xvf openshift-client-linux.tar.gz 
-   # Adding to path 
+   ```
+   ```bash title="Adding to path"
    cp kubectl /usr/local/bin
    cp oc /usr/local/bin
    cp openshift-install /usr/local/bin
@@ -418,6 +434,7 @@ Refer to [Cloud Credential Operator CCO](https://docs.openshift.com/container-pl
 
    chmod u+x ccoctl && cp ccoctl /usr/local/bin/ 
    ```
+
 2. Make sure the ccoctl file is present 
 
    ```bash
@@ -464,7 +481,7 @@ Refer to [Cloud Credential Operator CCO](https://docs.openshift.com/container-pl
 
 6. Check the ``manifests/openshift-machine-api-nutanix-credentials-credentials.yaml`` file to make sure the contents are good
 
-   ```buttonless {8}
+   ```buttonless {8} title="Your credentials will be different"
    apiVersion: v1
    kind: Secret
    metadata:
