@@ -5,7 +5,30 @@ title: "Deploy Provisioning VM"
 
 ## Configure Provisioning VM Blueprint
 
-Now lets configure and deploy Provisioning VM
+Before you proceed with the creating the Provisioning VM, you will need a SSH key pair
+
+```mdx-code-block
+<details>
+<summary>Instructions to create SSH key pair</summary>
+<div>
+<body>
+```
+Logon to your UserXX-LinuxToolsVM
+- Username -
+``` bash
+ssh-keygen -t rsa -b 2048 -f ~/.ssh/ocp   # << accept all default answers
+ls -l ~/.ssh/
+## Output here
+~/.ssh/ocp.pub  
+~/.ssh/ocp      # << use this private key in the blueprints
+```
+```mdx-code-block
+</body>
+</div>
+</details>
+```
+
+Now lets configure and deploy Provisioning VM:
 
 1.  In **Prism Central** > **Services** > **Calm**
 
@@ -17,62 +40,29 @@ Now lets configure and deploy Provisioning VM
 
     :::
 
-3.  Select your Provisioning VM `XYZ_OCP_Prov_VM` blueprint
+3.  Select your Provisioning VM `ocpuserXX_OCP_Prov_VM` blueprint
 
 We need to configure network and credentials for the blueprint so it can be deployed in your HPOC/SPOC.
 
 1.  Select the Provisioning_VM service
+   
+2.  Under Cluster, select your assigned HPOC cluster (E.g. PHX-POCXXX)
 
-2.  In the Provisioning_VM service\'s VM properties, Choose **Primary**
-    as the NIC 1
+3.  In the Provisioning_VM service's VM properties, Choose **Primary** as the NIC 1
 
     ![](prov_vm_images/ocp_bp_save.png)
 
-3.  Click on **Save**
+4.  Click on **Save**
 
-4.  Click on **Credentials** (next to **Save**)
+5.  Click on **Credentials** (next to **Save**)
 
-5.  Go to this [URL](https://travistidwell.com/jsencrypt/demo/) to create a RSA private key
+6.  Copy and paste the private key (`~/.ssh/ocp`) that created earlier here 
 
-6.  Choose **2048 bit** as the key size and click on **Generate New Keys**
+7.  Click on **Save**
 
-    :::caution
+8.  Click on **Back** to return to the blueprints main window
 
-    **Copy the private key and public key to somewhere safe (notepad/notes) on your PC/Mac**
-
-    :::
-
-    ![](prov_vm_images/generate_rsa_key.png)
-
-    :::tip
-  
-    You can use any online ssh key generator if you are using Windows.
-
-    Execute the following commands in you are in a Linux / Mac environment to generate a private key.
-
-    ``` bash
-    ssh-keygen -t rsa -b 2048 -C "Created for OCP Workshop"
-
-    # follow prompts 
-    # do not specify passphrase
-    # once completed run the following command
-
-    cat id_rsa
-
-    # copy the contents of the id_rsa file to your Calm blueprint
-    ```
-    :::
-
-7.  Copy the **Private Key** and paste the generated primary key in the
-    bluprint's credential called **CRED**
-
-    ![](prov_vm_images/ocp_bp_save_cred.png)
-
-9.  Click on **Save**
-
-10. Click on **Back** to return to the blueprints main window
-
-11. You will notice a few warnings for KUBEADMIN and KUBECONFIG
+9.  You will notice a few warnings for KUBEADMIN and KUBECONFIG
     variables. These can be ignored as they will be auto-generated.
 
     ![](prov_vm_images/ocp_bp_warnings.png)
@@ -83,7 +73,7 @@ Now it is time to launch the provisioning VM blueprint.
 
 1.  Click on **Launch** button
 
-2.  Give the application a name *Initials*\_Prov_VM
+2.  Give the application a name **ocpuserXX_Prov_VM** (E.g ocpuser01_Prov_VM)
 
     ![](prov_vm_images/ocp_prov_vm_bp_launch.png)
 
@@ -98,12 +88,17 @@ Now it is time to launch the provisioning VM blueprint.
 
     ![](prov_vm_images/ocp_prov_vm_audit.png)
 
-7.  **Optional step** - You are also able to ssh into the provisioning
-    VM using the application\'s (if you are curious to see the
-    downloaded files for OCP setup) \> **Services** \> **Open Terminal**
-
+    ```mdx-code-block
+    <details>
+    <summary>Curious about what is happening inside the provisioning VM?</summary>
+    <div>
+    <body>
+    ```
+    You are able to ssh into the provisioning
+    VM using the NCM/Calm **Application** page  > **Services** > **Open Terminal**
+    
     ![](prov_vm_images/ocp_prov_vm_ssh.png)
-
+    
     ```zsh
     [core@Openshift-provisioning-0-211225-210356 ~]$ ls -lRh openshift/
     openshift/:
@@ -115,14 +110,19 @@ Now it is time to launch the provisioning VM blueprint.
     -rw-r--r--. 1 core   core    954 Nov  4 19:41 README.md
     -rw-rw-r--. 1 core   core   988M Dec 26 05:12 rhcos-live.x86_64.iso ## << this is RHCOS ISO
     drwxrwxr-x. 2 apache apache  105 Dec 26 05:12 web
-
+    
     openshift/web:
     total 144M
     -rw-rw-r--. 1 apache apache 7.3M Dec 26 05:12 coreos-installer 
     -rw-rw-r--. 1 apache apache  48M Dec 26 05:11 openshift-client-linux.tar.gz ## << this is OCP Client
     -rw-rw-r--. 1 apache apache  89M Dec 26 05:11 openshift-install-linux.tar.gz ## << this is OCP Server
     ```
-
+    ```mdx-code-block
+    </body>
+    </div>
+    </details>
+    ```
+    
 Now we have the provisioning VM up and running. This section of the lab is done.
 
 ![](prov_vm_images/ocp_lab_status_1.png)

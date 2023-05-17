@@ -1,7 +1,7 @@
 {
 	"status": {},
 	"contains_secrets": false,
-	"product_version": "3.6.0",
+	"product_version": "3.5.2",
 	"spec": {
 		"description": "",
 		"resources": {
@@ -350,7 +350,7 @@
 							"description": "",
 							"exec_target_reference": {
 								"kind": "app_endpoint",
-								"name": "OCP DNS Integration"
+								"name": "autoad"
 							},
 							"inherit_target": false,
 							"child_tasks_local_reference_list": [],
@@ -405,7 +405,7 @@
 							"description": "",
 							"exec_target_reference": {
 								"kind": "app_endpoint",
-								"name": "OCP DNS Integration"
+								"name": "autoad"
 							},
 							"inherit_target": false,
 							"child_tasks_local_reference_list": [],
@@ -862,7 +862,7 @@
 							"description": "",
 							"exec_target_reference": {
 								"kind": "app_endpoint",
-								"name": "OCP DNS Integration"
+								"name": "autoad"
 							},
 							"inherit_target": false,
 							"child_tasks_local_reference_list": [],
@@ -917,7 +917,7 @@
 							"description": "",
 							"exec_target_reference": {
 								"kind": "app_endpoint",
-								"name": "OCP DNS Integration"
+								"name": "autoad"
 							},
 							"inherit_target": false,
 							"child_tasks_local_reference_list": [],
@@ -1820,7 +1820,7 @@
 							"description": "",
 							"exec_target_reference": {
 								"kind": "app_endpoint",
-								"name": "OCP DNS Integration"
+								"name": "autoad"
 							},
 							"inherit_target": false,
 							"child_tasks_local_reference_list": [],
@@ -1875,7 +1875,7 @@
 							"description": "",
 							"exec_target_reference": {
 								"kind": "app_endpoint",
-								"name": "OCP DNS Integration"
+								"name": "autoad"
 							},
 							"inherit_target": false,
 							"child_tasks_local_reference_list": [],
@@ -2102,7 +2102,7 @@
 						"guest_customization": null,
 						"power_state": "ON",
 						"type": "",
-						"account_uuid": "b7a19aa0-d49c-4974-801a-cf3153f684bf",
+						"account_uuid": "8909b8aa-bab6-4469-be02-8060bcfed58a",
 						"boot_config": {
 							"boot_device": {
 								"type": "",
@@ -2121,7 +2121,7 @@
 								"kind": "app_package",
 								"type": "",
 								"name": "RHCOS47_BOOTSTRAP",
-								"uuid": "b0d4c46c-52b4-40d3-a795-6491ee808617"
+								"uuid": "64cd74a7-0392-461c-9f4b-e68b4bdc240a"
 							},
 							"type": "",
 							"disk_size_mib": 0,
@@ -2157,8 +2157,8 @@
 					"cluster_reference": {
 						"kind": "cluster",
 						"type": "",
-						"name": "PHX-POC190",
-						"uuid": "0005f9de-ff28-0511-0000-00000002acf5"
+						"name": "PHX-SPOC005-3",
+						"uuid": "0005fbd2-e014-2ed0-76a7-ac1f6b1c891b"
 					},
 					"categories": {}
 				},
@@ -2320,7 +2320,7 @@
 						"guest_customization": null,
 						"power_state": "ON",
 						"type": "",
-						"account_uuid": "b7a19aa0-d49c-4974-801a-cf3153f684bf",
+						"account_uuid": "8909b8aa-bab6-4469-be02-8060bcfed58a",
 						"boot_config": {
 							"boot_device": {
 								"type": "",
@@ -2339,7 +2339,7 @@
 								"kind": "app_package",
 								"type": "",
 								"name": "RHCOS47_BOOTSTRAP",
-								"uuid": "b0d4c46c-52b4-40d3-a795-6491ee808617"
+								"uuid": "64cd74a7-0392-461c-9f4b-e68b4bdc240a"
 							},
 							"type": "",
 							"disk_size_mib": 0,
@@ -2375,8 +2375,8 @@
 					"cluster_reference": {
 						"kind": "cluster",
 						"type": "",
-						"name": "PHX-POC190",
-						"uuid": "0005f9de-ff28-0511-0000-00000002acf5"
+						"name": "PHX-SPOC005-3",
+						"uuid": "0005fbd2-e014-2ed0-76a7-ac1f6b1c891b"
 					},
 					"categories": {}
 				},
@@ -2558,7 +2558,7 @@
 						},
 						"power_state": "ON",
 						"type": "",
-						"account_uuid": "b7a19aa0-d49c-4974-801a-cf3153f684bf",
+						"account_uuid": "8909b8aa-bab6-4469-be02-8060bcfed58a",
 						"boot_config": {
 							"boot_device": {
 								"type": "",
@@ -2577,7 +2577,7 @@
 								"kind": "app_package",
 								"type": "",
 								"name": "OpenshiftC8",
-								"uuid": "6ff42f52-81ea-4c6d-9ab3-e803b32c07eb"
+								"uuid": "3f85515c-fd78-4393-bd6f-0047fc7416fc"
 							},
 							"type": "",
 							"disk_size_mib": 0,
@@ -2599,8 +2599,8 @@
 					"cluster_reference": {
 						"kind": "cluster",
 						"type": "",
-						"name": "PHX-POC190",
-						"uuid": "0005f9de-ff28-0511-0000-00000002acf5"
+						"name": "PHX-SPOC005-3",
+						"uuid": "0005fbd2-e014-2ed0-76a7-ac1f6b1c891b"
 					},
 					"categories": {}
 				},
@@ -2786,7 +2786,7 @@
 						"guest_customization": null,
 						"power_state": "ON",
 						"type": "",
-						"account_uuid": "b7a19aa0-d49c-4974-801a-cf3153f684bf",
+						"account_uuid": "8909b8aa-bab6-4469-be02-8060bcfed58a",
 						"boot_config": {
 							"boot_device": {
 								"type": "",
@@ -2805,7 +2805,7 @@
 								"kind": "app_package",
 								"type": "",
 								"name": "RHCOS47_BOOTSTRAP",
-								"uuid": "b0d4c46c-52b4-40d3-a795-6491ee808617"
+								"uuid": "64cd74a7-0392-461c-9f4b-e68b4bdc240a"
 							},
 							"type": "",
 							"disk_size_mib": 0,
@@ -2841,8 +2841,8 @@
 					"cluster_reference": {
 						"kind": "cluster",
 						"type": "",
-						"name": "PHX-POC190",
-						"uuid": "0005f9de-ff28-0511-0000-00000002acf5"
+						"name": "PHX-SPOC005-3",
+						"uuid": "0005fbd2-e014-2ed0-76a7-ac1f6b1c891b"
 					},
 					"categories": {}
 				},
@@ -3397,7 +3397,7 @@
 							"child_tasks_local_reference_list": [],
 							"name": "Provisioning Setup",
 							"attrs": {
-								"script": "#!\/bin\/bash -e\n\nmkdir -p openshift\ncd openshift\n\n# Install dependencies\n# sudo yum -y update\nsudo yum -y install jq python3 socat wget podman git\n\n# Prepare kubernetes repos\n\ncat <<EOF | sudo tee \/etc\/yum.repos.d\/kubernetes.repo\n[kubernetes]\nname=Kubernetes\nbaseurl=https:\/\/packages.cloud.google.com\/yum\/repos\/kubernetes-el7-\\$basearch\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https:\/\/packages.cloud.google.com\/yum\/doc\/yum-key.gpg https:\/\/packages.cloud.google.com\/yum\/doc\/rpm-package-key.gpg\nexclude=kubelet kubeadm kubectl\nEOF\n\n# Install kubectl\n\nsudo yum install -y kubectl --disableexcludes=kubernetes\n\n# Download and install HELM \n\nwget https:\/\/get.helm.sh\/helm-v3.8.0-linux-amd64.tar.gz\n\nif [ $? -eq  0 ]\nthen\n  echo \"Helm 3.8 downloaded, moving to install Helm\"\nelse\n  echo \"Helm 3.8 download failed - check URL and connectivity\"\nfi\n\n# Unzip downloaded Helm and install\n\ntar xvf helm-v3.8.0-linux-amd64.tar.gz\nsudo mv linux-amd64\/helm \/usr\/local\/bin\n\n# Print HELM version\nwhich helm\n\nif [ $? -eq  0 ]\nthen\n  echo \"Helm is of $(helm version)\"\nelse\n  echo \"Helm 3.8 install failed - check URL and connectivity\"\nfi\n\n# Disable selinux\n#sudo setenforce 0\n#sudo sed -i.bkp -r 's\/(SELINUX=)enforcing\/\\1disabled\/g;s\/^SELINUXTYPE=targeted\/#&\/g' \/etc\/selinux\/config\n\n# Download Openshift installer\ncurl -o openshift-install-linux.tar.gz http:\/\/@@{PROVISIONING_VM}@@:8080\/openshift\/openshift-install-linux.tar.gz\ntar xzf openshift-install-linux.tar.gz\nsudo install -m 755 -o root openshift-install \/sbin\/\n\n# Download Openshift client\ncurl -o openshift-client-linux.tar.gz http:\/\/@@{PROVISIONING_VM}@@:8080\/openshift\/openshift-client-linux.tar.gz\ntar xzf openshift-client-linux.tar.gz\nsudo install -m 755 -o root oc \/sbin\/\n",
+								"script": "#!\/bin\/bash -e\n\nmkdir -p openshift\ncd openshift\n\n# Install dependencies\n# sudo yum -y update\nsudo yum -y install jq python3 socat wget podman git\n\n# Prepare kubernetes repos\n\ncat <<EOF | sudo tee \/etc\/yum.repos.d\/kubernetes.repo\n[kubernetes]\nname=Kubernetes\nbaseurl=https:\/\/packages.cloud.google.com\/yum\/repos\/kubernetes-el7-\\$basearch\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https:\/\/packages.cloud.google.com\/yum\/doc\/yum-key.gpg https:\/\/packages.cloud.google.com\/yum\/doc\/rpm-package-key.gpg\nexclude=kubelet kubeadm kubectl\nEOF\n\n# Install kubectl\n\nsudo yum install -y kubectl --disableexcludes=kubernetes\n\n# Download and install HELM \n\nretry_count=0\nmax_retries=3\nretry_delay=5 # in seconds\n\nwhile [[ $retry_count -lt $max_retries ]]; do\n  curl -LO https:\/\/get.helm.sh\/helm-v3.8.0-linux-amd64.tar.gz\n\n  if [ $? -eq 0 ]; then\n    echo \"download successful!\"\n    break\n  else\n    ((retry_count++))\n    echo \"Helm download failed. Retrying in $retry_delay seconds...\"\n    sleep $retry_delay\n  fi\ndone\n\nif [[ $retry_count -eq $max_retries ]]; then\n  echo \"Maximum number of retries reached. Failed to download helm.\"\nfi\n\n# Unzip downloaded Helm and install\n\ntar xvf helm-v3.8.0-linux-amd64.tar.gz\nsudo mv linux-amd64\/helm \/usr\/local\/bin\n\n# Print HELM version\nwhich helm\n\nif [ $? -eq  0 ]\nthen\n  echo \"Helm is of $(helm version)\"\nelse\n  echo \"Helm 3.8 install failed - check URL and connectivity\"\nfi\n\n# Disable selinux\n#sudo setenforce 0\n#sudo sed -i.bkp -r 's\/(SELINUX=)enforcing\/\\1disabled\/g;s\/^SELINUXTYPE=targeted\/#&\/g' \/etc\/selinux\/config\n\n# Download Openshift installer\ncurl -o openshift-install-linux.tar.gz http:\/\/@@{PROVISIONING_VM}@@:8080\/openshift\/openshift-install-linux.tar.gz\ntar xzf openshift-install-linux.tar.gz\nsudo install -m 755 -o root openshift-install \/sbin\/\n\n# Download Openshift client\ncurl -o openshift-client-linux.tar.gz http:\/\/@@{PROVISIONING_VM}@@:8080\/openshift\/openshift-client-linux.tar.gz\ntar xzf openshift-client-linux.tar.gz\nsudo install -m 755 -o root oc \/sbin\/\n",
 								"type": "",
 								"command_line_args": "",
 								"exit_status": [],
@@ -4467,14 +4467,14 @@
 			},
 			"type": "USER"
 		},
-		"name": "042713_OCP_Master_Worker"
+		"name": "ocpuser01_OCP_Master_Worker"
 	},
 	"api_version": "3.0",
 	"metadata": {
-		"last_update_time": "1682591431636420",
+		"last_update_time": "1684298115525595",
 		"kind": "blueprint",
-		"spec_version": 4,
-		"creation_time": "1682567853377905",
-		"name": "042713_OCP_Master_Worker"
+		"spec_version": 7,
+		"creation_time": "1684296098273100",
+		"name": "ocpuser01_OCP_Master_Worker"
 	}
 }

@@ -81,9 +81,9 @@ below) you chose while booking the cluster in [RX](https://rx.corp.nutanix.com/)
 
 Now we can proceed to setup pre-requistes and deploying blueprints.
 
-## Set up Calm Endpoint 
+## Confirm NCM/Calm Endpoint 
 
-Let's create a Calm endpoint for authentication, authorization and DNS updates for OCP cluster.
+<!-- Let's create a Calm endpoint for authentication, authorization and DNS updates for OCP cluster.
 
 1.  In **Prism Central** > **Services** > **Calm**
 
@@ -100,7 +100,7 @@ Let's create a Calm endpoint for authentication, authorization and DNS updates f
     -   **Project** - BootcampInfra
     -   **Type** - Windows
     -   **Target Type** - IP Addresses
-    -   **IP Address** - Your AutoAD VM IP (get from list of VMs)
+    -   **IP Address** - AutoAD (get from list of VMs)
     -   **Connection Protocol** - HTTP (default)
     -   **Port** - 5985 (default)
     -   **Username** - <administrator@ntnxlab.local>
@@ -109,13 +109,31 @@ Let's create a Calm endpoint for authentication, authorization and DNS updates f
 
     ![](import_bp_images/ocp_create_endpoint.png)
 
-5.  Click **Save**
+5.  Click **Save** -->
+
+Let's ensure that an endpoint exists for creation of DNS entries. 
+
+This endpoint point to the AutoAD ``Active Directory`` (AD) server which has DNS role installed. This AD server and NCM endpoint are pre-deployed in your HPOC cluster. 
+
+1.  In **Prism Central** > **Services** > **Calm**
+
+2.  Click on **Endpoint**
+
+3.  Click on **autoad** endpoint 
+   
+4.  Make sure the IP addresses is pointing to your AD server
+
+:::danger
+
+If this NCM Endpoint is not pointing to you AD server, let your lab instructor know and they will help you resolve the issue.
+
+:::
 
 ## Upload Blueprints
 
-1.  Download blueprint1 by right-clicking on this link [Provisioning VM](https://raw.githubusercontent.com/nutanix-japan/ocp-gitp/main/docs/ocp_ntnx_hci/XYZ_OCP_Prov_VM.json)
+1.  Download blueprint1 by right-clicking on this link [Provisioning VM](https://raw.githubusercontent.com/nutanix-japan/ocp-gitp/main/docs/ocp_ntnx_hci/XYZ_OCP_Prov_VM.json) and choosing **Download Linked File** as option. Your PC/Mac should present the file extension as `json` and continue with this.
 
-2.  Download blueprint2 by right-clicking on this link [OCP Master Worker](https://raw.githubusercontent.com/nutanix-japan/ocp-gitp/main/docs/ocp_ntnx_hci/XYZ_OCP_Master_Worker.json) and save as *Initials*_OCP_Master_Worker.json file (e.g XYZ_OCP_Master_Worker.json)
+2.  Download blueprint2 by right-clicking on this link [OCP Master Worker](https://raw.githubusercontent.com/nutanix-japan/ocp-gitp/main/docs/ocp_ntnx_hci/XYZ_OCP_Master_Worker.json) and save as *Initials*_OCP_Master_Worker.json file (e.g XYZ_OCP_Master_Worker.json)Your PC/Mac should present the file extension as `json` and continue with this.
 
 3.  In **Prism Central** > **Services** > **Calm**
 
@@ -125,7 +143,7 @@ Let's create a Calm endpoint for authentication, authorization and DNS updates f
 
 6.  Fill the following Details
 
-    -   **Blueprint Name** - XYZ_OCP_Prov_VM
+    -   **Blueprint Name** - ocpuserXX_OCP_Prov_VM (E.g. ocpuser01_OCP_Prov_VM)
     -   **Project** - BootcampInfra
 
     ![](import_bp_images/ocp_upload_bp.png)
@@ -135,8 +153,8 @@ Let's create a Calm endpoint for authentication, authorization and DNS updates f
 8.  Return to **Blueprints** and upload OC Master Worker
     Initials_OCP_Master_Worker.json blueprint
 
-    -   **Blueprint Name** - XYZ_OCP_Master_Worker
-    -   **Project** - BootcampInfra
+    -   **Blueprint Name** - ocpuserXX_OCP_Master_Worker (E.g.ocpuser01_OCP_Master_Worker)
+    -   **Project** - BootcampInfra 
 
     ![](import_bp_images/ocp_upload_bp_mw.png)
 

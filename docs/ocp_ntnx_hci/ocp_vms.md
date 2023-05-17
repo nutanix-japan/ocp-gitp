@@ -9,23 +9,23 @@ In this section we will deploy a OCP cluster using Nutanix Calm.
 
 As discussed in the previous section about the Calm blueprints,
 
-1.  Blueprint 1 (XYZ_OCP_Prov_VM) - provisions a OCP provisioning VM with Calm action to deploy OCP
-2.  Blueprint 2 (XYZ_OCP_Master_Worker) - is called by a Calm action in `Blueprint 1` with all the necessary information that `Blueprint 2` needs to run
+1.  Blueprint 1 (ocpuserXX_OCP_Prov_VM) - provisions a OCP provisioning VM with Calm action to deploy OCP
+2.  Blueprint 2 (ocpuserXX_OCP_Master_Worker) - is called by a Calm/NCM action in `Blueprint 1` with all the necessary information that `Blueprint 2` needs to run
 
-Since we sucessfully setup OCP provisioning VM, we have to do the following to proceed:
+Since we successfully setup OCP provisioning VM, we have to do the following to proceed:
 
 1.  Configure OCP VM Blueprint for environment information
 2.  Call the `Deploy OCP` action in Blueprint 1 to deploy OCP cluster
 
 ## Configuring OCP VM Blueprint
 
-In this section we will configure the environemnt for the OCP VM blueprint to run. This will include the following:
+In this section we will configure the environment for the OCP VM blueprint to run. This will include the following:
 
 -   Credentials (SSH Private Key) for the services
 -   Confirming OCP DNS endpoint for the services
 -   NICs are auto selected during execution
 
-:::caution Are Calm endpoints setup?
+:::caution Are the Calm endpoints setup and ready?
 
 Calm automatically assigns endpoint to Calm Actions as endpoint is created in your previous labs Calm endpoint section. It is important to confirm end points for actions in the lab.
 
@@ -37,20 +37,30 @@ Calm automatically assigns endpoint to Calm Actions as endpoint is created in yo
 
     We need to configure network and credentials for the blueprint so it can be deployed in your HPOC/SPOC.
 
-1.  Select your Provisioning VM `XYZ_OCP_Master_Worker` blueprint
+1.  Select your Provisioning VM `ocpuserXX_OCP_Master_Worker` blueprint
 
 2.  Click on **Credentials** (next to Save)
 
- 3.  Copy the same **Private Key** that you generated from the previous section and paste the generated primary key in the bluprints credential called **CRED**
+ 3.  Copy the same **Private Key** that you generated from the previous section and paste the generated primary key in the blueprints credential called **CRED**
 
     ![](ocp_vms_images/ocp_bp_save_cred.png)
 
 4.  Click on **Save**
 
-5.  Click on **Back** to return to the blueprints main window
+### Configure Nutanix Cluster for OCP VMs
 
-6.  You will notice a few warnings for KUBEADMIN and KUBECONFIG
-    variables. These can be ignored as they will be auto-generated.
+We will configure the cluster on which each of the OCP VM (Calm Services) should be hosted.
+
+1. Select the **Worker** service
+2. Under VM tab, choose your assigned cluster PHX-POCXXX 
+   
+   ![](ocp_vms_images/ocp_bp_service_cluster.png)
+
+3. Repeat this for Master, LB_DNS and bootstrap VMs to assign clusters for them
+
+4.  Click on **Back** to return to the blueprints main window
+
+### Configure Endpoints for Tasks
 
 Now we will check if OCP DNS endpoints are configured for the services.
 
@@ -61,23 +71,22 @@ Now we will check if OCP DNS endpoints are configured for the services.
 
     ![](ocp_vms_images/ocp_service_ep_confirm.png)
 
-3.  Confirm that the endpoint is the **OCP DNS Integration** that you
-    previously configured in `endpoint`{.interpreted-text role="ref"}
-    section
+3.  Confirm that the endpoint is the **autoad** that you
+    previously confirmed
 
-4.  Confirm the **OCP DNS Integration** for **Delete DNS Entry** task
+4.  Confirm the **autoad** for **Delete DNS Entry** task
 
-5.  Confirm the **OCP DNS Integration** endpoints for **Create DNS Entry** and **Delete DNS Entry** for the following services:
+5.  Confirm the **autoad** endpoints for **Create DNS Entry** and **Delete DNS Entry** for the following services:
 
     -   Bootstrap
     -   Master
 
 6.  If the endpoint is not assigned properly, correct the condition
 
-7.  Save the blueprint and confirm there are no validation errors
-    (warnings about KUBECONFIG (runtime variable) can be ignored)
+7.  Save the blueprint and confirm there are no validation errors (warnings about KUBECONFIG (runtime variable) can be ignored)
 
     ![](ocp_vms_images/ocp_bp_save_validation.png)
+
 
 ## Deploying OCP Cluster
 
@@ -101,10 +110,10 @@ Now we will check if OCP DNS endpoints are configured for the services.
 
     -   **Number of Workers** - 2
     -   **OCP_PULL_SECRET** - download/copy pull secret this from your Red Hat Portal [Login](https://console.redhat.com/openshift/install/pull-secret) (you will need Red Hat Portal Access)
-    -   **OCP_SUBDOMAIN** - Initials1 (e.g. **xyz1**)
-    -   **OCP_MACHINE_NETWORK** - provide your Primary network address for your HPOC/SPOC (e.g. 10.38.2.64/26 ) - check in your cluster reservation email/webpage
-    -   **OCP_BP** - name of the OCP_Master_Worker `blueprint2` that you
-        uploaded (e.g. XYZ_OCP_Master_Worker)
+    -   **OCP_SUBDOMAIN** - ocpuserXX (e.g. **ocpuser01**)
+    -   **OCP_MACHINE_NETWORK** - provide your Primary network address for your HPOC/SPOC (e.g. 10.38.2.64/26 ) - check in your cluster reservation [lookup](https://lookup.howntnx.win) webpage
+    -   **OCP_BP** - name of the ocpuserXX_OCP_Master_Worker `blueprint2` that you
+        uploaded (e.g. ocpuserXX_OCP_Master_Worker)
 
     :::caution Check your subdomain/ocp cluster name?
    
