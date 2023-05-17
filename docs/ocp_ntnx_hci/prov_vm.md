@@ -14,7 +14,11 @@ Before you proceed with the creating the Provisioning VM, you will need a SSH ke
 <body>
 ```
 Logon to your UserXX-LinuxToolsVM
-- Username -
+
+ > **Username**: root
+
+ > **Password**: default 
+ 
 ``` bash
 ssh-keygen -t rsa -b 2048 -f ~/.ssh/ocp   # << accept all default answers
 ls -l ~/.ssh/
@@ -122,7 +126,7 @@ Now it is time to launch the provisioning VM blueprint.
     </div>
     </details>
     ```
-    
+
 Now we have the provisioning VM up and running. This section of the lab is done.
 
 ![](prov_vm_images/ocp_lab_status_1.png)

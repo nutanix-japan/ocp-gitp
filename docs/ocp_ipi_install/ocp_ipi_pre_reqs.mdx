@@ -51,7 +51,7 @@ We will first find two IPs for OCP ``api`` and ``apps`` ingress endpoints in our
    
    ```bash
    yum update -y
-   yum install -y nmap
+   yum install -y bind-utils nmap
    ```
 
 3. Find two unused static IP addresses
@@ -147,19 +147,19 @@ Your OCP cluster's name becomes a subdomain in your DNS zone ``ntnxlab.local``. 
 3. Test name resolution for added entries
 
    ```PowerShell {6}
-   nslookup api.xyz.ntnxlab.local
+   nslookup api.ocpuser01.ntnxlab.local
    Server: dc.ntnxlab.local
    Address: 10.38.18.203
 
-   Name: api.xyz.ntnxlab.local
+   Name: api.ocpuser01.ntnxlab.local
    Address: 10.38.18.219 
    ```
    ```bash {6}
-   nslookup myapp.apps.xyz.ntnxlab.local
+   nslookup myapp.apps.ocpuser01.ntnxlab.local
    Server: dc.ntnxlab.local
    Address: 10.38.18.203
 
-   Name: myapp.apps.xyz.ntnxlab.local
+   Name: myapp.apps.ocpuser01.ntnxlab.local
    Address: 10.38.18.220
    ```
    ```bash {6}
