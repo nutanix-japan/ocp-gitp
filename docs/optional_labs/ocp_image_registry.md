@@ -49,7 +49,7 @@ In this section we will provision Nutanix Objects based S3 storage to serve as a
 
 5.  Select **Add people not in a directory service**
 
-6.  Enter your email and name
+6.  Enter a email (ocpuserXX@nutanix.com) and name (ocpuserXX)
 
     ![](ocp_image_registry_images/objects_access_key.png)
 
@@ -77,11 +77,11 @@ We will create a bucket for backup destination
 
 3.  Click on **Create Bucket**
 
-4.  Enter *Initials*-ocp-registry as the bucket name
+4.  Enter **ocpuserXX-registry** (E.g. ocpuser01-registry) as the bucket name
 
 5.  Click on **Create**
 
-6.  In the list of buckets, click on the *Initials*-ocp-registry bucket
+6.  In the list of buckets, click on the **ocpuserXX-registry** (E.g. ocpuser01-registry) bucket
 
 7.  Click on **User Access** menu and **Edit User Access**
 
@@ -250,7 +250,7 @@ In this section we will add nutanix objects store's DNS records for lookup by OC
     {"op": "remove", "path": "/spec/storage" },
     {"op": "add", "path": "/spec/storage", "value":
     {"s3":
-    {"bucket": "ocpXX-bucket-name",                        ### <<< REMEMBER TO USE YOUR BUCKET NAME
+    {"bucket": "ocpuserXX-bucket-name",                        ### <<< REMEMBER TO USE YOUR BUCKET NAME
     "regionEndpoint": "https://ntnx-objects.ntnxlab.local",
     "encrypt": false, 
     "region": "us-east-1"}}}]'
@@ -266,7 +266,7 @@ In this section we will add nutanix objects store's DNS records for lookup by OC
     {"op": "remove", "path": "/spec/storage" },
     {"op": "add", "path": "/spec/storage", "value":
     {"s3":
-    {"bucket": "ocp01-ocp-registry",                       ### <<< REMEMBER TO USE YOUR BUCKET NAME
+    {"bucket": "ocpuser01-ocp-registry",                       ### <<< REMEMBER TO USE YOUR BUCKET NAME
     "regionEndpoint": "https://ntnx-objects.ntnxlab.local",
     "encrypt": false, 
     "region": "us-east-1"}}}]'

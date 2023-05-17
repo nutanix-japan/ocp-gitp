@@ -504,12 +504,20 @@ In this section we will use Red Hat Console\'s Assisted Installer wizard to inst
 
     :::
 
-18. After adding DNS/hosts entries to your environment, use Windows Tools PC you can browse to the IP addresses, or DNS entries you have manually created you are able to login to OC console.
-
-    ![](images/ocp_console_ai.png)
+18. Copy/`scp` the contents of ``kubeconfig`` file to your UserXX-LinuxToolsVM
+    
+    ```bash title="Download and install oc command"
+    curl -LO https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/openshift-client-linux.tar.gz
+    tar xvfz openshift-client-linux.tar.gz
+    cp oc kubectl /usr/local/bin/
+    ```
+    ```bash
+    export KUBECONFIG=/path/to/kubeconfig-file
+    oc get nodes
+    # You are all set
+    ```
 
 You have successfully deployed a OCP cluster using Red Hat Console Assisted Installer.
-
 ## Takeaways
 
 -   You can easily deploy multinode/single node OCP cluster using the Red Hat console

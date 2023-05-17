@@ -140,3 +140,5 @@ Run through the following if you would like to delete the OCP cluster. This step
 IPI installation method is simple and consistent to deploy as after the pre-rquisites are setup once. 
 
 Customers can easily deploy as many OCP clusters on Nutanix HCI. 
+
+<!-- Now that you have finished IPI install, you can move on to the [OCP Command Access](/docs/ocp_access/ocp_access.md) section and then on to workloads section. -->

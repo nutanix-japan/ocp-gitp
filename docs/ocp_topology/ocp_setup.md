@@ -40,8 +40,6 @@ We have used OCP Assited Installer clusters implementation to install OCP softwa
 
 > You will need a Red Hat Console portal account for this
 
-See [OCP Assisted Install Steps](../ocp_assisted_install/ocp_assisted_install.mdx) for details. The number of worker nodes will vary in this procedure. 
-
 ## OCP Installation
 
 The following steps include OCP installation:

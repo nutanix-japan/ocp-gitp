@@ -248,50 +248,70 @@ Nutanix CSI can be installed using ``helm`` charts as well as you would do in an
     nutanix-volumes(default)   csi.nutanix.com   Delete          Immediate           true                   4m
     ```
 
-10. > Skip this step if you have created OCP cluster using ``IPI install`` method from this documentation site.
+### Starting iSCSI Daemons on OCP Nodes/VMs 
 
-    Create a machine config to make sure iSCSI service starts in worker and master nodes. 
+:::caution Did you use IPI method?
 
-    ```bash title="Start iSCSI service for worker nodes"
-    cat << EOF | oc apply -f -
-    apiVersion: machineconfiguration.openshift.io/v1
-    kind: MachineConfig
-    metadata:
-      labels:
-        machineconfiguration.openshift.io/role: worker
-      name: 99-worker-custom-enable-iscsid
-    spec:
-      config:
-        ignition:
-          version: 3.1.0
-      systemd:
-        units:
-         - enabled: true
-           name: iscsid.service
-    EOF
-    ```
+Skip this step if you have created OCP cluster using ``IPI install`` method from this documentation site.
 
-    ```bash title="Optional - Start iSCSI service for masters nodes"
-    cat << EOF | oc apply -f -
-    apiVersion: machineconfiguration.openshift.io/v1
-    kind: MachineConfig
-    metadata:
-      labels:
-        machineconfiguration.openshift.io/role: master
-      name: 99-master-custom-enable-iscsid
-    spec:
-      config:
-        ignition:
-          version: 3.1.0
-      systemd:
-        units:
-         - enabled: true
-           name: iscsid.service
-    EOF
-    ```
+Move on to testing PVC section. 
+
+:::
+
+```mdx-code-block
+<details>
+<summary>Instructions to create MachineConfig to enable iSCSI Daemons</summary>
+<div>
+<body>
+```
+Create a machine config to make sure iSCSI service starts in worker and master nodes. 
+
+```bash title="Start iSCSI service for worker nodes"
+cat << EOF | oc apply -f -
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  labels:
+    machineconfiguration.openshift.io/role: worker
+  name: 99-worker-custom-enable-iscsid
+spec:
+  config:
+    ignition:
+      version: 3.1.0
+  systemd:
+    units:
+      - enabled: true
+        name: iscsid.service
+EOF
+```
+
+```bash title="Optional - Start iSCSI service for masters nodes"
+cat << EOF | oc apply -f -
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  labels:
+    machineconfiguration.openshift.io/role: master
+  name: 99-master-custom-enable-iscsid
+spec:
+  config:
+    ignition:
+      version: 3.1.0
+  systemd:
+    units:
+      - enabled: true
+        name: iscsid.service
+EOF
+```
 
 We have sucessfully installed Nutanix StorageClass so we can provision Physical Volumes (PV) and Physical Volume Claims (PVC) for the applications we will be deploying in this OCP cluster.
 
+```mdx-code-block
+</body>
+</div>
+</details>
+```
+<!-- 
 ## Install StorageClass with Nutanix Files
 
 Nutanix CSI with Nutanix Files as a target provides ReadWriteMany (RWM) capabilities meaning many pods can write to to the target storage at the same time.
@@ -364,7 +384,7 @@ Let's create a new share to provide it as a storage location for our storage cla
 
 -->
 
-### Create File Share as a CSI target
+<!-- ### Create File Share as a CSI target
 
 1. Use the following yaml file to create a storage class with Nutanix files as destination
 
@@ -416,9 +436,9 @@ Let's create a new share to provide it as a storage location for our storage cla
    nutanix-volumes (default)  csi.nutanix.com   Delete          Immediate           true                   17m   
    ```
 
-Now that you have deployed two storage classes with backend storage of Nutanix Volumes and Files, it is also a good idea to test whether you can create persistent volume claims. 
+Now that you have deployed two storage classes with backend storage of Nutanix Volumes and Files, it is also a good idea to test whether you can create persistent volume claims.  --> -->
 
-### Testing PVCs
+## Testing PVCs
 
 Here are some sample manifests to create ``pvc`` using the ``Volumes`` and ``Files`` offering from Nutanix.
 
@@ -440,26 +460,7 @@ Here are some sample manifests to create ``pvc`` using the ``Volumes`` and ``Fil
          storage: 1Gi
     EOF
     ```
-
-2.  Test creating pvc using **Files**
-
-    ``` bash 
-    cat << EOF | oc apply -f -
-    apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-     name: test-files-pvc
-    spec:
-     storageClassName: nutanix-dynfiles
-     accessModes:
-       - ReadWriteMany                  ## << Note that Files SC can be Read Write Many
-     volumeMode: Filesystem
-     resources:
-       requests:
-         storage: 1Gi
-    EOF
-    ```
-
+    
 <details>
 <summary>Are your pvc(s) not bound?</summary>
 <div>

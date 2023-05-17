@@ -18,12 +18,12 @@ module.exports = {
                 label: 'Nutanix Cloud Manager (NCM) Installation',
                 items: ['ocp_ntnx_hci/import_bp',
                         'ocp_ntnx_hci/prov_vm',
-                        'ocp_ntnx_hci/ocp_vms',
-                        'ocp_ntnx_hci/ocp_scale_out_in'],
+                        'ocp_ntnx_hci/ocp_vms'],
               },
               "ocp_assisted_install/ocp_assisted_install",
             ]
     },
+    'ocp_access/ocp_access',
     {
       type: 'category',
       label: 'Nutanix Storage CSI',
@@ -43,7 +43,8 @@ module.exports = {
       type: 'category',
       label: 'OCP Optional Labs',
       items: [
-              'optional_labs/ocp_idp'],
+              'optional_labs/ocp_idp',
+              'ocp_ntnx_hci/ocp_scale_out_in'],
     },
     // {
     //   type: 'category',
