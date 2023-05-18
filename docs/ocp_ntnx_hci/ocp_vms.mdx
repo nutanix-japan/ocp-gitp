@@ -137,21 +137,21 @@ Now we will check if OCP DNS endpoints are configured for the services.
     ![](ocp_vms_images/ocp_deploy_audit.png)
 
 10. If this action launch is succesful, you will see another application
-    **ocpuserXX** in the **Calm** > **Applications** in a **Provisioning** state (this might take up to 5 minutes to show up in the Web UI)
+    **Openshift ocpuserXX** in the **Calm** > **Applications** in a **Provisioning** state (this might take up to 5 minutes to show up in the Web UI)
 
     ![](ocp_vms_images/ocp_app_provisioning.png)
 
-11. Click on the **Openshift xyz1** application and go to **Audit** tab
+11. Click on the **Openshift ocpuserXX** application and go to **Audit** tab
 
 12. Observe the VM create, package install and other Calm actions
 
 13. This should take about 30-35 minutes
 
-14. Meanwhile you can notice that Prism Central\'s event will be getting
+14. Meanwhile you can notice that Prism Central's event will be getting
     quite busy. This is a result of VMs, storage, etc,. getting
     provisioned by Calm using REST calls to Prism Cental
 
-15. Once deployed the Calm application **Openshift ocp1 XYZ** will be in
+15. Once deployed the Calm application **Openshift ocpuserXX** will be in
     a running state
 
     ![](ocp_vms_images/ocp_prov_vm_audit.png)
@@ -170,7 +170,7 @@ We have completed this section of the lab where our OCP cluster is sucessfully d
 
 1.  In **Calm** > **Applications**
 
-2.  Click on the **Openshift xyz1** application and go to **Audit** tab
+2.  Click on the **Openshift userXX** application and go to **Audit** tab
 
 3.  Go to the end of the audit trail and look for **OS_Status_Check
     Start** task and expand
@@ -195,4 +195,8 @@ We have completed this section of the lab where our OCP cluster is sucessfully d
 
 6.  Note this down as you will need these credentials to logon to the OCP cluster managment console
 
-<!-- Now that you have finished IPI install, you can move on to the [OCP Command Access](/docs/ocp_access/ocp_access.md) section and then on to workloads section. -->
+:::note
+
+Now that you have finished IPI install, you can move on to the **OCP Command Access** section and then on to workloads section.
+
+:::

@@ -141,4 +141,8 @@ IPI installation method is simple and consistent to deploy as after the pre-rqui
 
 Customers can easily deploy as many OCP clusters on Nutanix HCI. 
 
-<!-- Now that you have finished IPI install, you can move on to the [OCP Command Access](/docs/ocp_access/ocp_access.md) section and then on to workloads section. -->
+:::note
+
+Now that you have finished Assisted install, you can move on to the **OCP Command Access** section and then on to workloads section.
+
+:::

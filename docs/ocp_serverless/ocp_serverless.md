@@ -38,3 +38,5 @@ OCP has Integrated Source to Image [S2I](https://github.com/openshift/source-to-
 4. Deploy application to OCP cluster
 5. Expose the application and access
 
+
+
