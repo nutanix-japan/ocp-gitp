@@ -1,0 +1,726 @@
+{
+	"status": {},
+	"contains_secrets": false,
+	"product_version": "3.5.2",
+	"spec": {
+		"description": "",
+		"resources": {
+			"client_attrs": {
+				"2d947222_deployment": {
+					"y": 385.5,
+					"x": 687.5
+				}
+			},
+			"service_definition_list": [{
+				"singleton": false,
+				"action_list": [{
+					"description": "System action for creating an application",
+					"type": "system",
+					"critical": false,
+					"runbook": {
+						"task_definition_list": [{
+							"target_any_local_reference": {
+								"kind": "app_service",
+								"name": "Gitea"
+							},
+							"retries": "0",
+							"description": "",
+							"inherit_target": false,
+							"child_tasks_local_reference_list": [],
+							"name": "74a872f1_dag",
+							"attrs": {
+								"edges": [],
+								"type": ""
+							},
+							"timeout_secs": "0",
+							"type": "DAG",
+							"variable_list": []
+						}],
+						"description": "",
+						"name": "a4653cec_runbook",
+						"main_task_local_reference": {
+							"kind": "app_task",
+							"name": "74a872f1_dag"
+						},
+						"variable_list": []
+					},
+					"name": "action_create"
+				}, {
+					"description": "System action for deleting an application. Deletes created VMs as well",
+					"type": "system",
+					"critical": false,
+					"runbook": {
+						"task_definition_list": [{
+							"target_any_local_reference": {
+								"kind": "app_service",
+								"name": "Gitea"
+							},
+							"retries": "0",
+							"description": "",
+							"inherit_target": false,
+							"child_tasks_local_reference_list": [],
+							"name": "a62c379a_dag",
+							"attrs": {
+								"edges": [],
+								"type": ""
+							},
+							"timeout_secs": "0",
+							"type": "DAG",
+							"variable_list": []
+						}],
+						"description": "",
+						"name": "4d49b062_runbook",
+						"main_task_local_reference": {
+							"kind": "app_task",
+							"name": "a62c379a_dag"
+						},
+						"variable_list": []
+					},
+					"name": "action_delete"
+				}, {
+					"description": "System action for starting an application",
+					"type": "system",
+					"critical": false,
+					"runbook": {
+						"task_definition_list": [{
+							"target_any_local_reference": {
+								"kind": "app_service",
+								"name": "Gitea"
+							},
+							"retries": "0",
+							"description": "",
+							"inherit_target": false,
+							"child_tasks_local_reference_list": [{
+								"kind": "app_task",
+								"name": "Task 1"
+							}],
+							"name": "74cd1dbe_dag",
+							"attrs": {
+								"edges": [],
+								"type": ""
+							},
+							"timeout_secs": "0",
+							"type": "DAG",
+							"variable_list": []
+						}, {
+							"target_any_local_reference": {
+								"kind": "app_service",
+								"name": "Gitea"
+							},
+							"retries": "0",
+							"description": "",
+							"inherit_target": false,
+							"child_tasks_local_reference_list": [],
+							"name": "Task 1",
+							"attrs": {
+								"exit_status": [],
+								"script": "udo setenforce 0\nsudo sed -i 's\/^SELINUX=.*\/SELINUX=permissive\/g' \/etc\/selinux\/config",
+								"script_type": "sh",
+								"type": "",
+								"command_line_args": "",
+								"login_credential_local_reference": {
+									"kind": "app_credential",
+									"name": "CRED"
+								}
+							},
+							"timeout_secs": "0",
+							"type": "EXEC",
+							"variable_list": []
+						}],
+						"description": "",
+						"name": "b22cef94_runbook",
+						"main_task_local_reference": {
+							"kind": "app_task",
+							"name": "74cd1dbe_dag"
+						},
+						"variable_list": []
+					},
+					"name": "action_start"
+				}, {
+					"description": "System action for stopping an application",
+					"type": "system",
+					"critical": false,
+					"runbook": {
+						"task_definition_list": [{
+							"target_any_local_reference": {
+								"kind": "app_service",
+								"name": "Gitea"
+							},
+							"retries": "0",
+							"description": "",
+							"inherit_target": false,
+							"child_tasks_local_reference_list": [],
+							"name": "667a2a86_dag",
+							"attrs": {
+								"edges": [],
+								"type": ""
+							},
+							"timeout_secs": "0",
+							"type": "DAG",
+							"variable_list": []
+						}],
+						"description": "",
+						"name": "51885364_runbook",
+						"main_task_local_reference": {
+							"kind": "app_task",
+							"name": "667a2a86_dag"
+						},
+						"variable_list": []
+					},
+					"name": "action_stop"
+				}, {
+					"description": "System action for restarting an application",
+					"type": "system",
+					"critical": false,
+					"runbook": {
+						"task_definition_list": [{
+							"target_any_local_reference": {
+								"kind": "app_service",
+								"name": "Gitea"
+							},
+							"retries": "0",
+							"description": "",
+							"inherit_target": false,
+							"child_tasks_local_reference_list": [],
+							"name": "38ec7abf_dag",
+							"attrs": {
+								"edges": [],
+								"type": ""
+							},
+							"timeout_secs": "0",
+							"type": "DAG",
+							"variable_list": []
+						}],
+						"description": "",
+						"name": "cd444bb1_runbook",
+						"main_task_local_reference": {
+							"kind": "app_task",
+							"name": "38ec7abf_dag"
+						},
+						"variable_list": []
+					},
+					"name": "action_restart"
+				}],
+				"depends_on_list": [],
+				"name": "Gitea",
+				"port_list": [],
+				"tier": "",
+				"variable_list": [],
+				"description": ""
+			}],
+			"substrate_definition_list": [{
+				"description": "",
+				"action_list": [],
+				"type": "AHV_VM",
+				"name": "VM1",
+				"readiness_probe": {
+					"connection_type": "SSH",
+					"retries": "5",
+					"connection_protocol": "",
+					"connection_port": 22,
+					"address": "@@{platform.status.resources.nic_list[0].ip_endpoint_list[0].ip}@@",
+					"delay_secs": "60",
+					"disable_readiness_probe": false,
+					"login_credential_local_reference": {
+						"kind": "app_credential",
+						"name": "CRED"
+					}
+				},
+				"os_type": "Linux",
+				"create_spec": {
+					"name": "vm-@@{calm_array_index}@@-@@{calm_time}@@",
+					"resources": {
+						"nic_list": [{
+							"nic_type": "NORMAL_NIC",
+							"vpc_reference": null,
+							"ip_endpoint_list": [],
+							"network_function_chain_reference": null,
+							"network_function_nic_type": "INGRESS",
+							"mac_address": "",
+							"subnet_reference": {
+								"kind": "subnet",
+								"type": "",
+								"name": "",
+								"uuid": "e75cbc5b-988f-497c-8efc-3495649c7d8d"
+							},
+							"type": ""
+						}],
+						"serial_port_list": [],
+						"guest_tools": null,
+						"num_vcpus_per_socket": 1,
+						"num_sockets": 4,
+						"gpu_list": [],
+						"memory_size_mib": 8192,
+						"parent_reference": null,
+						"hardware_clock_timezone": "",
+						"guest_customization": {
+							"cloud_init": {
+								"meta_data": "",
+								"type": "",
+								"user_data": "#cloud-config\n\n# Set the hostname\nhostname: git\n\nusers:\n  - name: @@{CRED.username}@@\n    ssh-authorized-keys:\n      - @@{CRED.public_key}@@\n    sudo: ['ALL=(ALL) NOPASSWD:ALL']\n    \nwrite_files:\n  - path: \/etc\/NetworkManager\/conf.d\/90-dns-none.conf\n    content: |\n      [main]\n      dns=none"
+							},
+							"type": "",
+							"sysprep": null
+						},
+						"power_state": "ON",
+						"type": "",
+						"account_uuid": "1b13e5d6-6a61-401f-b819-7a7dbc812ded",
+						"boot_config": {
+							"boot_device": {
+								"type": "",
+								"disk_address": {
+									"type": "",
+									"device_index": 0,
+									"adapter_type": "SCSI"
+								}
+							},
+							"type": "",
+							"boot_type": "LEGACY",
+							"mac_address": ""
+						},
+						"disk_list": [{
+							"data_source_reference": {
+								"kind": "app_package",
+								"type": "",
+								"name": "CENTOS8",
+								"uuid": "30a9fc3a-57b4-ca8c-5449-25992fe2581a"
+							},
+							"type": "",
+							"disk_size_mib": 0,
+							"volume_group_reference": null,
+							"device_properties": {
+								"type": "",
+								"disk_address": {
+									"type": "",
+									"device_index": 0,
+									"adapter_type": "SCSI"
+								},
+								"device_type": "DISK"
+							}
+						}]
+					},
+					"availability_zone_reference": null,
+					"backup_policy": null,
+					"type": "",
+					"cluster_reference": {
+						"kind": "cluster",
+						"type": "",
+						"name": "PHX-SPOC002-3",
+						"uuid": "0005f991-7f67-4116-699a-ac1f6b6e5556"
+					},
+					"categories": {}
+				},
+				"variable_list": []
+			}],
+			"credential_definition_list": [{
+				"username": "nutanix",
+				"description": "",
+				"type": "KEY",
+				"secret": {
+					"attrs": {
+						"is_secret_modified": false,
+						"secret_reference": {}
+					}
+				},
+				"name": "CRED",
+				"cred_class": "static"
+			}],
+			"package_definition_list": [{
+				"description": "",
+				"action_list": [],
+				"type": "DEB",
+				"service_local_reference_list": [{
+					"kind": "app_service",
+					"name": "Gitea"
+				}],
+				"name": "Package1",
+				"version": "",
+				"options": {
+					"install_runbook": {
+						"task_definition_list": [{
+							"target_any_local_reference": {
+								"kind": "app_package",
+								"name": "Package1"
+							},
+							"retries": "0",
+							"description": "",
+							"inherit_target": false,
+							"child_tasks_local_reference_list": [{
+								"kind": "app_task",
+								"name": "Upgrade and install packages"
+							}, {
+								"kind": "app_task",
+								"name": "Prepare Users and Directories"
+							}, {
+								"kind": "app_task",
+								"name": "Install MySQL"
+							}, {
+								"kind": "app_task",
+								"name": "Create DB"
+							}, {
+								"kind": "app_task",
+								"name": "Install and Configure Gitea"
+							}, {
+								"kind": "app_task",
+								"name": "Install and configure NGINX"
+							}, {
+								"kind": "app_task",
+								"name": "AddDNSEntry"
+							}],
+							"name": "01bb7103_dag",
+							"attrs": {
+								"edges": [{
+									"from_task_reference": {
+										"kind": "app_task",
+										"name": "Prepare Users and Directories"
+									},
+									"edge_type": "user_defined",
+									"type": "",
+									"to_task_reference": {
+										"kind": "app_task",
+										"name": "Install MySQL"
+									}
+								}, {
+									"from_task_reference": {
+										"kind": "app_task",
+										"name": "Install MySQL"
+									},
+									"edge_type": "user_defined",
+									"type": "",
+									"to_task_reference": {
+										"kind": "app_task",
+										"name": "Create DB"
+									}
+								}, {
+									"from_task_reference": {
+										"kind": "app_task",
+										"name": "Create DB"
+									},
+									"edge_type": "user_defined",
+									"type": "",
+									"to_task_reference": {
+										"kind": "app_task",
+										"name": "Install and Configure Gitea"
+									}
+								}, {
+									"from_task_reference": {
+										"kind": "app_task",
+										"name": "Install and Configure Gitea"
+									},
+									"edge_type": "user_defined",
+									"type": "",
+									"to_task_reference": {
+										"kind": "app_task",
+										"name": "Install and configure NGINX"
+									}
+								}, {
+									"from_task_reference": {
+										"kind": "app_task",
+										"name": "Upgrade and install packages"
+									},
+									"edge_type": "user_defined",
+									"type": "",
+									"to_task_reference": {
+										"kind": "app_task",
+										"name": "Prepare Users and Directories"
+									}
+								}, {
+									"from_task_reference": {
+										"kind": "app_task",
+										"name": "Install and configure NGINX"
+									},
+									"edge_type": "user_defined",
+									"type": "",
+									"to_task_reference": {
+										"kind": "app_task",
+										"name": "AddDNSEntry"
+									}
+								}],
+								"type": ""
+							},
+							"timeout_secs": "0",
+							"type": "DAG",
+							"variable_list": []
+						}, {
+							"target_any_local_reference": {
+								"kind": "app_service",
+								"name": "Gitea"
+							},
+							"retries": "0",
+							"description": "",
+							"inherit_target": false,
+							"child_tasks_local_reference_list": [],
+							"name": "Upgrade and install packages",
+							"attrs": {
+								"exit_status": [],
+								"script": "#!\/bin\/bash -e\n\n# Get machine IP\nMACHINE_IP=\"@@{address}@@\"\nSSH_USER=\"@@{CRED.username}@@\"\n\n# Inject ssh key pair into the VM for provisioning support\nmkdir -m 700 -p ~\/.ssh\ncat <<EOF >~\/.ssh\/id_rsa\n@@{CRED.secret}@@\nEOF\nchmod 600 ~\/.ssh\/id_rsa\ncat <<EOF > ~\/.ssh\/id_rsa.pub\n@@{CRED.public_key}@@\nEOF\n\n# Update resolv.conf\n# Env setup\nmkdir -p openshift\ncd openshift\n\n# Install dependencies\nsudo yum -y update\nsudo yum -y install git bind-utils nmap curl wget python3 python3-pip bash-completion\n\n# Disable selinux\nsudo setenforce 0\nsudo sed -i.bkp -r 's\/(SELINUX=)enforcing\/\\1disabled\/g;s\/^SELINUXTYPE=targeted\/#&\/g' \/etc\/selinux\/config\n",
+								"script_type": "sh",
+								"type": "",
+								"command_line_args": "",
+								"login_credential_local_reference": {
+									"kind": "app_credential",
+									"name": "CRED"
+								}
+							},
+							"timeout_secs": "0",
+							"type": "EXEC",
+							"variable_list": []
+						}, {
+							"target_any_local_reference": {
+								"kind": "app_service",
+								"name": "Gitea"
+							},
+							"retries": "0",
+							"description": "",
+							"inherit_target": false,
+							"child_tasks_local_reference_list": [],
+							"name": "Prepare Users and Directories",
+							"attrs": {
+								"exit_status": [],
+								"script": "\n\n# Add git user\n\nsudo useradd \\\n   --system \\\n   --shell \/bin\/bash \\\n   --comment 'Git Version Control' \\\n   --create-home \\\n   --home \/home\/git \\\n   git\nsleep 10\n\n## Prepare Directory Structure\n\nsudo mkdir -p \/etc\/gitea \/var\/lib\/gitea\/{custom,data,indexers,public,log}\nsudo chown git:git \/var\/lib\/gitea\/{data,indexers,log}\nsudo chmod 750 \/var\/lib\/gitea\/{data,indexers,log}\nsudo chown root:git \/etc\/gitea\nsudo chmod 770 \/etc\/gitea\n\n\n\n\n",
+								"script_type": "sh",
+								"type": "",
+								"command_line_args": "",
+								"login_credential_local_reference": {
+									"kind": "app_credential",
+									"name": "CRED"
+								}
+							},
+							"timeout_secs": "0",
+							"type": "EXEC",
+							"variable_list": []
+						}, {
+							"target_any_local_reference": {
+								"kind": "app_service",
+								"name": "Gitea"
+							},
+							"retries": "0",
+							"description": "",
+							"inherit_target": false,
+							"child_tasks_local_reference_list": [],
+							"name": "Install MySQL",
+							"attrs": {
+								"exit_status": [],
+								"script": "# Install MariaDB and Stuff\n\necho \"Starting to download MariaDB...\"\ncurl -LsS https:\/\/downloads.mariadb.com\/MariaDB\/mariadb_repo_setup | sudo bash -s --\nif [ $? -eq  0 ]\nthen\n  echo \"MariaDB 3.8 downloaded, moving to install\"\nelse\n  echo \"MariaDB 3.8 download failed - check URL and connectivity\"\nfi\nsleep 5\n\nsudo yum -y install epel-release\n\necho \"Starting to install MariaDB...\"\nsudo yum -y install MariaDB-server MariaDB-client MariaDB-backup\nif [ $? -eq  0 ]\nthen\n  echo \"MariaDB 3.8 install successful, moving to enable MariaDB\"\n  sudo systemctl enable --now mariadb\n  echo \"MariaDB 3.8 enabled\"\nelse\n  echo \"MariaDB 3.8 install failed - check URL and connectivity\"\nfi\nsleep 5\n\n",
+								"script_type": "sh",
+								"type": "",
+								"command_line_args": "",
+								"login_credential_local_reference": {
+									"kind": "app_credential",
+									"name": "CRED"
+								}
+							},
+							"timeout_secs": "0",
+							"type": "EXEC",
+							"variable_list": []
+						}, {
+							"target_any_local_reference": {
+								"kind": "app_service",
+								"name": "Gitea"
+							},
+							"retries": "0",
+							"description": "",
+							"inherit_target": false,
+							"child_tasks_local_reference_list": [],
+							"name": "Create DB",
+							"attrs": {
+								"exit_status": [],
+								"script": "# Create Script\n\ncat << EOF > setup_gitea.sh\n#!\/bin\/bash\n\nsudo mysql -u root <<EOF\nCREATE DATABASE gitea;\nGRANT ALL PRIVILEGES ON gitea.* TO 'gitea'@'localhost' IDENTIFIED BY 'StrongPassword';\nFLUSH PRIVILEGES;\nexit\nEOF\n\nchmod +x setup_gitea.sh\n\nsudo .\/setup_gitea.sh\nif [ $? -eq  0 ]\nthen\n  echo \"Gitea DB created successfully\"\nelse\n  echo \"Issues creating Gitea DB, check logs.. \"\nfi\n",
+								"script_type": "sh",
+								"type": "",
+								"command_line_args": "",
+								"login_credential_local_reference": {
+									"kind": "app_credential",
+									"name": "CRED"
+								}
+							},
+							"timeout_secs": "0",
+							"type": "EXEC",
+							"variable_list": []
+						}, {
+							"target_any_local_reference": {
+								"kind": "app_service",
+								"name": "Gitea"
+							},
+							"retries": "0",
+							"description": "",
+							"inherit_target": false,
+							"child_tasks_local_reference_list": [],
+							"name": "Install and Configure Gitea",
+							"attrs": {
+								"exit_status": [],
+								"script": "# Dowload Gitea\n\ncurl -s  https:\/\/api.github.com\/repos\/go-gitea\/gitea\/releases\/latest |grep browser_download_url  |  cut -d '\"' -f 4  | grep '\\linux-amd64$' | wget -i -\n\nif [ $? -eq  0 ]\nthen\n  echo \"Gitea downloaded, moving to install Gitea\"\n  chmod +x gitea-*-linux-amd64\n  sudo mv gitea-*-linux-amd64 \/usr\/local\/bin\/gitea\n  sudo chmod +x \/usr\/local\/bin\/gitea\n  gitea --version\nelse\n  echo \"Gitea download failed - check URL and connectivity\"\nfi\n\n# Creating Gitea Service Descriptor\n\ncat << EOF > gitea.service\n[Unit]\nDescription=Gitea (Git with a cup of tea)\nAfter=syslog.target\nAfter=network.target\nAfter=mariadb.service\n\n[Service]\n# Modify these two values and uncomment them if you have\n# repos with lots of files and get an HTTP error 500 because\n# of that\n###\n#LimitMEMLOCK=infinity\n#LimitNOFILE=65535\nRestartSec=2s\nType=simple\nUser=git\nGroup=git\nWorkingDirectory=\/var\/lib\/gitea\/\nExecStart=\/usr\/local\/bin\/gitea web -c \/etc\/gitea\/app.ini\nRestart=always\nEnvironment=USER=git HOME=\/home\/git GITEA_WORK_DIR=\/var\/lib\/gitea\n# If you want to bind Gitea to a port below 1024 uncomment\n# the two values below\n###\n#CapabilityBoundingSet=CAP_NET_BIND_SERVICE\n#AmbientCapabilities=CAP_NET_BIND_SERVICE\n\n[Install]\nWantedBy=multi-user.target\nEOF\n\n\nsudo mv gitea.service \/etc\/systemd\/system\/gitea.service\nsudo chown root:root \/etc\/systemd\/system\/gitea.service\n\n\nif [ $? -eq  0 ]\nthen\n  echo \"Service descriptor created, moving to enable gitea service\"\n  sudo systemctl daemon-reload\n  sudo systemctl restart gitea\n  sudo systemctl enable gitea\nelse\n  echo \"Service descriptor creation failed - check your command\"\nfi\n\necho \"Final check to see if the gitea service is running on port 3000\"\n\nsudo ss -tunelp | grep -i gitea\nif [ $? -eq  0 ]\nthen\n  echo \"ss command worked\"\nelse\n  echo \"ss command failed - check your command\"\nfi\n",
+								"script_type": "sh",
+								"type": "",
+								"command_line_args": "",
+								"login_credential_local_reference": {
+									"kind": "app_credential",
+									"name": "CRED"
+								}
+							},
+							"timeout_secs": "0",
+							"type": "EXEC",
+							"variable_list": []
+						}, {
+							"target_any_local_reference": {
+								"kind": "app_service",
+								"name": "Gitea"
+							},
+							"retries": "0",
+							"description": "",
+							"inherit_target": false,
+							"child_tasks_local_reference_list": [],
+							"name": "Install and configure NGINX",
+							"attrs": {
+								"exit_status": [],
+								"script": "sudo yum install -y nginx\n\nsudo cat << EOF > gitea.conf\nserver {\n    listen 80;\n    server_name  git.ntnxlab.local;\n\n    location \/ {\n        proxy_pass http:\/\/localhost:3000;\n    }\n}\nEOF\n\nsudo mv gitea.conf \/etc\/nginx\/conf.d\/gitea.conf\nsudo chown root:root \/etc\/nginx\/conf.d\/gitea.conf\n\n\nsudo systemctl restart nginx",
+								"script_type": "sh",
+								"type": "",
+								"command_line_args": "",
+								"login_credential_local_reference": {
+									"kind": "app_credential",
+									"name": "CRED"
+								}
+							},
+							"timeout_secs": "0",
+							"type": "EXEC",
+							"variable_list": []
+						}, {
+							"target_any_local_reference": {
+								"kind": "app_service",
+								"name": "Gitea"
+							},
+							"retries": "0",
+							"description": "",
+							"exec_target_reference": {
+								"kind": "app_endpoint",
+								"name": "OCP DNS Integration"
+							},
+							"inherit_target": false,
+							"child_tasks_local_reference_list": [],
+							"name": "AddDNSEntry",
+							"attrs": {
+								"script": "$HostEntry = \"@@{address}@@\"\nAdd-DnsServerResourceRecordA -Name git -IPv4Address $HostEntry -ZoneName ntnxlab.local -ZoneScope ntnxlab.local \n",
+								"type": "",
+								"command_line_args": "",
+								"exit_status": [],
+								"script_type": "npsscript"
+							},
+							"timeout_secs": "0",
+							"type": "EXEC",
+							"variable_list": []
+						}],
+						"description": "",
+						"name": "eda6a86e_runbook",
+						"main_task_local_reference": {
+							"kind": "app_task",
+							"name": "01bb7103_dag"
+						},
+						"variable_list": []
+					},
+					"type": "",
+					"uninstall_runbook": {
+						"task_definition_list": [{
+							"target_any_local_reference": {
+								"kind": "app_package",
+								"name": "Package1"
+							},
+							"retries": "0",
+							"description": "",
+							"inherit_target": false,
+							"child_tasks_local_reference_list": [],
+							"name": "4b998e0c_dag",
+							"attrs": {
+								"edges": [],
+								"type": ""
+							},
+							"timeout_secs": "0",
+							"type": "DAG",
+							"variable_list": []
+						}],
+						"description": "",
+						"name": "cfa6665a_runbook",
+						"main_task_local_reference": {
+							"kind": "app_task",
+							"name": "4b998e0c_dag"
+						},
+						"variable_list": []
+					},
+					"upgrade_runbook": {}
+				},
+				"variable_list": []
+			}, {
+				"description": "",
+				"action_list": [],
+				"type": "SUBSTRATE_IMAGE",
+				"service_local_reference_list": [],
+				"name": "CENTOS8",
+				"version": "",
+				"options": {
+					"type": "",
+					"name": "CENTOS82304",
+					"resources": {
+						"image_type": "DISK_IMAGE",
+						"checksum": {},
+						"source_uri": "https:\/\/cloud.centos.org\/centos\/8-stream\/x86_64\/images\/CentOS-Stream-GenericCloud-8-20230424.0.x86_64.qcow2",
+						"version": {
+							"product_version": "1.0.0",
+							"type": "",
+							"product_name": "Centos842304"
+						},
+						"architecture": "X86_64",
+						"type": ""
+					},
+					"description": ""
+				},
+				"variable_list": []
+			}],
+			"app_profile_list": [{
+				"deployment_create_list": [{
+					"type": "GREENFIELD",
+					"action_list": [],
+					"name": "2d947222_deployment",
+					"min_replicas": "1",
+					"default_replicas": "1",
+					"depends_on_list": [],
+					"published_service_local_reference_list": [],
+					"max_replicas": "1",
+					"package_local_reference_list": [{
+						"kind": "app_package",
+						"name": "Package1"
+					}],
+					"substrate_local_reference": {
+						"kind": "app_substrate",
+						"name": "VM1"
+					},
+					"variable_list": [],
+					"description": ""
+				}],
+				"environment_reference_list": [],
+				"application_url": "",
+				"description": "",
+				"action_list": [],
+				"name": "Default",
+				"restore_config_list": [],
+				"snapshot_config_list": [],
+				"patch_list": [],
+				"variable_list": []
+			}],
+			"published_service_definition_list": [],
+			"default_credential_local_reference": {
+				"kind": "app_credential",
+				"name": "CRED"
+			},
+			"type": "USER"
+		},
+		"name": "Gitea"
+	},
+	"api_version": "3.0",
+	"metadata": {
+		"last_update_time": "1684334385331584",
+		"kind": "blueprint",
+		"spec_version": 52,
+		"creation_time": "1684241729103885",
+		"name": "Gitea"
+	}
+}

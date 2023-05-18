@@ -46,6 +46,7 @@ module.exports = {
               'optional_labs/ocp_idp',
               'ocp_ntnx_hci/ocp_scale_out_in'],
     },
+    "ocp_serverless/ocp_serverless",
     // {
     //   type: 'category',
     //   label: 'Multi-region Workloads',

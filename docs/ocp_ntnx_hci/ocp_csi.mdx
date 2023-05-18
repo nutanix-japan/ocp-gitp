@@ -248,22 +248,8 @@ Nutanix CSI can be installed using ``helm`` charts as well as you would do in an
     nutanix-volumes(default)   csi.nutanix.com   Delete          Immediate           true                   4m
     ```
 
-### Starting iSCSI Daemons on OCP Nodes/VMs 
+## Starting iSCSI Daemons on OCP Nodes/VMs 
 
-:::caution Did you use IPI method?
-
-Skip this step if you have created OCP cluster using ``IPI install`` method from this documentation site.
-
-Move on to testing PVC section. 
-
-:::
-
-```mdx-code-block
-<details>
-<summary>Instructions to create MachineConfig to enable iSCSI Daemons</summary>
-<div>
-<body>
-```
 Create a machine config to make sure iSCSI service starts in worker and master nodes. 
 
 ```bash title="Start iSCSI service for worker nodes"
@@ -306,11 +292,7 @@ EOF
 
 We have sucessfully installed Nutanix StorageClass so we can provision Physical Volumes (PV) and Physical Volume Claims (PVC) for the applications we will be deploying in this OCP cluster.
 
-```mdx-code-block
-</body>
-</div>
-</details>
-```
+
 <!-- 
 ## Install StorageClass with Nutanix Files
 

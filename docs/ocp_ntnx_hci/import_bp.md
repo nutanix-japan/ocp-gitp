@@ -73,11 +73,10 @@ below) you chose while booking the cluster in [RX](https://rx.corp.nutanix.com/)
 | OCP Pre-requisite |  HPOC Component                   |  Status | 
 | ------------------|  --------------------------------- | ------------------ | 
 | IPAM Enabled      |  Primary Network                   | Deployed with HPOC Subnet | 
-| Existing AD and   |  AutoAD (Windows based Active      | Deployed with HPOC | 
-| DNS Server        |  Directory+DNS server)             |  | 
+| Existing AD and   |  AutoAD (Active Directory + DNS server)       | Deployed with HPOC | 
 | Calm Project      |  BootcampInfra                     | Deployed with HPOC | 
 | VM Boot images    |  CentOS, RHCOS, etc.               | Deployed with HPOC(downloadable images) | 
-| DNS Entries Update Mechanism | Calm Endpoint to contact  AutoAD+DNS server| You will create this  AutoAD+DNS server   |   
+| DNS Entries Update Mechanism | Calm Endpoint to contact  AutoAD+DNS server| You will create this using Calm blueprint  |   
 
 Now we can proceed to setup pre-requistes and deploying blueprints.
 
@@ -131,9 +130,8 @@ If this NCM Endpoint is not pointing to you AD server, let your lab instructor k
 
 ## Upload Blueprints
 
-1.  Download blueprint1 by right-clicking on this link [Provisioning VM](https://raw.githubusercontent.com/nutanix-japan/ocp-gitp/main/docs/ocp_ntnx_hci/XYZ_OCP_Prov_VM.json) and choosing **Download Linked File** as option. Your PC/Mac should present the file extension as `json` and continue with this.
-
-2.  Download blueprint2 by right-clicking on this link [OCP Master Worker](https://raw.githubusercontent.com/nutanix-japan/ocp-gitp/main/docs/ocp_ntnx_hci/XYZ_OCP_Master_Worker.json) and save as *Initials*_OCP_Master_Worker.json file (e.g XYZ_OCP_Master_Worker.json)Your PC/Mac should present the file extension as `json` and continue with this.
+1.  Download blueprint1 by right-clicking on this link [Provisioning VM](https://raw.githubusercontent.com/nutanix-japan/ocp-gitp/main/docs/ocp_ntnx_hci/XYZ_OCP_Prov_VM.json) and choosing **Download Linked File as** option. Save it as ``ocpuserXX_OCP_Prov_VM.json``.
+2.  Download blueprint2 by right-clicking on this link [OCP Master Worker](https://raw.githubusercontent.com/nutanix-japan/ocp-gitp/main/docs/ocp_ntnx_hci/XYZ_OCP_Master_Worker.json) and choosing **Download Linked File as** option.  Save it as ``ocpuserXX_OCP_Master_Worker.json``.
 
 3.  In **Prism Central** > **Services** > **Calm**
 
@@ -164,3 +162,5 @@ If this NCM Endpoint is not pointing to you AD server, let your lab instructor k
     ![](import_bp_images/ocp_bp_list.png)
 
 Now that we are setup with all required information. We can proceed to deploying the Provisioning VM and ultimately OCP Cluster in the next sections of the lab.
+
+
