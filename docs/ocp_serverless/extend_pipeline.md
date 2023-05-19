@@ -98,20 +98,142 @@ Let's do this!
     ![](images/deplopy-to-stage-script.png)
 
     ```mdx-code-block
-
     <details>
     <summary>Curious about Tekton pipeline?</summary>
     <div>
     <body>
+    ```
     If you would like to see a yaml view of the pipeline you just created:
      
     1. Select your ``ocp-gitp-git`` pipeline
     2. Click on **YAML** tab
 
+    ```yaml title="Note the params, tasks and workspaces"
+    apiVersion: tekton.dev/v1beta1
+    kind: Pipeline
+    metadata:
+    creationTimestamp: '2023-05-19T07:14:14Z'
+    generation: 6
+    labels:
+        app.kubernetes.io/instance: ocp-gitp-git
+        app.kubernetes.io/name: ocp-gitp-git
+        operator.tekton.dev/operand-name: openshift-pipelines-addons
+        pipeline.openshift.io/runtime: nodejs
+        pipeline.openshift.io/runtime-version: latest
+        pipeline.openshift.io/type: kubernetes
+    name: ocp-gitp-git
+    namespace: dev
+    resourceVersion: '8187256'
+    uid: b16628eb-a21f-483f-a00f-502b9c712d23
+    spec:
+    params:
+        - default: ocp-gitp-git
+        name: APP_NAME
+        type: string
+        - default: 'https://github.com/nutanix-japan/ocp-gitp.git'
+        name: GIT_REPO
+        type: string
+        - name: GIT_REVISION
+        type: string
+        - default: 'image-registry.openshift-image-registry.svc:5000/dev/ocp-gitp-git'
+        name: IMAGE_NAME
+        type: string
+        - default: .
+        name: PATH_CONTEXT
+        type: string
+        - default: latest
+        name: VERSION
+        type: string
+    tasks:
+        - name: fetch-repository
+        params:
+            - name: url
+            value: $(params.GIT_REPO)
+            - name: revision
+            value: $(params.GIT_REVISION)
+            - name: subdirectory
+            value: ''
+            - name: deleteExisting
+            value: 'true'
+        taskRef:
+            kind: ClusterTask
+            name: git-clone
+        workspaces:
+            - name: output
+            workspace: workspace
+        - name: build
+        params:
+            - name: IMAGE
+            value: $(params.IMAGE_NAME)
+            - name: TLSVERIFY
+            value: 'false'
+            - name: PATH_CONTEXT
+            value: $(params.PATH_CONTEXT)
+            - name: VERSION
+            value: $(params.VERSION)
+        runAfter:
+            - fetch-repository
+        taskRef:
+            kind: ClusterTask
+            name: s2i-nodejs
+        workspaces:
+            - name: source
+            workspace: workspace
+        - name: deploy
+        params:
+            - name: SCRIPT
+            value: oc rollout status deploy/$(params.APP_NAME)
+        runAfter:
+            - build
+        taskRef:
+            kind: ClusterTask
+            name: openshift-client
+        - name: tag-good-image
+        params:
+            - name: SCRIPT
+            value: >-
+                oc tag dev/$(params.APP_NAME):latest
+                dev/$(params.APP_NAME):promote-stage
+            - name: VERSION
+            value: latest
+        runAfter:
+            - deploy
+        taskRef:
+            kind: Task
+            name: openshift-client
+        - name: deploy-to-stage
+        params:
+            - name: SCRIPT
+            value: >-
+                oc project stage
+    
+                oc delete all --selector app=$(params.APP_NAME)
+    
+                oc new-app dev/$(params.APP_NAME):promote-stage -n stage
+                --as-deployment-config
+    
+                oc scale --replicas=3 dc $(params.APP_NAME)
+    
+                oc delete svc $(params.APP_NAME)
+    
+                oc expose dc $(params.APP_NAME) --type=ClusterIP --target-port=3000
+                --port=3000
+    
+                oc expose svc $(params.APP_NAME) --path='/ocp-gitp/'
+            - name: VERSION
+            value: latest
+        runAfter:
+            - tag-good-image
+        taskRef:
+            kind: Task
+            name: openshift-client
+    workspaces:
+        - name: workspace
+    ```
+    ```mdx-code-block
     </body>
     </div>
     </details>
- 
     ```
     
    
@@ -142,17 +264,19 @@ Let's do this!
     oc get all -n stage
     #
     NAME                        READY   STATUS      RESTARTS   AGE
-    pod/ocp-gitp-git-1-deploy   0/1     Completed   0          2m30s
-    pod/ocp-gitp-git-1-pmrv6    1/1     Running     0          2m28s
+    pod/ocp-gitp-git-1-929g7    1/1     Running     0          90m
+    pod/ocp-gitp-git-1-deploy   0/1     Completed   0          90m
+    pod/ocp-gitp-git-1-gp478    1/1     Running     0          90m
+    pod/ocp-gitp-git-1-wmq88    1/1     Running     0          90m
     
     NAME                                   DESIRED   CURRENT   READY   AGE
-    replicationcontroller/ocp-gitp-git-1   1         1         1       2m30s
+    replicationcontroller/ocp-gitp-git-1   3         3         3       90m
     
     NAME                   TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-    service/ocp-gitp-git   ClusterIP   172.30.104.155   <none>        3000/TCP   113s
+    service/ocp-gitp-git   ClusterIP   172.30.165.192   <none>        3000/TCP   90m
     
     NAME                                              REVISION   DESIRED   CURRENT   TRIGGERED BY
-    deploymentconfig.apps.openshift.io/ocp-gitp-git   1          1         1         config,image(ocp-gitp-git:promote-stage)
+    deploymentconfig.apps.openshift.io/ocp-gitp-git   1          3         3         config,image(ocp-gitp-git:promote-stage)
     
     NAME                                    HOST/PORT                                           PATH         SERVICES       PORT   TERMINATION   WILDCARD
     route.route.openshift.io/ocp-gitp-git   ocp-gitp-git-stage.apps.ocp-cluster.ntnxlab.local   /ocp-gitp/   ocp-gitp-git   3000                 None
@@ -181,7 +305,7 @@ Let's do this!
 
     - `ocp-gitp-git` - is your application name
     - `stage` - is your namespace/project name
-    - `user02` - is your OCP cluster
+    - `ocpuser02` - is your OCP cluster
     - `ntnxlab.local` - is your domain
     - `/ocp-gitp/` - is your basePath url
 

@@ -167,7 +167,7 @@ In the baremetal and virtual machine world, one would create different servers f
 
     - `ocp-gitp-git` - is your application name
     - `dev` - is your namespace/project name
-    - `user02` - is your OCP cluster
+    - `ocpuser02` - is your OCP cluster
     - `ntnxlab.local` - is your domain
     - `/ocp-gitp/` - is your basePath url
 
