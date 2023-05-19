@@ -1,5 +1,5 @@
 ---
-title: "OCP Serverless and CICD"
+title: "OCP Serverless"
 lastupdate: git
 lastupdateauthor: git
 ---
@@ -174,4 +174,5 @@ In the baremetal and virtual machine world, one would create different servers f
     :::
 
 You can note that OCP has combined both serverless and CICD functionality into one single workflow.
+
 

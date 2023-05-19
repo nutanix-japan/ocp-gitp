@@ -41,12 +41,18 @@ module.exports = {
     "ocp_ndb/ocp_ndb",
     {
       type: 'category',
+      label: 'OCP Serverless and CICD',
+      items: [
+              'ocp_serverless/ocp_serverless',
+              'ocp_serverless/extend_pipeline'],
+    },
+    {
+      type: 'category',
       label: 'OCP Optional Labs',
       items: [
               'optional_labs/ocp_idp',
               'ocp_ntnx_hci/ocp_scale_out_in'],
     },
-    "ocp_serverless/ocp_serverless",
     // {
     //   type: 'category',
     //   label: 'Multi-region Workloads',
