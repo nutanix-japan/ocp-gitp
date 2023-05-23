@@ -44,7 +44,7 @@ OCP has Integrated Source to Image [S2I](https://github.com/openshift/source-to-
 1. Browse to you OCP cluster's web UI
 
    ```url
-   https://console-openshift-console.apps.ocpuserXX.ntnxlab.local/add/ns/dev
+   https://console-openshift-console.apps.ocpuserXX.ntnxlab.local/
    ```
 2. Login as kubeadmin or a IDP user
    

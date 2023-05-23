@@ -30,16 +30,17 @@ scalability, and rapid innovation through One-Click management.
 -   **Installation** - choose one of the following
     -   **OCP: IPI Installation** - 60 minutes
     -   **OCP: NCM Installation** - 60 minutes 
-    -   **OCP: Assited Installer** - 40 minutes
+    -   **OCP: Assisted Installer** - 40 minutes
 -   **Nutanix Storage CSI** - 30 minutes
 -   **OCP and Nutanix NDB** - 60 minutes
 -   **OCP Workload Backup/Restore** - 60 minutes 
--   **Multi Region Workloads (optional)** - 240 minutes (requires three individual clusters)
+-   **OCP Serverless and CICD** - 60 minutes
 -   **Optional Labs** - 30 minutes
 
 All lab durations are estimates. Actual duration will depend on your familiarity with OCP, Linux and kubernetes concepts in general.
 
 :::
+
 
 ## What is new?
 

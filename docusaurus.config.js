@@ -27,7 +27,7 @@ const config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
-
+  
   presets: [
     [
       'classic',
@@ -101,7 +101,7 @@ module.exports = {
       },
     ],
   ],
-  // ...
 };
+
 
 module.exports = config;
