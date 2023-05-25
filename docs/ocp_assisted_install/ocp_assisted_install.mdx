@@ -450,11 +450,16 @@ In this section we will use Red Hat Console's Assisted Installer wizard to insta
 
 3.  In the Storage section, after confirming disk size, click **Next** at the bottom of the page 
 
-4.  In the Networking section, assign IPs for your **API Virtual IP** and **Ingress Virtual IP** from you HPOC/SPOC **Primary** network pool that you reserved earlier in the [AHV Networking](#ahv-networking) section. 
+4.  In the Networking section, choose **Open Virtual Networking (OVN)** 
+    
+    Assign IPs for your **API Virtual IP** and **Ingress Virtual IP** from you HPOC/SPOC **Primary** network pool that you reserved earlier in the [AHV Networking](#ahv-networking) section. 
 
     ![](images/ocp_ing_api_ips.png)
 
-5.  In the **Host inventory** section, choose the **Control Plane Node** for Master VMs and **Worker** nodes for Worker VMs from the drop-down menu
+5.  In the **Host inventory** section, choose the following:
+    
+    - **Control Plane Node** for Master VMs (the 3 Master VMs) and
+    - **Worker** nodes for Worker VMs from the drop-down menu (the 2 Worker VMs)
 
     ![](images/ocp_node_roles.png)
 
