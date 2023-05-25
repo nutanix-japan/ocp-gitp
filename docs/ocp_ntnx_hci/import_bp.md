@@ -137,18 +137,20 @@ If this NCM Endpoint is not pointing to you AD server, let your lab instructor k
 
 4.  Click on **Blueprints**
 
-5.  Select your Provisioning VM Initials_OCP_Prov_VM.json blueprint
+5.  Select **Upload Blueprints** 
 
-6.  Fill the following Details
+6.  Select your Provisioning VM Initials_OCP_Prov_VM.json blueprint
+
+7.  Fill the following Details
 
     -   **Blueprint Name** - ocpuserXX_OCP_Prov_VM (E.g. ocpuser01_OCP_Prov_VM)
     -   **Project** - BootcampInfra
 
     ![](import_bp_images/ocp_upload_bp.png)
 
-7.  Click on **Upload**
+8.  Click on **Upload**
 
-8.  Return to **Blueprints** and upload OC Master Worker
+9.  Return to **Blueprints** and upload OC Master Worker
     Initials_OCP_Master_Worker.json blueprint
 
     -   **Blueprint Name** - ocpuserXX_OCP_Master_Worker (E.g.ocpuser01_OCP_Master_Worker)
@@ -156,7 +158,7 @@ If this NCM Endpoint is not pointing to you AD server, let your lab instructor k
 
     ![](import_bp_images/ocp_upload_bp_mw.png)
 
-9.  Return to **Blueprints** once again and you will see both blueprints
+10. Return to **Blueprints** once again and you will see both blueprints
     uploaded to Calm
 
     ![](import_bp_images/ocp_bp_list.png)
