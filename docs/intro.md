@@ -45,9 +45,9 @@ All lab durations are estimates. Actual duration will depend on your familiarity
 ## What is new?
 
 -   This workshop uses for the following software versions:
-    -   AOS 6.1.1.5
-    -   Prism Central - pc.2022.4.0.1
-    -   Calm 3.4.1
+    -   AOS 6.5.2.5
+    -   Prism Central - pc.2022.6.0.3
+    -   Calm 3.6.0
 
 ## Agenda
 

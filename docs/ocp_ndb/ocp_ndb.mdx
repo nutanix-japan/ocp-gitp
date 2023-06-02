@@ -297,8 +297,8 @@ In this section we will create a Postgres database using NDB Operator.
      name: your-ndb-secret
    type: Opaque
    stringData:
-     username: username-for-ndb-server
-     password: password-for-ndb-server
+     username: ndb-username
+     password: ndb-password
    EOF
    ```
 3. Edit the manifest with your NDB server credentials and save it
@@ -450,6 +450,7 @@ In this section we will create a Postgres database using NDB Operator.
    NAME          IP ADDRESS    STATUS               DATABASE INSTANCE ID                   DATABASE SERVER ID
    dbforflower                 PROVISIONING         3f04f1f0-36bf-483a-96e6-ccc3c1384c68
    ```  
+   
 8. You can also track the progress of the database deployment by looking at the ``ndb-operator-controller-manager`` pod logs in ``ndb-operator-system`` namespace
 
    ```bash title="Make sure to use your pod name"
