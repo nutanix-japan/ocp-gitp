@@ -20,9 +20,16 @@ Nutanix offers:
     - Virtual machines need compute and networking
     - Virtual machines can be deployed and destroyed with easy to use Nutanix APIs facilitating serverless 
 
-In this lab, we will be deploy this OCP lab and exposing it internally as application.
+## Serverless
 
-In essence, this instruction website is a NodeJS application called [Docusaurus](https://docusaurus.io). 
+Serverless concepts bridges the gap between developers and infrastructure. A developer should be able to test and deploy applications with tight integration to infrastructure. Serveless concepts allow the following (not limited to):
+
+- Once a developer is aware of infrastructure resources and capacity planning, they should be able to deploy applications without in-depth knowledge of the infrastructure. Infrastructure should be available as a service for developers to consume
+- Use infrastructure only when there is a requirement to do so to control spending. If there is no demand for applications, the used infrastructure should be zero or be in a stand-by state to become ready 
+
+In this lab, we will be deploy this OCP lab and exposing it internally as application to check whether a developer is able to deploy applications from their source code. 
+
+In essence, the lab instruction website is a NodeJS application called [Docusaurus](https://docusaurus.io). 
 
 OCP has Integrated Source to Image [S2I](https://github.com/openshift/source-to-image) capabilities natively and we will use this to demonstrate serverless functionality. 
 
