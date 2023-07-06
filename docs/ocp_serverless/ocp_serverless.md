@@ -22,7 +22,7 @@ Nutanix offers:
 
 ## Serverless
 
-Serverless concepts bridges the gap between developers and infrastructure. A developer should be able to test and deploy applications with tight integration to infrastructure. Serveless concepts allow the following (not limited to):
+Serverless concepts bridges the gap between developers and infrastructure. A developer should be able to test and deploy applications with tight integration to infrastructure. Serverless concepts allow the following (not limited to):
 
 - Once a developer is aware of infrastructure resources and capacity planning, they should be able to deploy applications without in-depth knowledge of the infrastructure. Infrastructure should be available as a service for developers to consume
 - Use infrastructure only when there is a requirement to do so to control spending. If there is no demand for applications, the used infrastructure should be zero or be in a stand-by state to become ready 
@@ -55,7 +55,7 @@ OCP has Integrated Source to Image [S2I](https://github.com/openshift/source-to-
    ```
 2. Login as kubeadmin or a IDP user
    
-3. Search for ``piplelines`` keyword
+3. Search for ``pipelines`` keyword
    
 4. Select ``Red Hat OpenShift Pipelines``
    
@@ -75,7 +75,7 @@ Logon to your OC command line to create projects (namespaces) and necessary acce
 
 Projects/namespaces are treated like different deployment environment (dev and stage). 
 
-In the baremetal and virtual machine world, one would create different servers for these deployments. However, we will simulate this by creating different projects/namespaces in OCP cluster.
+In the bare-metal and virtual machine world, one would create different servers for these deployments. However, we will simulate this by creating different projects/namespaces in OCP cluster.
 
 1. Logon to UserXX-LinuxToolsVM and connect to OCP cluster
    
