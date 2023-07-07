@@ -91,7 +91,7 @@ The lab is designed to take your through installing OCP cluster on Nutanix HCI, 
 5. Workloads on OCP
     -   Deploying Wordpress application on OCP
     -   Setting up Nutanix Objects as for backup target
-    -   Deploying Kasten K10 backup applicaiton on OCP
+    -   Deploying Kasten K10 backup application on OCP
     -   Backup and Restore Wordpress
 
 6. Optional Labs
