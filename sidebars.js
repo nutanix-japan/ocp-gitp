@@ -7,6 +7,13 @@ module.exports = {
       items: [
               {
                 type: 'category',
+                label: 'Nutanix Market Place Installation',
+                items: ['ocp_pc_mp/ocp_pc_mp',
+                        'ocp_pc_mp/ocp_pc_mp_pre_reqs',
+                        'ocp_pc_mp/ocp_pc_mp_install'],
+              },
+              {
+                type: 'category',
                 label: 'Nutanix IPI Installation',
                 items: ['ocp_ipi_install/ocp_ipi_intro',
                         'ocp_ipi_install/ocp_ipi_pre_reqs',
