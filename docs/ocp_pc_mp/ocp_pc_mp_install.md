@@ -156,7 +156,12 @@ In this section we will create our installation configuration files which will b
 
 15. The OCP cluster is now ready to accessed
 
-Follow the steps in [OCP Access](../ocp_access/ocp_access.md) section to access the OCP cluster and deploy workloads.
+:::note
+
+Now that you have finished OCP install, you can move on to the **OCP Command Access** section and then on to workloads section.
+
+:::
+
 
 ## Cleanup (optional)
 
