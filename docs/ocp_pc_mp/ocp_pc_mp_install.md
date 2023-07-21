@@ -94,7 +94,7 @@ In this section we will create our installation configuration files which will b
 
       :::tip 
 
-      If you do not have a **SSH-PUBLIC-KEY**, use the ``ssh-keygen`` command on your **Linux Tools VM** to create a ssh key pair
+      If you do not have a **SSH KEY**, use the ``ssh-keygen`` command on your **Linux Tools VM** to create a ssh key pair
 
       Remember to keep it safe somewhere. 
 
@@ -150,7 +150,7 @@ In this section we will create our installation configuration files which will b
     https://api.ocpuser01.ntnxlab.local 
     ```
 
-14. Note that the Nutanix CSI operator will also be automaticall installed by the **Install Nutanix CSI Operator** task facilitating immediate deployment of workloads.
+14. Note that the Nutanix CSI operator will also be automatically installed by the **Install Nutanix CSI Operator** task facilitating immediate deployment of workloads.
     
     ![](images/mp-ocp-csi.png)
 
