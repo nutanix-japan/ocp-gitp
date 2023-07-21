@@ -85,30 +85,73 @@ In this section we will create our installation configuration files which will b
   
      - User name - ``centos``
      - SSH Private Key - ``xxxxxx`` (create a new SSH keypair or use one that you already have)
+     
+      ```mdx-code-block
+      <details>
+      <summary>No SSH-PUBLIC-KEY?</summary>
+      <div>
+      <body>
+
+      :::tip 
+
+      If you do not have a **SSH-PUBLIC-KEY**, use the ``ssh-keygen`` command on your **Linux Tools VM** to create a ssh key pair
+
+      Remember to keep it safe somewhere. 
+
+      ```bash
+      cd ~/.ssh/
+      ssh-keygen -t rsa -b 2048 -f ~/.ssh/for_ocp_nodes   # << accept all default answers
+      ls -l
+      ## Output here
+      ~/.ssh/for_ocp_nodes.pub  
+      ~/.ssh/for_ocp_nodes      # << use this private key
+      ```
+
+      </body>
+      </div>
+      </details>
+
+      ![](images/mp_cred.png)
   
-```mdx-code-block
-<details>
-<summary>No SSH-PUBLIC-KEY?</summary>
-<div>
-<body>
+9. Click on **Deploy** 
+    
+10. This will redirect to **My Apps** page. If not, click on **My Apps** > **OpenShift ocpuserXX** 
 
-:::tip 
+    ![](images/mp-apps.png)
 
-If you do not have a **SSH-PUBLIC-KEY**, use the ``ssh-keygen`` command on your **Linux Tools VM** to create a ssh key pair
+11. Click on **Manage** to see an overview of the OCP cluster deployment
+    
+12. Go to Audit tab to check the progress of your deployment
+    
+    ![](images/mp-audit.png)
 
-Remember to keep it safe somewhere. 
+13. At the end of the installation (about 35 to 40 minutes), we can see the login details in the **Provisioner - Install OpenShift** task
+    
+    ```bash
+   [37mDEBUG[0m OpenShift console route is admitted          
+   [36mINFO[0m Install complete!                            
+   [36mINFO[0m To access the cluster as the system:admin user when using 'oc', run 'export KUBECONFIG=/home/centos/openshift/auth/kubeconfig' 
+   [36mINFO[0m Access the OpenShift web-console here: https://console-openshift-console.apps.ocpuser01.ntnxlab.local 
+   [36mINFO[0m Login to the console with user: "kubeadmin", and password: "xxxx-xxxx-xxxx-xxxx" 
+   [37mDEBUG[0m Time elapsed per stage:                      
+   [37mDEBUG[0m            cluster: 1m32s                    
+   [37mDEBUG[0m          bootstrap: 29s                      
+   [37mDEBUG[0m Bootstrap Complete: 17m43s                   
+   [37mDEBUG[0m                API: 1m38s                    
+   [37mDEBUG[0m  Bootstrap Destroy: 20s                      
+   [37mDEBUG[0m  Cluster Operators: 17m41s                   
+   [36mINFO[0m Time elapsed: 37m51s 
+    ```
 
-```bash
-ssh-keygen -t rsa -b 2048 -f ~/.ssh/for_ndb   # << accept all default answers
-ls -l ~/.ssh/
-## Output here
-~/.ssh/for_ndb.pub  # << use this public key in the your-db-secret manifest 
-~/.ssh/for_ndb      # << use this private key to logon to the NDB deployed database server
-```
+    ```bash title="Openshift GUI Access"
+    https://console-openshift-console.apps.ocpuser01.ntnxlab.local 
+    ```
+    ```bash title="Openshift API Access"
+    https://api.ocpuser01.ntnxlab.local 
+    ```
 
-</body>
-</div>
-</details>
-```
-   
-     ![](images/mp_cred.png)
+14. Note that the Nutanix CSI operator will also be automaticall installed by the **Install Nutanix CSI Operator** task facilitating immediate deployment of workloads.
+    
+    ![](images/mp-ocp-csi.png)
+
+15. 
