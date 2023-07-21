@@ -31,7 +31,7 @@ We have referred to the following documents for building this lab:
 ## Good to know 
 
 1. Internet connectivity - using Marketplace to deploy OCP clusters **does not** work in dark sites
-2. Provisioner VM (4 vCPU and 8 GB RAM) will be deployed to manage the deployment of OCP clusters, this will remain in place unless manually deleted
+2. Provisioner VM (4 vCPU and 8 GB RAM) will be deployed to manage the deployment of OCP clusters, this will remain in place unless manually deleted. Deploying OCP once again using MP will create a new Provisioner VM
 3. OCP Bootstrap VM (4 vCPU and 16 GB RAM) will be deployed to manage the deployment of OCP clusters and will be deleted at the end of the deployment
 4. Deploying OCP cluster through Marketplace does not need Calm/NCM license 
 

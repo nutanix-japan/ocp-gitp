@@ -154,4 +154,29 @@ In this section we will create our installation configuration files which will b
     
     ![](images/mp-ocp-csi.png)
 
-15. 
+15. The OCP cluster is now ready to accessed
+
+Follow the steps in [OCP Access](../ocp_access/ocp_access.md) section to access the OCP cluster and deploy workloads.
+
+## Cleanup (optional)
+
+Run through the following if you would like to delete the OCP cluster. 
+
+1. In Prism Central, go to **Apps and Marketplace**
+2. Click on **My Apps** > **OpenShift ocpuserXX**  (the OCP cluster you deployed)
+3. Click on the **Manage** tab
+4. Click on **Delete** task
+   
+   ![](images/ocp-mp-delete.png)
+5. Click on **Delete** in the confirmation pop-up
+6. Audit tab will have details of deletion
+
+   ![](images/ocp-delete-audit.png)
+
+:::note 
+
+The OCP provisioner VM can also be deleted upon successful creation or deletion of the OCP cluster. 
+
+:::
+
+Marketplace makes it easy and convenient to manage the lifecycle of your OCP clusters.s
