@@ -76,8 +76,14 @@ The lab is designed to take your through installing OCP cluster on Nutanix HCI, 
 2. Setting up Nutanix Storage CSI
    
    -   Nutanix Storage CSI  
+   -   Deploying OCP Image Registry with Nutanix Objects Store as storage
 
 3. Workload Backup and Restore
+   
+   - Deploying Wordpress application on OCP
+   - Setting up Nutanix Objects as for backup target
+   - Deploying Kasten K10 backup application on OCP
+   - Backup and Restore Wordpress
 
 4. OCP and Nutanix NDB
 
@@ -87,13 +93,8 @@ The lab is designed to take your through installing OCP cluster on Nutanix HCI, 
    
    - Deploying serverless application on OCP
    - CICD of serverless application on OCP
-   
-5. Workloads on OCP
-    -   Deploying Wordpress application on OCP
-    -   Setting up Nutanix Objects as for backup target
-    -   Deploying Kasten K10 backup application on OCP
-    -   Backup and Restore Wordpress
 
 6. Optional Labs
-    -   Deploy second OCP cluster using NCM
-    -   Deploying IDP for OCP
+   
+   -   Deploy second OCP cluster using NCM
+   -   Deploying IDP for OCP

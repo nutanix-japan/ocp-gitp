@@ -13,8 +13,8 @@ import TabItem from '@theme/TabItem';
 Before beginning to install OCP cluster, watch the following ``5 minute`` overview video of OCP installation using Marketplace by Nutanix TME Nimal Kunnath. 
 
 <iframe
-    width="920"
-    height="720"
+    width="640"
+    height="360"
     src="https://www.youtube.com/embed/G8fFB6EUiOA"
     frameborder="0"
     allow="autoplay; fs=1"
