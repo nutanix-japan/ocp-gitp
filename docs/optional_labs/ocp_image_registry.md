@@ -104,7 +104,7 @@ In this section we will add nutanix objects store's DNS records for lookup by OC
    - Username: administrator
    - Password: default
 
-2. We will add the following entries to DNS server using the two consecutive IPs you found in the previous section
+2. We will add the following entries to DNS server
    
    :::danger Use your HPOC cluster's IP Addresses
 
@@ -122,7 +122,7 @@ In this section we will add nutanix objects store's DNS records for lookup by OC
    Add-DnsServerResourceRecordA -Name ntnx-objects -IPv4Address 10.38.18.221 -ZoneName ntnxlab.local -ZoneScope ntnxlab.local
    ```
 
-3. Test name resolution for added entries
+4. Test name resolution for added entries
 
    ```PowerShell {6} 
    nslookup ntnx-objects.ntnxlab.local
