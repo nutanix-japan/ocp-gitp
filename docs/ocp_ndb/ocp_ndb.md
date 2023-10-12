@@ -374,7 +374,7 @@ In this section we will create a Postgres database using NDB Operator.
    
 ### Get NDB Cluster's UUID
 
-4. We need to get the NDB server's cluster UUID to use in the next step; to facilitate this, logon to your NDB VM UI with the following credentials
+<!-- 4. We need to get the NDB server's cluster UUID to use in the next step; to facilitate this, logon to your NDB VM UI with the following credentials
 
    > **Username** - admin
 
@@ -396,13 +396,50 @@ In this section we will create a Postgres database using NDB Operator.
 
 10. Copy the uuid shown here 
 
-   ![](images/response.png)
+   ![](images/response.png) -->
+
+We will use curl command to get the Era's cluster UUID in this section. 
+
+1. Logon to the  Linux Tools VM using your credentials
+2. Execute the following command to get Era cluster's UUID. We will use this in our database configuration file in the next section. 
+
+   ```mdx-code-block
+   <Tabs>
+   <TabItem value="Template command">
+   ```
+   ```bash 
+   curl -X GET  -u admin -k https://[NDB IP]/era/v0.9/clusters | jq '.[0].id'
+   ``` 
+   
+   ```mdx-code-block
+
+   </TabItem>
+   ```
+   ```mdx-code-block
+   <TabItem value="Sample command">
+   ```
+   ```bash
+   curl -X GET  -u admin -k https://10.42.12.18/era/v0.9/clusters | jq '.[0].id'
+   ``` 
+   ```mdx-code-block
+   </TabItem>
+   </Tabs>
+   ```
+   ```console title="Sample execution and output"
+   curl -X GET  -u admin -k https://10.42.12.108/era/v0.9/clusters |  jq '.[0].id'
+
+   Enter host password for user 'admin':   # << Enter your Era server's password here
+   
+   "eafdb83c-e512-46ce-8d7d-6859dc170272"  # << This uuid will be different for all Era clusters.
+   ```
+
+3. Record the Era server's cluster UUID 
 
 ### Create Postgres Database using the NDB Operator
 
 1. Create a Database resource by using the following manifest
 
-   ```bash {6,12,18,24,26,29}
+   ```bash {6,12,18,24,26,31}
    cat << EOF > ndb.yaml
    apiVersion: ndb.nutanix.com/v1alpha1
    kind: Database
@@ -414,7 +451,7 @@ In this section we will create a Postgres database using NDB Operator.
      ndb:
        # Cluster id of the cluster where the Database has to be provisioned
        # Can be fetched from the NDB server's GET /clusters endpoint
-       clusterId: "a4cfc2cc-bd00-4cc6-95bd-5f714196db96"   # << NDB server's cluster UUID
+       clusterId: "eafdb83c-e512-46ce-8d7d-6859dc170272"   # << NDB server's cluster UUID from previous sections
        # Credentials secret name for NDB installation
        # data: username, password, 
        # stringData: ca_certificate
@@ -428,7 +465,9 @@ In this section we will create a Postgres database using NDB Operator.
      # Database instance specific details (that is to be provisioned)
      databaseInstance:
        # The database instance name on NDB
-       databaseInstanceName: "pgserver"                   # << this will be our database server name
+       databaseInstanceName: "pgserver<yourinitials>"                   # << this will be our database server name
+       # Example
+       databaseInstanceName: "pgserverbln"
        # Names of the databases on that instance
        databaseNames:
          - predictiondb                                   # << this will be our database name
@@ -572,7 +611,7 @@ We have only modified the implementation to suit deployment in a OCP cluster wit
    ```
 3. Edit you ``app-variables.yaml`` file to match your DB_HOST service name and DB_PORT port number
    
-   ```mdx-code-block
+    ```mdx-code-block
     <Tabs>
     <TabItem value="Template file">
     ```
