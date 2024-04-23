@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: react-container
-          image: public.ecr.aws/x0e4z5r2/react_dev_image:latest
+          image: mausamgaurav/react_dev_image:latest
           ports:
             - containerPort: 3000
           command: ["sh", "-c", "serve -s build -l 3000 --no-clipboard"]       
